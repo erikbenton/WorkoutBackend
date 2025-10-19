@@ -1,0 +1,1 @@
+SELECT Id, BodyPart FROM BodyParts

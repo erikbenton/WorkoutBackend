@@ -1,0 +1,142 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Sql\ExerciseGroups\DeleteExerciseGroupById.sql" />
+    <None Remove="Sql\ExerciseGroups\GetExerciseGroupById.sql" />
+    <None Remove="Sql\ExerciseGroups\GetExerciseGroupsByWorkoutId.sql" />
+    <None Remove="Sql\ExerciseGroups\GetExerciseGroupsByWorkoutName.sql" />
+    <None Remove="Sql\ExerciseGroups\InsertExerciseGroup.sql" />
+    <None Remove="Sql\ExerciseGroups\UpdateExerciseGroupById.sql" />
+    <None Remove="Sql\ExerciseSets\DeleteExerciseSetById.sql" />
+    <None Remove="Sql\ExerciseSets\GetExerciseSetById.sql" />
+    <None Remove="Sql\ExerciseSets\UpdateExerciseSetById.sql" />
+    <None Remove="Sql\Exercises\DeleteExerciseById.sql" />
+    <None Remove="Sql\Exercises\GetExerciseById.sql" />
+    <None Remove="Sql\Exercises\UpdateExerciseWithDetails.sql" />
+    <None Remove="Sql\Workouts\DeleteWorkoutById.sql" />
+    <None Remove="Sql\Workouts\GetAllWorkouts.sql" />
+    <None Remove="Sql\Workouts\GetWorkoutById.sql" />
+    <None Remove="Sql\Workouts\InsertWorkoutNoProgramId.sql" />
+    <None Remove="Sql\Workouts\InsertWorkoutWithProgramId.sql" />
+    <None Remove="Sql\Workouts\InsertWorkoutWithProgramName.sql" />
+    <None Remove="Sql\Workouts\UpdateWorkoutById.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Sql\ExerciseGroups\DeleteExerciseGroupById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseGroups\GetExerciseGroupById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseGroups\GetExerciseGroupsByWorkoutId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseGroups\GetExerciseGroupsByWorkoutName.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseGroups\InsertExerciseGroup.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseGroups\UpdateExerciseGroupById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseSets\DeleteExerciseSetById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseSets\GetExerciseSetById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseSets\GetAllExerciseSetsByGroupId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseSets\InsertExerciseSet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseSets\UpdateExerciseSetById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\DeleteExerciseById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\GetAllExerciseBodyPartOptions.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\GetAllExerciseEquipmentOptions.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\GetAllExercisesWithDetails.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\GetExerciseById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\GetExercisesByName.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\InsertExerciseWithDetails.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\UpdateExerciseWithDetails.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\DropAllTables.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\InitializeTables.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateBodyParts.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateEquipment.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateExercises.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateTwoWorkouts.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateWorkouts.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\DeleteWorkoutById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\GetAllWorkouts.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\GetWorkoutById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\InsertWorkoutNoProgramId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\InsertWorkoutWithProgramId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\InsertWorkoutWithProgramName.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\UpdateWorkoutById.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WorkoutBackend.Core\WorkoutBackend.Core.csproj" />
+  </ItemGroup>
+
+</Project>
