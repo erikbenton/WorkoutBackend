@@ -68,7 +68,8 @@ public class SqlWorkoutRetriever(
             return new ExerciseSet()
             {
                 Id = set.Id,
-                Reps = set.Reps,
+                MinReps = set.MinReps,
+                MaxReps = set.MaxReps,
                 Weight = set.Weight,
                 Sort = set.Sort,
                 ExerciseGroupId = set.ExerciseGroupId,

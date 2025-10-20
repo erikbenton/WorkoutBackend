@@ -1,4 +1,4 @@
-SELECT Id, Reps, Weight, Sort, ExerciseGroupId
+SELECT Id, MinReps, MaxReps, Weight, Sort, ExerciseGroupId
 FROM ExerciseSets
 WHERE ExerciseGroupId = @ExerciseGroupId
 ORDER BY Sort ASC

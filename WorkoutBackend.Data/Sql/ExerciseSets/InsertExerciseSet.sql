@@ -1,3 +1,3 @@
-INSERT INTO ExerciseSets (Reps, Weight, Sort, ExerciseGroupId)
+INSERT INTO ExerciseSets (MinReps, MaxReps, Weight, Sort, ExerciseGroupId)
 OUTPUT INSERTED.Id
-VALUES (@Reps, @Weight, @Sort, @ExerciseGroupId)
+VALUES (@MinReps, @MaxReps, @Weight, @Sort, @ExerciseGroupId)

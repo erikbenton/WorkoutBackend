@@ -123,7 +123,8 @@ public class SqlWorkoutSaver(
     {
         var dbSet = new ExerciseSetEntity(
             exerciseSet.Id,
-            exerciseSet.Reps,
+            exerciseSet.MinReps,
+            exerciseSet.MaxReps,
             exerciseSet.Weight,
             exerciseSet.Sort,
             exerciseSet.ExerciseGroupId);
@@ -134,7 +135,8 @@ public class SqlWorkoutSaver(
             : await _exerciseSetRepository.UpdateExerciseSetEntityAsync(dbSet);
 
         exerciseSet.Id = dbSet.Id;
-        exerciseSet.Reps = dbSet.Reps;
+        exerciseSet.MinReps = dbSet.MinReps;
+        exerciseSet.MaxReps = dbSet.MaxReps;
         exerciseSet.Weight = dbSet.Weight;
         exerciseSet.Sort = dbSet.Sort;
         exerciseSet.ExerciseGroupId = dbSet.ExerciseGroupId;

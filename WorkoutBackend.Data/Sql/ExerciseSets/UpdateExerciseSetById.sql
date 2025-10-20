@@ -1,2 +1,2 @@
-UPDATE ExerciseSets SET Reps = @Reps, Weight = @Weight, Sort = @Sort, ExerciseGroupId = @ExerciseGroupId
+UPDATE ExerciseSets SET MinReps = @MinReps, MaxReps = @MaxReps, Weight = @Weight, Sort = @Sort, ExerciseGroupId = @ExerciseGroupId
 WHERE Id = @Id

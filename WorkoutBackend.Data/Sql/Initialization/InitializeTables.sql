@@ -46,8 +46,9 @@ CREATE TABLE ExerciseGroups (
 
 CREATE TABLE ExerciseSets (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Reps INT NOT NULL DEFAULT 0,
-	Weight FLOAT NOT NULL DEFAULT 0,
+	MinReps INT,
+	MaxReps INT,
+	Weight FLOAT,
 	Sort INT NOT NULL,
 	ExerciseGroupId INT NOT NULL,
 	FOREIGN KEY (ExerciseGroupId) REFERENCES ExerciseGroups(Id)
