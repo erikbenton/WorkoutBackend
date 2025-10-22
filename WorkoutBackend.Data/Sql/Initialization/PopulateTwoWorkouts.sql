@@ -49,11 +49,11 @@ VALUES --first workout, first ExerciseGroup
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of first workout' )),
 
 		-- second workout, first ExerciseGroup
-		(6, 10, 0, 0,
+		(6, 10, NULL, 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of second workout' )),
-		(6, 10, 0, 1,
+		(6, 10, NULL, 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of second workout' )),
-		(6, 10, 0, 2,
+		(6, 10, NULL, 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of second workout' )),
 		--first workout, second ExerciseGroup
 		(8, 10, 20, 0,

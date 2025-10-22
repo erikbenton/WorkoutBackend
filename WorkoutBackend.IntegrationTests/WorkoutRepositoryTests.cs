@@ -221,20 +221,17 @@ public class WorkoutRepositoryTests
                         new ExerciseSet()
                         {
                             MinReps = 6,
-                            MaxReps = 10,
-                            Weight = 0
+                            MaxReps = 10
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
-                            MaxReps = 10,
-                            Weight = 0
+                            MaxReps = 10
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
-                            MaxReps = 10,
-                            Weight = 0
+                            MaxReps = 10
                         }
                     }
                 },

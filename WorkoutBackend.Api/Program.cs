@@ -19,8 +19,7 @@ builder.Services.AddScoped<IExerciseGroupRepository, SqlExerciseGroupRepository>
 builder.Services.AddScoped<IExerciseSetRepository, SqlExerciseSetRepository>(repo => new SqlExerciseSetRepository(workoutDbConnectionString));
 
 // Workout services
-builder.Services.AddScoped<IWorkoutSaver, SqlWorkoutSaver>();
-builder.Services.AddScoped<IWorkoutRetriever, SqlWorkoutRetriever>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 //CORS
 var workoutFrontEndCorsPolicy = "workoutFrontEndCorsPolicy";
@@ -29,7 +28,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: workoutFrontEndCorsPolicy,
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173");
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
 });
 

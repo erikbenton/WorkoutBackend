@@ -7,16 +7,14 @@ namespace WorkoutBackend.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class WorkoutsController(
-    IWorkoutRetriever workoutRetriever,
-    IWorkoutSaver workoutSaver) : ControllerBase
+    IWorkoutService workoutService) : ControllerBase
 {
-    private readonly IWorkoutRetriever _workoutRetriever = workoutRetriever;
-    private readonly IWorkoutSaver _workoutSaver = workoutSaver;
+    private readonly IWorkoutService _workoutService = workoutService;
 
     [HttpGet]
     public async Task<ActionResult<Workout>> GetAllWorkoutsListAsync()
     {
-        var shallowWorkouts = await _workoutRetriever.RetrieveAllWorkoutsList();
+        var shallowWorkouts = await _workoutService.RetrieveAllWorkoutsList();
 
         return Ok(shallowWorkouts);
     }
@@ -25,7 +23,7 @@ public class WorkoutsController(
     [Route("{id}")]
     public async Task<ActionResult<Workout>> GetPopulatedWorkoutById(int id)
     {
-        var workout = await _workoutRetriever.RetrieveFullyPopulatedWorkoutAsync(id);
+        var workout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(id);
 
         return Ok(workout);
     }
@@ -33,9 +31,9 @@ public class WorkoutsController(
     [HttpPost]
     public async Task<ActionResult<Workout>> CreateWorkoutAsync(Workout workout)
     {
-        var savedWorkout = await _workoutSaver.SaveWorkoutAsync(workout);
+        var savedWorkout = await _workoutService.SaveWorkoutAsync(workout);
 
-        var populatedWorkout = await _workoutRetriever.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id);
+        var populatedWorkout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id);
 
         return Ok(populatedWorkout);
     }
@@ -44,10 +42,19 @@ public class WorkoutsController(
     [Route("{id}")]
     public async Task<ActionResult<Workout>> UpdateWorkoutAsync(Workout workout)
     {
-        var savedWorkout = await _workoutSaver.SaveWorkoutAsync(workout);
+        var savedWorkout = await _workoutService.SaveWorkoutAsync(workout);
 
-        var populatedWorkout = await _workoutRetriever.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id);
+        var populatedWorkout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id);
 
         return Ok(populatedWorkout);
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult> DeleteWorkoutByIdAsync(int id)
+    {
+        await _workoutService.DeleteWorkoutByIdAsync(id);
+
+        return NoContent();
     }
 }
