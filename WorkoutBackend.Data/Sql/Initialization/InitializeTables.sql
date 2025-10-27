@@ -58,7 +58,7 @@ CREATE TABLE ExerciseSets (
 CREATE TABLE CompletedWorkouts (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	WorkoutId INT, -- NULLable because it might be an "empty workout"
-	Name VARCHAR(100) NOT NULL,
+	Name VARCHAR(100), -- Name for when it's an "empty workout" IE: no related Workout
 	Note VARCHAR(100),
 	DurationInSeconds INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
