@@ -4,7 +4,7 @@ using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
 using WorkoutBackend.Data.Entities;
 
-namespace WorkoutBackend.Data.Repositories;
+namespace WorkoutBackend.Data.Repositories.Workouts;
 
 public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
 {
@@ -34,17 +34,6 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         return workouts;
     }
 
-    public async Task<Workout> GetWorkoutByIdAsync(int id)
-    {
-        var workout = await GetWorkoutEntityByIdAsync(id);
-
-        return new Workout()
-        {
-            Id = workout.Id,
-            Name = workout.Name,
-        };
-    }
-
     public async Task<WorkoutEntity> GetWorkoutEntityByIdAsync(int id)
     {
         using var connection = new SqlConnection(_connectionString);
@@ -52,7 +41,7 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         return workout;
     }
 
-    public async Task<Workout> SaveWorkoutAsync(Workout workout)
+    public async Task<WorkoutEntity> SaveWorkoutAsync(Workout workout)
     {
         var dbWorkout = new WorkoutEntity(workout.Id,
             workout.Name,
@@ -63,19 +52,7 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
             ? await CreateWorkoutEntityAsync(dbWorkout)
             : await UpdateWorkoutEntityAsync(dbWorkout);
 
-        workout.Id = savedWorkout.Id;
-        workout.Name = savedWorkout.Name;
-        workout.WorkoutProgramId = savedWorkout.ProgramId;
-
-        // Populate the ExerciseGroups with saved Id and assign Sort
-        workout.ExerciseGroups = workout.ExerciseGroups
-            .Select((group, index) => {
-                group.WorkoutId = savedWorkout.Id;
-                group.Sort = index;
-                return group;
-            });
-
-        return workout;
+        return savedWorkout;
     }
 
     public async Task<WorkoutEntity> UpdateWorkoutEntityAsync(WorkoutEntity workout)

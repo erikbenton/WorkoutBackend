@@ -1,4 +1,5 @@
-using WorkoutBackend.Data.Repositories;
+using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);

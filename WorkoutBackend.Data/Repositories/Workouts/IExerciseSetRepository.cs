@@ -1,7 +1,7 @@
 ﻿using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Entities;
 
-namespace WorkoutBackend.Data.Repositories;
+namespace WorkoutBackend.Data.Repositories.Workouts;
 
 public interface IExerciseSetRepository
 {

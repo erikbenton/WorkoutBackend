@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
 
-namespace WorkoutBackend.Data.Repositories;
+namespace WorkoutBackend.Data.Repositories.Exercises;
 
 public class SqlExerciseRepository(string connectionString) : IExerciseRepository
 {
