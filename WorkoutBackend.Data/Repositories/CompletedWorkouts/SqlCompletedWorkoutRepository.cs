@@ -21,7 +21,7 @@ public class SqlCompletedWorkoutRepository(string connectionString) : ICompleted
     public async Task DeleteCompletedWorkoutEntityAsync(int id)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(CompletedWorkoutDataAccess.DeleteCompletedWorkoutById, id);
+        await connection.ExecuteAsync(CompletedWorkoutDataAccess.DeleteCompletedWorkoutById, new { id });
     }
 
     public async Task<IEnumerable<CompletedWorkoutEntity>> GetAllCompletedWorkoutEntitiesAsync()
@@ -38,7 +38,7 @@ public class SqlCompletedWorkoutRepository(string connectionString) : ICompleted
         using var connection = new SqlConnection(_connectionString);
         var workoutEntity = await connection
             .QueryFirstAsync<CompletedWorkoutEntity>(
-                CompletedWorkoutDataAccess.GetCompletedWorkoutById, id);
+                CompletedWorkoutDataAccess.GetCompletedWorkoutById, new { id });
         return workoutEntity;
     }
 
