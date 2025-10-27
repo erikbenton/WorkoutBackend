@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS CompletedExerciseSets;
+
+DROP TABLE IF EXISTS CompletedExerciseGroups;
+
+DROP TABLE IF EXISTS CompletedWorkouts;
+
 DROP TABLE IF EXISTS ExerciseSets;
 
 DROP TABLE IF EXISTS ExerciseGroups;

@@ -25,7 +25,7 @@ CREATE TABLE Equipment (
 CREATE TABLE Exercises (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Name VARCHAR(100) NOT NULL,
-	Instructions VARCHAR(255),
+	Instructions VARCHAR(500),
 	BodyPartId INT NOT NULL,
 	EquipmentId INT NOT NULL,
 	FOREIGN KEY (BodyPartId) REFERENCES BodyParts(Id),
@@ -52,5 +52,37 @@ CREATE TABLE ExerciseSets (
 	Sort INT NOT NULL,
 	ExerciseGroupId INT NOT NULL,
 	FOREIGN KEY (ExerciseGroupId) REFERENCES ExerciseGroups(Id)
+		ON DELETE CASCADE
+)
+
+CREATE TABLE CompletedWorkouts (
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	WorkoutId INT, -- NULLable because it might be an "empty workout"
+	Name VARCHAR(100) NOT NULL,
+	Note VARCHAR(100),
+	DurationInSeconds INT NOT NULL,
+	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id) -- Do not DELETE if workout template is deleted
+)
+
+CREATE TABLE CompletedExerciseGroups (
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Note VARCHAR(100),
+	Sort INT NOT NULL,
+	ExerciseId INT NOT NULL,
+	CompletedWorkoutId INT NOT NULL,
+	FOREIGN KEY (ExerciseId) REFERENCES Exercises(Id)
+		ON DELETE CASCADE,
+	FOREIGN KEY (CompletedWorkoutId) REFERENCES CompletedWorkouts(Id)
+		ON DELETE CASCADE
+)
+
+CREATE TABLE CompletedExerciseSets (
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Reps INT NOT NULL,
+	Weight FLOAT,
+	Sort INT NOT NULL,
+	CompletedExerciseGroupId INT NOT NULL,
+	FOREIGN KEY (CompletedExerciseGroupId) REFERENCES CompletedExerciseGroups(Id)
 		ON DELETE CASCADE
 )
