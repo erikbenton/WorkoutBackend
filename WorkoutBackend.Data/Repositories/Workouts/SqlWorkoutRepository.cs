@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
 using WorkoutBackend.Data.Entities;
 
@@ -39,20 +38,6 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         using var connection = new SqlConnection(_connectionString);
         var workout = await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.GetWorkoutById, new { id });
         return workout;
-    }
-
-    public async Task<WorkoutEntity> SaveWorkoutAsync(Workout workout)
-    {
-        var dbWorkout = new WorkoutEntity(workout.Id,
-            workout.Name,
-            workout.WorkoutProgramId);
-
-        using var connection = new SqlConnection(_connectionString);
-        var savedWorkout = dbWorkout.Id == 0
-            ? await CreateWorkoutEntityAsync(dbWorkout)
-            : await UpdateWorkoutEntityAsync(dbWorkout);
-
-        return savedWorkout;
     }
 
     public async Task<WorkoutEntity> UpdateWorkoutEntityAsync(WorkoutEntity workout)

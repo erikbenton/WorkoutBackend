@@ -159,7 +159,7 @@ public class WorkoutRepositoryTests
 
         workout.Name = "Updated workout name";
 
-        var updatedWorkout = await workoutRepository.SaveWorkoutAsync(workout);
+        var updatedWorkout = await workoutService.SaveWorkoutAsync(workout);
 
         Assert.That(updatedWorkout.Id, Is.EqualTo(workout.Id));
         Assert.That(updatedWorkout.Name, Is.EqualTo(workout.Name));

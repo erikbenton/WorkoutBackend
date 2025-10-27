@@ -102,8 +102,12 @@ public class WorkoutService(
 
     public async Task<Workout> SaveWorkoutAsync(Workout workout)
     {
+        var workoutEntityToSave = new WorkoutEntity(workout.Id, workout.Name, workout.WorkoutProgramId);
+
         // save the workout to ensure correct Id
-        var savedDbWorkout = await _workoutRepository.SaveWorkoutAsync(workout);
+        var savedDbWorkout = workout.Id == 0
+            ? await _workoutRepository.CreateWorkoutEntityAsync(workoutEntityToSave)
+            : await _workoutRepository.UpdateWorkoutEntityAsync(workoutEntityToSave);
 
         // update the fields with the saved entity
         workout.Id = savedDbWorkout.Id;
