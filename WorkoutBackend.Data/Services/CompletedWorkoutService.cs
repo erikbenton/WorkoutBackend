@@ -53,7 +53,8 @@ public class CompletedWorkoutService(
                 {
                     Id = group.ExerciseId
                 },
-                CreatedAt = group.CreatedAt
+                CreatedAt = group.CreatedAt,
+                CompletedWorkoutId = completedWorkout.Id
             };
         });
 
@@ -78,7 +79,8 @@ public class CompletedWorkoutService(
                     Reps = set.Reps,
                     Weight = set.Weight,
                     Sort = set.Sort,
-                    CreatedAt = set.CreatedAt
+                    CreatedAt = set.CreatedAt,
+                    CompletedExerciseGroupId = group.Id
                 };
             });
 

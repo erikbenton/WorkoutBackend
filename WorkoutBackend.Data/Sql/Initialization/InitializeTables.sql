@@ -59,7 +59,7 @@ CREATE TABLE CompletedWorkouts (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	WorkoutId INT, -- NULLable because it might be an "empty workout"
 	Name VARCHAR(100), -- Name for when it's an "empty workout" IE: no related Workout
-	Note VARCHAR(100),
+	Note VARCHAR(255),
 	DurationInSeconds INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id) -- Do not DELETE if workout template is deleted
@@ -67,7 +67,7 @@ CREATE TABLE CompletedWorkouts (
 
 CREATE TABLE CompletedExerciseGroups (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Note VARCHAR(100),
+	Note VARCHAR(255),
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
 	CompletedWorkoutId INT NOT NULL,

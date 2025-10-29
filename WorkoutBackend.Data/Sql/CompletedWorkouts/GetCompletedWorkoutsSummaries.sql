@@ -13,4 +13,5 @@ JOIN CompletedExerciseGroups ceg
 ON ceg.CompletedWorkoutId = cw.Id
 LEFT JOIN Workouts w
 ON w.Id = cw.WorkoutId
-GROUP BY cw.Id, cw.WorkoutId, cw.Name, w.Name, cw.DurationInSeconds, cw.CreatedAt;
+GROUP BY cw.Id, cw.WorkoutId, cw.Name, w.Name, cw.DurationInSeconds, cw.CreatedAt
+ORDER BY cw.CreatedAt DESC;
