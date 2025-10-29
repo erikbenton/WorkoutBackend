@@ -42,6 +42,13 @@ public class SqlCompletedWorkoutRepository(string connectionString) : ICompleted
         return workoutEntity;
     }
 
+    public async Task<IEnumerable<CompletedWorkoutSummaryEntity>> GetCompletedWorkoutSummariesAsync()
+    {
+        using var connection = new SqlConnection(_connectionString);
+        var workoutSummaries = await connection.QueryAsync<CompletedWorkoutSummaryEntity>(CompletedWorkoutDataAccess.GetCompletedWorkoutsSummaries);
+        return workoutSummaries;
+    }
+
     public async Task<CompletedWorkoutEntity> UpdateCompletedWorkoutEntityAsync(CompletedWorkoutEntity workout)
     {
         using var connection = new SqlConnection(_connectionString);

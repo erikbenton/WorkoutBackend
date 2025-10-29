@@ -71,6 +71,7 @@ CREATE TABLE CompletedExerciseGroups (
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
 	CompletedWorkoutId INT NOT NULL,
+	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 	FOREIGN KEY (ExerciseId) REFERENCES Exercises(Id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (CompletedWorkoutId) REFERENCES CompletedWorkouts(Id)
@@ -83,6 +84,7 @@ CREATE TABLE CompletedExerciseSets (
 	Weight FLOAT,
 	Sort INT NOT NULL,
 	CompletedExerciseGroupId INT NOT NULL,
+	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 	FOREIGN KEY (CompletedExerciseGroupId) REFERENCES CompletedExerciseGroups(Id)
 		ON DELETE CASCADE
 )

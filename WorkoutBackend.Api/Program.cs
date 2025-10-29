@@ -1,3 +1,4 @@
+using WorkoutBackend.Data.Repositories.CompletedWorkouts;
 using WorkoutBackend.Data.Repositories.Exercises;
 using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Database connection string
 var workoutDbConnectionString = builder.Configuration.GetConnectionString("WorkoutDb")
     ?? throw new InvalidOperationException("Connection string 'WorkoutDb' not found.");
 
@@ -19,8 +21,13 @@ builder.Services.AddScoped<IWorkoutRepository, SqlWorkoutRepository>(repo => new
 builder.Services.AddScoped<IExerciseGroupRepository, SqlExerciseGroupRepository>(repo => new SqlExerciseGroupRepository(workoutDbConnectionString));
 builder.Services.AddScoped<IExerciseSetRepository, SqlExerciseSetRepository>(repo => new SqlExerciseSetRepository(workoutDbConnectionString));
 
+builder.Services.AddScoped<ICompletedWorkoutRepository, SqlCompletedWorkoutRepository>(repo => new SqlCompletedWorkoutRepository(workoutDbConnectionString));
+builder.Services.AddScoped<ICompletedExerciseGroupRepository, SqlCompletedExerciseGroupRepository>(repo => new SqlCompletedExerciseGroupRepository(workoutDbConnectionString));
+builder.Services.AddScoped<ICompletedExerciseSetRepository, SqlCompletedExerciseSetRepository>(repo => new SqlCompletedExerciseSetRepository(workoutDbConnectionString));
+
 // Workout services
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<ICompletedWorkoutService, CompletedWorkoutService>();
 
 //CORS
 var workoutFrontEndCorsPolicy = "workoutFrontEndCorsPolicy";

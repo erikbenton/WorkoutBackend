@@ -10,6 +10,7 @@
     <None Remove="Sql\CompletedExerciseGroups\DeleteCompletedExerciseGroupById.sql" />
     <None Remove="Sql\CompletedExerciseGroups\GetCompletedExerciseGroupById.sql" />
     <None Remove="Sql\CompletedExerciseGroups\GetCompletedExerciseGroupsByCompletedWorkoutId.sql" />
+    <None Remove="Sql\CompletedExerciseGroups\GetCompletedWorkoutsSummary.sql" />
     <None Remove="Sql\CompletedExerciseGroups\InsertCompletedExerciseGroup.sql" />
     <None Remove="Sql\CompletedExerciseGroups\UpdateCompletedExerciseGroupById.sql" />
     <None Remove="Sql\CompletedExerciseSets\DeletedCompletedExerciseSetById.sql" />
@@ -51,6 +52,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\CompletedExerciseGroups\GetCompletedExerciseGroupsByCompletedWorkoutId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\CompletedWorkouts\GetCompletedWorkoutsSummaries.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\CompletedExerciseGroups\InsertCompletedExerciseGroup.sql">
