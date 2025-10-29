@@ -1,6 +1,6 @@
 ﻿using WorkoutBackend.Core.Models;
 
-namespace WorkoutBackend.Data.Repositories;
+namespace WorkoutBackend.Data.Repositories.Exercises;
 
 public interface IExerciseRepository
 {

@@ -1,6 +1,7 @@
 ﻿using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Entities;
-using WorkoutBackend.Data.Repositories;
+using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.Workouts;
 
 namespace WorkoutBackend.Data.Services;
 
@@ -18,7 +19,13 @@ public class WorkoutService(
     public async Task<Workout> RetrieveFullyPopulatedWorkoutAsync(int workoutId)
     {
         // Get the main data for the workout
-        var workout = await _workoutRepository.GetWorkoutByIdAsync(workoutId);
+        var workoutEntity = await _workoutRepository.GetWorkoutEntityByIdAsync(workoutId);
+
+        var workout = new Workout()
+        {
+            Id = workoutEntity.Id,
+            Name = workoutEntity.Name,
+        };
 
         // get the exercise groups for the workout
         var groups = await RetrieveAllExerciseGroupsForWorkoutAsync(workout.Id);
@@ -95,15 +102,33 @@ public class WorkoutService(
 
     public async Task<Workout> SaveWorkoutAsync(Workout workout)
     {
+        var workoutEntityToSave = new WorkoutEntity(workout.Id, workout.Name, workout.WorkoutProgramId);
+
         // save the workout to ensure correct Id
-        var savedWorkout = await _workoutRepository.SaveWorkoutAsync(workout);
+        var savedDbWorkout = workout.Id == 0
+            ? await _workoutRepository.CreateWorkoutEntityAsync(workoutEntityToSave)
+            : await _workoutRepository.UpdateWorkoutEntityAsync(workoutEntityToSave);
+
+        // update the fields with the saved entity
+        workout.Id = savedDbWorkout.Id;
+        workout.Name = savedDbWorkout.Name;
+        workout.WorkoutProgramId = savedDbWorkout.ProgramId;
+
+        // Populate the ExerciseGroups with saved Id and assign Sort
+        workout.ExerciseGroups = workout.ExerciseGroups
+            .Select((group, index) =>
+            {
+                group.WorkoutId = savedDbWorkout.Id;
+                group.Sort = index;
+                return group;
+            });
 
         // save each exercise group in the workout
-        savedWorkout.ExerciseGroups = await SaveAWorkoutsExerciseGroupsAsync(workout);
+        workout.ExerciseGroups = await SaveAWorkoutsExerciseGroupsAsync(workout);
 
         // need to iterate over the Exercise Groups to save their Exercise Sets
         // (async code does not play nice with foreach)
-        var exerciseGroupsWithSetsToSave = savedWorkout.ExerciseGroups.ToArray();
+        var exerciseGroupsWithSetsToSave = workout.ExerciseGroups.ToArray();
 
         for (int i = 0; i < exerciseGroupsWithSetsToSave.Length; i++)
         {
@@ -112,9 +137,9 @@ public class WorkoutService(
         }
 
         // reassign the exercise groups iterated over back to the workout
-        savedWorkout.ExerciseGroups = exerciseGroupsWithSetsToSave;
+        workout.ExerciseGroups = exerciseGroupsWithSetsToSave;
 
-        return savedWorkout;
+        return workout;
     }
 
     public async Task<ExerciseGroup> SaveExerciseGroupAsync(ExerciseGroup exerciseGroup)

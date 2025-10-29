@@ -1,5 +1,6 @@
 ﻿using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Repositories;
+using WorkoutBackend.Data.Repositories.Exercises;
 using WorkoutBackend.IntegrationTests.Helpers;
 
 namespace WorkoutBackend.IntegrationTests;

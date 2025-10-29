@@ -1,6 +1,6 @@
 ﻿using WorkoutBackend.Data.Entities;
 
-namespace WorkoutBackend.Data.Repositories;
+namespace WorkoutBackend.Data.Repositories.Workouts;
 
 public interface IExerciseGroupRepository
 {

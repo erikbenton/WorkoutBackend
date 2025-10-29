@@ -29,7 +29,7 @@ public class WorkoutsController(
     }
 
     [HttpPost]
-    public async Task<ActionResult<Workout>> CreateWorkoutAsync(Workout workout)
+    public async Task<ActionResult<Workout>> CreateWorkoutAsync([FromBody]Workout workout)
     {
         var savedWorkout = await _workoutService.SaveWorkoutAsync(workout);
 
@@ -40,7 +40,7 @@ public class WorkoutsController(
 
     [HttpPut]
     [Route("{id}")]
-    public async Task<ActionResult<Workout>> UpdateWorkoutAsync(Workout workout)
+    public async Task<ActionResult<Workout>> UpdateWorkoutAsync([FromBody]Workout workout)
     {
         var savedWorkout = await _workoutService.SaveWorkoutAsync(workout);
 

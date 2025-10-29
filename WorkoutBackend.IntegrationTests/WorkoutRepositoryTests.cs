@@ -1,6 +1,8 @@
 ﻿using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Entities;
 using WorkoutBackend.Data.Repositories;
+using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
 using WorkoutBackend.IntegrationTests.Helpers;
 
@@ -12,7 +14,7 @@ public class WorkoutRepositoryTests
     IExerciseGroupRepository exerciseGroupRepository;
     IExerciseSetRepository exerciseSetRepository;
     IExerciseRepository exerciseRepository;
-    IWorkoutSaver workoutSaver;
+    IWorkoutService workoutService;
 
     [OneTimeSetUp]
     public async Task WorkoutOneTimeSetup()
@@ -29,7 +31,7 @@ public class WorkoutRepositoryTests
         exerciseGroupRepository = new SqlExerciseGroupRepository(DatabaseHelper.TestConnectionString);
         exerciseSetRepository = new SqlExerciseSetRepository(DatabaseHelper.TestConnectionString);
         exerciseRepository = new SqlExerciseRepository(DatabaseHelper.TestConnectionString);
-        workoutSaver = new SqlWorkoutSaver(workoutRepository, exerciseGroupRepository, exerciseSetRepository);
+        workoutService = new WorkoutService(workoutRepository, exerciseGroupRepository, exerciseSetRepository, exerciseRepository);
     }
 
     [Test]
@@ -131,7 +133,7 @@ public class WorkoutRepositoryTests
             }
         };
 
-        var savedWorkout = await workoutRepository.SaveWorkoutAsync(workout);
+        var savedWorkout = await workoutService.SaveWorkoutAsync(workout);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));
@@ -153,11 +155,11 @@ public class WorkoutRepositoryTests
     public async Task CanUpdateAnExistingWorkout()
     {
         var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync();
-        var workout = await workoutRepository.GetWorkoutByIdAsync(workouts.First().Id);
+        var workout = await workoutService.RetrieveFullyPopulatedWorkoutAsync(workouts.First().Id);
 
         workout.Name = "Updated workout name";
 
-        var updatedWorkout = await workoutRepository.SaveWorkoutAsync(workout);
+        var updatedWorkout = await workoutService.SaveWorkoutAsync(workout);
 
         Assert.That(updatedWorkout.Id, Is.EqualTo(workout.Id));
         Assert.That(updatedWorkout.Name, Is.EqualTo(workout.Name));
@@ -264,7 +266,7 @@ public class WorkoutRepositoryTests
             }
         };
 
-        var savedWorkout = await workoutSaver.SaveWorkoutAsync(workout);
+        var savedWorkout = await workoutService.SaveWorkoutAsync(workout);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));

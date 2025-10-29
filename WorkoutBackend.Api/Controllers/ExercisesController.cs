@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkoutBackend.Core.Models;
-using WorkoutBackend.Data.Repositories;
+using WorkoutBackend.Data.Repositories.Exercises;
 
 namespace WorkoutBackend.Api.Controllers;
 

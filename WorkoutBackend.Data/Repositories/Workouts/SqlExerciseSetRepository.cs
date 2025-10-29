@@ -1,10 +1,9 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
 using WorkoutBackend.Data.Entities;
 
-namespace WorkoutBackend.Data.Repositories;
+namespace WorkoutBackend.Data.Repositories.Workouts;
 
 public class SqlExerciseSetRepository(string connectionString) : IExerciseSetRepository
 {
