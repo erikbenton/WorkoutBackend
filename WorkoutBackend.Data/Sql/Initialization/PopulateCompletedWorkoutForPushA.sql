@@ -1,5 +1,5 @@
 INSERT INTO CompletedWorkouts (WorkoutId, Name, Note, DurationInSeconds)
-VALUES (1, NULL, 'Testing Completed Workouts', 3605);
+VALUES (1, 'Push A', 'Testing Completed Workouts', 3605);
 
 INSERT INTO CompletedExerciseGroups (Note, Sort, ExerciseId, CompletedWorkoutId)
 VALUES  ('First Group', 0,
