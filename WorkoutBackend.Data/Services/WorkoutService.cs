@@ -279,7 +279,7 @@ public class WorkoutService(
                 {
                     Id = entry.WorkoutId,
                     Name = entry.WorkoutName,
-                    ExerciseNames = new List<string?>() { entry.ExerciseName }
+                    ExerciseNames = [entry.ExerciseName]
                 });
             }
         }
