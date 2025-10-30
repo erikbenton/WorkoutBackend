@@ -267,7 +267,10 @@ public class WorkoutService(
             // if the entry has already been added to the dictionary
             if (workoutIdWithSummaries.ContainsKey(entry.WorkoutId))
             {
-                workoutIdWithSummaries[entry.WorkoutId].ExerciseNames.Add(entry.ExerciseName);
+                if (entry.ExerciseName is not null)
+                {
+                    workoutIdWithSummaries[entry.WorkoutId].ExerciseNames.Add(entry.ExerciseName);
+                }
             }
             else
             {
@@ -276,7 +279,7 @@ public class WorkoutService(
                 {
                     Id = entry.WorkoutId,
                     Name = entry.WorkoutName,
-                    ExerciseNames = new List<string>() { entry.ExerciseName }
+                    ExerciseNames = new List<string?>() { entry.ExerciseName }
                 });
             }
         }

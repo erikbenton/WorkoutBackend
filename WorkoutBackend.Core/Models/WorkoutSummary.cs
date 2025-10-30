@@ -6,5 +6,5 @@ public class WorkoutSummary
 
     public string Name { get; set; }
 
-    public List<string> ExerciseNames { get; set; } = [];
+    public List<string?> ExerciseNames { get; set; } = [];
 }

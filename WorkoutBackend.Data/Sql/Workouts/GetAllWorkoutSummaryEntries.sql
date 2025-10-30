@@ -4,8 +4,8 @@ SELECT
 	w.Name AS WorkoutName,
 	ex.Name AS ExerciseName
 FROM Workouts w
-JOIN ExerciseGroups eg
+LEFT JOIN ExerciseGroups eg
 ON eg.WorkoutId = w.Id
-JOIN Exercises ex
+LEFT JOIN Exercises ex
 ON eg.ExerciseId = ex.Id
 ORDER BY w.Id ASC, eg.Sort ASC
