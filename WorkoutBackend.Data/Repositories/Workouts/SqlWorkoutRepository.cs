@@ -33,6 +33,13 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         return workouts;
     }
 
+    public async Task<IEnumerable<WorkoutSummaryEntry>> GetAllWorkoutSummariesEntriesAsync()
+    {
+        using var connection = new SqlConnection(_connectionString);
+        var summaryEntries = await connection.QueryAsync<WorkoutSummaryEntry>(WorkoutDataAccess.GetAllWorkoutSummaryEntries);
+        return summaryEntries;
+    }
+
     public async Task<WorkoutEntity> GetWorkoutEntityByIdAsync(int id)
     {
         using var connection = new SqlConnection(_connectionString);

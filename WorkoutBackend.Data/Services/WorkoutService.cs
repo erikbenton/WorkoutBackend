@@ -253,4 +253,39 @@ public class WorkoutService(
     {
         await _workoutRepository.DeleteWorkoutEntityAsync(workoutId);
     }
+
+    public async Task<IEnumerable<WorkoutSummary>> RetrieveAllWorkoutSummariesAsync()
+    {
+        var workoutSummaryEntries = await _workoutRepository.GetAllWorkoutSummariesEntriesAsync();
+
+        // create a Dictionary in order to aggregate the entries
+        // so that the summaries have a collection of the exercise names
+        var workoutIdWithSummaries = new Dictionary<int, WorkoutSummary>();
+
+        foreach (var entry in workoutSummaryEntries)
+        {
+            // if the entry has already been added to the dictionary
+            if (workoutIdWithSummaries.ContainsKey(entry.WorkoutId))
+            {
+                workoutIdWithSummaries[entry.WorkoutId].ExerciseNames.Add(entry.ExerciseName);
+            }
+            else
+            {
+                // initiate the new WorkoutSummary
+                workoutIdWithSummaries.Add(entry.WorkoutId, new WorkoutSummary()
+                {
+                    Id = entry.WorkoutId,
+                    Name = entry.WorkoutName,
+                    ExerciseNames = new List<string>() { entry.ExerciseName }
+                });
+            }
+        }
+
+        // Only need the "Values" from the dictionary
+        var workoutSummaries = workoutIdWithSummaries
+            .Select(kvp => kvp.Value)
+            .OrderBy(summary => summary.Id);
+
+        return workoutSummaries;
+    }
 }
