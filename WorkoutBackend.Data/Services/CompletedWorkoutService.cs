@@ -48,6 +48,7 @@ public class CompletedWorkoutService(
             {
                 Id = group.Id,
                 Note = group.Note,
+                Comment = group.Comment,
                 Sort = group.Sort,
                 Exercise = new Exercise()
                 {
@@ -167,6 +168,7 @@ public class CompletedWorkoutService(
             var dbGroup = new CompletedExerciseGroupEntity(
                 group.Id,
                 group.Note,
+                group.Comment,
                 group.Sort,
                 group.Exercise.Id,
                 group.CompletedWorkoutId);

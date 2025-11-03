@@ -68,6 +68,7 @@ CREATE TABLE CompletedWorkouts (
 CREATE TABLE CompletedExerciseGroups (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Note VARCHAR(255),
+	Comment VARCHAR(255),
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
 	CompletedWorkoutId INT NOT NULL,

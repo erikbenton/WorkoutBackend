@@ -1,6 +1,7 @@
 UPDATE CompletedExerciseGroups
 SET
 	Note = @Note,
+	Comment = @Comment,
 	Sort = @Sort,
 	ExerciseId = @ExerciseId,
 	CompletedWorkoutId = @CompletedWorkoutId,
@@ -8,6 +9,7 @@ SET
 OUTPUT
 	UPDATED.Id,
 	UPDATED.Note,
+	UPDATED.Comment,
 	UPDATED.Sort,
 	UPDATED.ExerciseId,
 	UPDATED.CompletedWorkoutId,
