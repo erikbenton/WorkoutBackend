@@ -5,7 +5,7 @@ SELECT
 	cw.DurationInSeconds,
 	cw.CreatedAt AS CompletedAt
 FROM CompletedWorkouts cw
-JOIN CompletedExerciseGroups ceg
+LEFT JOIN CompletedExerciseGroups ceg
 ON ceg.CompletedWorkoutId = cw.Id
 GROUP BY cw.Id, cw.WorkoutId, cw.Name, cw.DurationInSeconds, cw.CreatedAt
 ORDER BY cw.CreatedAt DESC;
