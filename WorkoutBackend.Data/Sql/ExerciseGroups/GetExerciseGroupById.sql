@@ -1,2 +1,2 @@
-SELECT Id, Note, Sort, ExerciseId, WorkoutId FROM ExerciseGroups
+SELECT Id, Note, RestTimeInSeconds, Sort, ExerciseId, WorkoutId FROM ExerciseGroups
 WHERE Id = @Id

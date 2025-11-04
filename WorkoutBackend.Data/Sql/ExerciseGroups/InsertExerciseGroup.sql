@@ -1,3 +1,3 @@
-INSERT INTO ExerciseGroups (Note, Sort, ExerciseId, WorkoutId)
+INSERT INTO ExerciseGroups (Note, RestTimeInSeconds, Sort, ExerciseId, WorkoutId)
 OUTPUT INSERTED.Id
-VALUES (@Note, @Sort, @ExerciseId, @WorkoutId)
+VALUES (@Note, @RestTimeInSeconds, @Sort, @ExerciseId, @WorkoutId)

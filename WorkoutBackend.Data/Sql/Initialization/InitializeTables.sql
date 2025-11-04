@@ -35,6 +35,7 @@ CREATE TABLE Exercises (
 CREATE TABLE ExerciseGroups (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Note VARCHAR(255),
+	RestTimeInSeconds INT,
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
 	WorkoutId INT NOT NULL,

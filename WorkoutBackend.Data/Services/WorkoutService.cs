@@ -53,10 +53,14 @@ public class WorkoutService(
 
         return groups.Select(group =>
         {
+            TimeSpan? restTime = group.RestTimeInSeconds is not null
+                ? TimeSpan.FromSeconds((long)group.RestTimeInSeconds)
+                : null;
             return new ExerciseGroup()
             {
                 Id = group.Id,
                 Note = group.Note,
+                RestTime = restTime,
                 Sort = group.Sort,
                 Exercise = new Exercise()
                 {
@@ -146,6 +150,7 @@ public class WorkoutService(
     {
         var exerciseGroupEntity = new ExerciseGroupEntity(exerciseGroup.Id,
             exerciseGroup.Note,
+            (int?)exerciseGroup.RestTime?.TotalSeconds,
             exerciseGroup.Sort,
             exerciseGroup.Exercise.Id,
             exerciseGroup.WorkoutId);

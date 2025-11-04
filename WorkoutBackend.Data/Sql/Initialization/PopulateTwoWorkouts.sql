@@ -3,25 +3,25 @@ INSERT INTO Workouts (Name, ProgramId)
 VALUES ('Push A', NULL),
 		('Pull A', NULL)
 
-INSERT INTO ExerciseGroups (Note, Sort, ExerciseId, WorkoutId)
+INSERT INTO ExerciseGroups (Note, RestTimeInSeconds, Sort, ExerciseId, WorkoutId)
 VALUES  --This is for first workout
-		('Note for first set of first workout', 0,
+		('Note for first set of first workout', 0, 180,
 			(SELECT Id FROM Exercises WHERE Name = 'Barbell Bench Press'),
 			(SELECT Id FROM Workouts WHERE Name = 'Push A')),
-		('Note for second set of first workout', 1,
+		('Note for second set of first workout', 1, 180,
 			(SELECT Id FROM Exercises WHERE Name = 'Incline Dumbbell Bench Press'),
 			(SELECT Id FROM Workouts WHERE Name = 'Push A')),
-		('Note for third set of first workout', 2,
+		('Note for third set of first workout', 2, 180,
 			(SELECT Id FROM Exercises WHERE Name = 'Dumbbell Shoulder Press'),
 			(SELECT Id FROM Workouts WHERE Name = 'Push A')),
 		--This is for second Workout
-		('Note for first set of second workout', 0,
+		('Note for first set of second workout', 0, 180,
 			(SELECT Id FROM Exercises WHERE Name = 'Pull-Up'),
 			(SELECT Id FROM Workouts WHERE Name = 'Pull A')),
-		('Note for second set of second workout', 1,
+		('Note for second set of second workout', 1, 180,
 			(SELECT Id FROM Exercises WHERE Name = 'Horizontal Machine Rows'),
 			(SELECT Id FROM Workouts WHERE Name = 'Pull A')),
-		('Note for third set of second workout', 2,
+		('Note for third set of second workout', 2, 180,
 			(SELECT Id FROM Exercises WHERE Name = 'Alternating Dumbbell Curls'),
 			(SELECT Id FROM Workouts WHERE Name = 'Pull A'))
 

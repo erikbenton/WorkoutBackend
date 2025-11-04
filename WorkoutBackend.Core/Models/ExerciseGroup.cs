@@ -10,6 +10,8 @@ public class ExerciseGroup
 
     public string? Note { get; set; }
 
+    public TimeSpan? RestTime { get; set; }
+
     public int Sort { get; set; }
 
     public IEnumerable<ExerciseSet> ExerciseSets { get; set; } = [];
