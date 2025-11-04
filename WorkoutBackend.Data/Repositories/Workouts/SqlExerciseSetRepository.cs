@@ -11,8 +11,8 @@ public class SqlExerciseSetRepository(string connectionString) : IExerciseSetRep
     public async Task<ExerciseSetEntity> CreateExerciseSetEntityAsync(ExerciseSetEntity exerciseSet)
     {
         using var connection = new SqlConnection(_connectionString);
-        var savedId = await connection.QueryFirstAsync<int>(ExerciseSetDataAccess.InsertExerciseSet, exerciseSet);
-        return await GetExerciseSetEntityByIdAsync(savedId);
+        var savedSet = await connection.QueryFirstAsync<ExerciseSetEntity>(ExerciseSetDataAccess.InsertExerciseSet, exerciseSet);
+        return savedSet;
     }
 
     public async Task DeleteExerciseSetEntityByIdAsync(int id)
@@ -38,7 +38,7 @@ public class SqlExerciseSetRepository(string connectionString) : IExerciseSetRep
     public async Task<ExerciseSetEntity> UpdateExerciseSetEntityAsync(ExerciseSetEntity exerciseSet)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ExerciseSetDataAccess.UpdateExerciseSetById, exerciseSet);
-        return await GetExerciseSetEntityByIdAsync(exerciseSet.Id);
+        var updatedSet = await connection.QueryFirstAsync<ExerciseSetEntity>(ExerciseSetDataAccess.UpdateExerciseSetById, exerciseSet);
+        return updatedSet;
     }
 }

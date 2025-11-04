@@ -6,10 +6,10 @@ SET
 	CompletedExerciseGroupId = @CompletedExerciseGroupId,
 	CreatedAt = @CreatedAt
 OUTPUT
-	UPDATED.Id,
-	UPDATED.Reps,
-	UPDATED.Weight,
-	UPDATED.Sort,
-	UPDATED.CompletedExerciseGroupId,
-	UPDATED.CreatedAt
+	INSERTED.Id,
+	INSERTED.Reps,
+	INSERTED.Weight,
+	INSERTED.Sort,
+	INSERTED.CompletedExerciseGroupId,
+	INSERTED.CreatedAt
 WHERE Id = @Id;

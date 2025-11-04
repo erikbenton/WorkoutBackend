@@ -11,8 +11,8 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
     public async Task<ExerciseGroupEntity> CreateExerciseGroupEntityAsync(ExerciseGroupEntity exerciseGroup)
     {
         using var connection = new SqlConnection(_connectionString);
-        var savedId = await connection.QueryFirstAsync<int>(ExerciseGroupDataAccess.InsertExerciseGroup, exerciseGroup);
-        return await GetExerciseGroupByIdAsync(savedId);
+        var savedGroup = await connection.QueryFirstAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.InsertExerciseGroup, exerciseGroup);
+        return savedGroup;
     }
 
     public async Task DeleteExerciseGroupEntityByIdAsync(int id)
@@ -38,7 +38,7 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
     public async Task<ExerciseGroupEntity> UpdateExerciseGroupEntityAsync(ExerciseGroupEntity exerciseGroup)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ExerciseGroupDataAccess.UpdateExerciseGroupById, exerciseGroup);
-        return await GetExerciseGroupByIdAsync(exerciseGroup.Id);
+        var updatedGroup = await connection.QueryFirstAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.UpdateExerciseGroupById, exerciseGroup);
+        return updatedGroup;
     }
 }

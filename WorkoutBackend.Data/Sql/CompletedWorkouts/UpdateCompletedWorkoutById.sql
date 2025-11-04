@@ -6,10 +6,10 @@ SET
 	DurationInSeconds = @DurationInSeconds,
 	CreatedAt = @CreatedAt
 OUTPUT
-	UPDATED.Id,
-	UPDATED.WorkoutId,
-	UPDATED.Name,
-	UPDATED.Note,
-	UPDATED.DurationInSeconds,
-	UPDATED.CreatedAt
+	INSERTED.Id,
+	INSERTED.WorkoutId,
+	INSERTED.Name,
+	INSERTED.Note,
+	INSERTED.DurationInSeconds,
+	INSERTED.CreatedAt
 WHERE Id = @Id;

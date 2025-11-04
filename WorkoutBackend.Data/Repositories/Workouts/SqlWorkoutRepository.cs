@@ -12,11 +12,11 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
     public async Task<WorkoutEntity> CreateWorkoutEntityAsync(WorkoutEntity workout)
     {
         using var connection = new SqlConnection(_connectionString);
-        var savedId = workout.ProgramId == null
-            ? await connection.QueryFirstAsync<int>(WorkoutDataAccess.InsertWorkoutNoProgramId, workout)
-            : await connection.QueryFirstAsync<int>(WorkoutDataAccess.InsertWorkoutWithProgramId, workout);
+        var savedWorkout = workout.ProgramId == null
+            ? await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.InsertWorkoutNoProgramId, workout)
+            : await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.InsertWorkoutWithProgramId, workout);
 
-        return await GetWorkoutEntityByIdAsync(savedId);
+        return savedWorkout;
     }
 
     public async Task DeleteWorkoutEntityAsync(int id)
@@ -50,7 +50,7 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
     public async Task<WorkoutEntity> UpdateWorkoutEntityAsync(WorkoutEntity workout)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(WorkoutDataAccess.UpdateWorkoutById, workout);
-        return await GetWorkoutEntityByIdAsync(workout.Id);
+        var updatedWorkout = await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.UpdateWorkoutById, workout);
+        return updatedWorkout;
     }
 }

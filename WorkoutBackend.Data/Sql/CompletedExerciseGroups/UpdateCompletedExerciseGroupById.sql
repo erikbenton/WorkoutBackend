@@ -7,11 +7,11 @@ SET
 	CompletedWorkoutId = @CompletedWorkoutId,
 	CreatedAt = @CreatedAt
 OUTPUT
-	UPDATED.Id,
-	UPDATED.Note,
-	UPDATED.Comment,
-	UPDATED.Sort,
-	UPDATED.ExerciseId,
-	UPDATED.CompletedWorkoutId,
-	UPDATED.CreatedAt
+	INSERTED.Id,
+	INSERTED.Note,
+	INSERTED.Comment,
+	INSERTED.Sort,
+	INSERTED.ExerciseId,
+	INSERTED.CompletedWorkoutId,
+	INSERTED.CreatedAt
 WHERE Id = @Id;
