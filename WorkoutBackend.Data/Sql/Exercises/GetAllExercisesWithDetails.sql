@@ -9,3 +9,4 @@ JOIN BodyParts bp
 ON bp.Id = ex.BodyPartId
 JOIN Equipment eq
 ON eq.Id = ex.EquipmentId
+ORDER BY ex.Name
