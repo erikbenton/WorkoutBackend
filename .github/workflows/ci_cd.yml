@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -41,7 +41,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ./publish -r linux-x64 --self-contained true /p:UseAppHost=true
+        run: dotnet publish -c Release -o ./publish
 
       - name: Display published files
         run: ls -R ./publish
