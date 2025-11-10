@@ -41,10 +41,13 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ../dotnet-webapi -r linux-x64 --self-contained true /p:UseAppHost=true
+        run: dotnet publish -c Release -o ./publish -r linux-x64 --self-contained true /p:UseAppHost=true
 
-      - name: Upload artifact for deployment job
+      - name: Zip Artifact
+        run: zip app.zip ./publish
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ../dotnet-webapi
+          path: app.zip
