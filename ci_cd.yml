@@ -1,0 +1,50 @@
+name: Build Work-It-Out Back End
+
+on:
+  push:
+    branches: ["work-48"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+          include-prerelease: true
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Substitute GitHub Secrets into appsettings
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: 'WorkoutBackend.Api/appsettings.json'
+        env:
+          ConnectionStrings.WorkoutDb: ${{ secrets.CONNECTION_STRING }}
+
+      - name: Download the Front End UI
+        uses: actions/download-artifact@v4
+        with:
+          name: react-app-build
+          path: WorkoutBackend.Api/wwwroot
+          github-token: ${{ github.token }}
+          repository: erikbenton/WorkoutFrontend
+          run-id: 19238778135
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{ env.DOTNET_ROOT }}/myapp
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{ env.DOTNET_ROOT }}/myapp  
