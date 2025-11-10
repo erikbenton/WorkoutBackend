@@ -28,7 +28,7 @@ jobs:
         env:
           ConnectionStrings.WorkoutDb: ${{ secrets.CONNECTION_STRING }}
 
-      - name: Download the Front End UI for hosting
+      - name: Download the Front End UI
         uses: actions/download-artifact@v4
         with: react-app-build
         path: WorkoutBackend.Api/wwwroot
