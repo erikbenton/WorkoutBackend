@@ -46,11 +46,8 @@ jobs:
       - name: Display published files
         run: ls -R ./publish
 
-      - name: Zip Artifact
-        run: zip app.zip ./publish
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: app.zip
+          path: ./publish
