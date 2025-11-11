@@ -35,7 +35,6 @@ jobs:
           path: WorkoutBackend.Api/wwwroot
           github-token: ${{ github.token }}
           repository: erikbenton/WorkoutFrontend
-          run-id: 19238778135
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
