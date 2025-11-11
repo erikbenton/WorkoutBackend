@@ -2,7 +2,7 @@ name: Build Work-It-Out Back End
 
 on:
   push:
-    branches: ["work-48"]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -43,11 +43,36 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ./publish
 
-      - name: Display published files
-        run: ls -R ./publish
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
           path: ./publish
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_20E0BAF871D7483E902F7785DCEA1CDD }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C4E50BB7D067416785E348A50BA08C97 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B5F68E5777134668957F5CD64A61F672 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'WorkItOutApp'
+          slot-name: 'Production'
+          package: .
