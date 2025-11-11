@@ -10,29 +10,29 @@ public class DatabaseController(IDatabaseRepository databaseRepository) : Contro
     private readonly IDatabaseRepository _databaseRepository = databaseRepository;
 
     [HttpPost]
-    [Route("/Create")]
+    [Route("Create")]
     public async Task<ActionResult> CreateAllTablesAsync()
     {
         await _databaseRepository.CreateAllTablesAsync();
 
-        return Ok();
+        return Ok("Created all tables");
     }
 
     [HttpPost]
-    [Route("/Drop")]
+    [Route("Drop")]
     public async Task<ActionResult> DropAllTablesAsync()
     {
         await _databaseRepository.DropAllTablesAsync();
 
-        return Ok();
+        return Ok("Dropped all tables");
     }
 
     [HttpPost]
-    [Route("/Populate")]
+    [Route("Populate")]
     public async Task<ActionResult> PopulateDefaultsAsync()
     {
         await _databaseRepository.PopulateDefaultValues();
 
-        return Ok();
+        return Ok("Populated defaults");
     }
 }
