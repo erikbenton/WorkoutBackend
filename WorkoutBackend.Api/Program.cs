@@ -1,4 +1,5 @@
 using WorkoutBackend.Data.Repositories.CompletedWorkouts;
+using WorkoutBackend.Data.Repositories.Database;
 using WorkoutBackend.Data.Repositories.Exercises;
 using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<ICompletedWorkoutRepository, SqlCompletedWorkoutRepos
 builder.Services.AddScoped<ICompletedExerciseGroupRepository, SqlCompletedExerciseGroupRepository>(repo => new SqlCompletedExerciseGroupRepository(workoutDbConnectionString));
 builder.Services.AddScoped<ICompletedExerciseSetRepository, SqlCompletedExerciseSetRepository>(repo => new SqlCompletedExerciseSetRepository(workoutDbConnectionString));
 
+builder.Services.AddScoped<IDatabaseRepository, SqlDatabaseRepository>(repo => new SqlDatabaseRepository(workoutDbConnectionString));
+
 // Workout services
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<ICompletedWorkoutService, CompletedWorkoutService>();
@@ -44,6 +47,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseDefaultFiles();
+app.MapStaticAssets();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -57,5 +63,7 @@ app.UseCors(workoutFrontEndCorsPolicy);
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapFallbackToFile("/index.html");
 
 app.Run();
