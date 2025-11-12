@@ -54,11 +54,10 @@ app.MapStaticAssets();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseCors(workoutFrontEndCorsPolicy);
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors(workoutFrontEndCorsPolicy);
 
 app.UseAuthorization();
 

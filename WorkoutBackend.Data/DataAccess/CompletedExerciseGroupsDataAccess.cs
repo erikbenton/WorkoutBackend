@@ -9,4 +9,5 @@ public static class CompletedExerciseGroupsDataAccess
     public static string InsertCompletedExerciseGroup => DataAccessHelper.GetSqlString(sqlFolder, "InsertCompletedExerciseGroup.sql");
     public static string UpdateCompletedExerciseGroupById => DataAccessHelper.GetSqlString(sqlFolder, "UpdateCompletedExerciseGroupById.sql");
     public static string DeleteCompletedExerciseGroupById => DataAccessHelper.GetSqlString(sqlFolder, "DeleteCompletedExerciseGroupById.sql");
+    public static string GetCompletedGroupHistoryByExerciseId => DataAccessHelper.GetSqlString(sqlFolder, "GetCompletedGroupHistoryByExerciseId.sql");
 }

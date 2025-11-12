@@ -42,6 +42,14 @@ public class SqlCompletedExerciseGroupRepository(string connectionString) : ICom
         return groupEntity;
     }
 
+    public async Task<IEnumerable<CompletedExerciseGroupHistoryEntity>> GetCompletedGroupHistoryByExerciseIdAsync(int exerciseId)
+    {
+        using var connection = new SqlConnection(_connectionString);
+        var groupHistory = await connection.QueryAsync<CompletedExerciseGroupHistoryEntity>(
+            CompletedExerciseGroupsDataAccess.GetCompletedGroupHistoryByExerciseId, new { exerciseId });
+        return groupHistory;
+    }
+
     public async Task<CompletedExerciseGroupEntity> UpdateCompletedExerciseGroupEntityAsync(CompletedExerciseGroupEntity exerciseGroup)
     {
         using var connection = new SqlConnection(_connectionString);

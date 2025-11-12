@@ -8,6 +8,8 @@ public interface ICompletedWorkoutService
 
     public Task<CompletedWorkout> GetCompletedWorkoutByIdAsync(int id);
 
+    public Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId);
+
     public Task<CompletedWorkout> SaveCompletedWorkoutAsync(CompletedWorkout completedWorkout);
 
     public Task DeleteCompletedWorkoutAsync(int id);

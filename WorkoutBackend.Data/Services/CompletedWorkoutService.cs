@@ -63,7 +63,7 @@ public class CompletedWorkoutService(
         var exerciseGroups = unpopulatedGroups.ToArray();
 
         // foreach completed exercise group (async calls inside)
-        for ( var i = 0; i < exerciseGroups.Length; i++)
+        for (var i = 0; i < exerciseGroups.Length; i++)
         {
             var group = exerciseGroups[i];
 
@@ -230,5 +230,46 @@ public class CompletedWorkoutService(
         }
 
         return exerciseGroupsWithSetsToSave;
+    }
+
+    public async Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId)
+    {
+        var dbGroupHistory = await _completedExerciseGroupRepository
+            .GetCompletedGroupHistoryByExerciseIdAsync(exerciseId);
+
+        var groupHistories = dbGroupHistory.Select(group =>
+        {
+            return new CompletedExerciseGroupHistory
+            {
+                CompletedExerciseGroupId = group.CompletedExerciseGroupId,
+                Year = group.Year,
+                Month = group.Month,
+                Day = group.Day,
+                ExerciseId = group.ExerciseId,
+            };
+        })
+        .ToArray();
+
+        for (var i = 0; i < groupHistories.Length; i++)
+        {
+            var group = groupHistories[i];
+            var dbSets = await _completedExerciseSetRepository
+                .GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(group.CompletedExerciseGroupId);
+
+            group.CompletedExerciseSets = dbSets.Select(set =>
+            {
+                return new CompletedExerciseSet
+                {
+                    Id = set.Id,
+                    Reps = set.Reps,
+                    Weight = set.Weight,
+                    Sort = set.Sort,
+                    CreatedAt = set.CreatedAt,
+                    CompletedExerciseGroupId = set.CompletedExerciseGroupId
+                };
+            });
+        }
+
+        return groupHistories;
     }
 }
