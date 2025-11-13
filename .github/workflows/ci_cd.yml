@@ -11,19 +11,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
-          include-prerelease: true
-
+  
       - name: Get the latest Front End run-id
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: $latestRunId = gh api /repos/erikbenton/WorkoutFrontend/actions/runs | jq ".workflow_runs[0].id"
              echo "LATEST_RUN_ID=$latestRunId" | Out-File -FilePath $env:GITHUB_ENV -Append
              
       - name: Check run-id
         run: echo "${{ env.LATEST_RUN_ID }}"
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+          include-prerelease: true
 
       - name: Restore Dependencies
         run: dotnet restore
