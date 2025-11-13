@@ -18,6 +18,15 @@ jobs:
           dotnet-version: '9.0.x'
           include-prerelease: true
 
+      - name: Get the latest Front End run-id
+        run: gh api /repos/erikbenton/WorkoutFrontend/actions/runs | jq ".workflow_runs[0].id" > tmpFile
+             SET /p latestRunId= << tmpFile
+             DEL tmpFile
+             ECHO "LATEST_RUN_ID=%latestRunId%" >> %GITHUB_ENV%
+             
+      - name: Check run-id
+        run: ECHO %LATEST_RUN_ID%
+
       - name: Restore Dependencies
         run: dotnet restore
 
@@ -27,16 +36,6 @@ jobs:
           files: 'WorkoutBackend.Api/appsettings.json'
         env:
           ConnectionStrings.WorkoutDb: ${{ secrets.CONNECTION_STRING }}
-
-      - name: Get the latest Front End run-id
-        run: gh api /repos/erikbenton/WorkoutFrontend/actions/runs | jq ".workflow_runs[0].id" > tmpFile
-             SET /p latestRunId= < tmpFile
-             DEL tmpFile
-             ECHO "LATEST_RUN_ID=%latestRunId%" >> %GITHUB_ENV%
-
-             
-      - name: Check run-id
-        run: ECHO %LATEST_RUN_ID%
 
       - name: Download the Front End UI
         uses: actions/download-artifact@v5
