@@ -19,13 +19,11 @@ jobs:
           include-prerelease: true
 
       - name: Get the latest Front End run-id
-        run: gh api /repos/erikbenton/WorkoutFrontend/actions/runs | jq ".workflow_runs[0].id" > tmpFile
-             SET /p latestRunId= << tmpFile
-             DEL tmpFile
-             ECHO "LATEST_RUN_ID=%latestRunId%" >> %GITHUB_ENV%
+        run: $latestRunId = gh api /repos/erikbenton/WorkoutFrontend/actions/runs | jq ".workflow_runs[0].id"
+             echo "LATEST_RUN_ID=$latestRunId" | Out-File -FilePath $env:GITHUB_ENV -Append
              
       - name: Check run-id
-        run: ECHO %LATEST_RUN_ID%
+        run: echo "${{ env.LATEST_RUN_ID }}"
 
       - name: Restore Dependencies
         run: dotnet restore
