@@ -28,11 +28,20 @@ public class DatabaseController(IDatabaseRepository databaseRepository) : Contro
     }
 
     [HttpPost]
-    [Route("Populate")]
-    public async Task<ActionResult> PopulateDefaultsAsync()
+    [Route("PopulateSupport")]
+    public async Task<ActionResult> PopulateSupportAsync()
     {
-        await _databaseRepository.PopulateDefaultValues();
+        await _databaseRepository.PopulateSupportValues();
 
-        return Ok("Populated defaults");
+        return Ok("Populated support tables");
+    }
+
+    [HttpPost]
+    [Route("SeedData")]
+    public async Task<ActionResult> SeedDataAsync()
+    {
+        await _databaseRepository.SeedData();
+
+        return Ok("Seeded exercise and workouts data");
     }
 }

@@ -25,6 +25,7 @@ public class WorkoutService(
         {
             Id = workoutEntity.Id,
             Name = workoutEntity.Name,
+            Description = workoutEntity.Description,
         };
 
         // get the exercise groups for the workout
@@ -82,7 +83,7 @@ public class WorkoutService(
                 Id = set.Id,
                 MinReps = set.MinReps,
                 MaxReps = set.MaxReps,
-                Weight = set.Weight,
+                SetType = set.SetType,
                 Sort = set.Sort,
                 ExerciseGroupId = set.ExerciseGroupId,
             };
@@ -106,7 +107,7 @@ public class WorkoutService(
 
     public async Task<Workout> SaveWorkoutAsync(Workout workout)
     {
-        var workoutEntityToSave = new WorkoutEntity(workout.Id, workout.Name, workout.WorkoutProgramId);
+        var workoutEntityToSave = new WorkoutEntity(workout.Id, workout.Name, workout.Description, workout.WorkoutProgramId);
 
         // save the workout to ensure correct Id
         var savedDbWorkout = workout.Id == 0
@@ -235,7 +236,7 @@ public class WorkoutService(
             exerciseSet.Id,
             exerciseSet.MinReps,
             exerciseSet.MaxReps,
-            exerciseSet.Weight,
+            exerciseSet.SetType,
             exerciseSet.Sort,
             exerciseSet.ExerciseGroupId);
 
@@ -247,7 +248,7 @@ public class WorkoutService(
         exerciseSet.Id = dbSet.Id;
         exerciseSet.MinReps = dbSet.MinReps;
         exerciseSet.MaxReps = dbSet.MaxReps;
-        exerciseSet.Weight = dbSet.Weight;
+        exerciseSet.SetType = dbSet.SetType;
         exerciseSet.Sort = dbSet.Sort;
         exerciseSet.ExerciseGroupId = dbSet.ExerciseGroupId;
 

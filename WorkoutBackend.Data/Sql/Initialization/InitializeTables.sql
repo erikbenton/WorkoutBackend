@@ -6,6 +6,7 @@ CREATE TABLE Programs (
 
 CREATE TABLE Workouts (
 	Id INT PRIMARY KEY IDENTITY(1,1),
+	Description VARCHAR(1000),
 	Name VARCHAR(100) NOT NULL,
 	ProgramId INT,
 	FOREIGN KEY (ProgramId) REFERENCES Programs(Id)
@@ -25,7 +26,7 @@ CREATE TABLE Equipment (
 CREATE TABLE Exercises (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Name VARCHAR(100) NOT NULL,
-	Instructions VARCHAR(500),
+	Instructions VARCHAR(1000),
 	BodyPartId INT NOT NULL,
 	EquipmentId INT NOT NULL,
 	FOREIGN KEY (BodyPartId) REFERENCES BodyParts(Id),
@@ -49,7 +50,7 @@ CREATE TABLE ExerciseSets (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	MinReps INT,
 	MaxReps INT,
-	Weight FLOAT,
+	SetType VARCHAR(100),
 	Sort INT NOT NULL,
 	ExerciseGroupId INT NOT NULL,
 	FOREIGN KEY (ExerciseGroupId) REFERENCES ExerciseGroups(Id)

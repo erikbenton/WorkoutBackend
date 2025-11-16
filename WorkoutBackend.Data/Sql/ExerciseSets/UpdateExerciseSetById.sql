@@ -2,14 +2,14 @@ UPDATE ExerciseSets
 SET
 	MinReps = @MinReps,
 	MaxReps = @MaxReps,
-	Weight = @Weight,
+	SetType = @SetType,
 	Sort = @Sort,
 	ExerciseGroupId = @ExerciseGroupId
 OUTPUT
 	INSERTED.Id,
 	INSERTED.MinReps,
 	INSERTED.MaxReps,
-	INSERTED.Weight,
+	INSERTED.SetType,
 	INSERTED.Sort,
 	INSERTED.ExerciseGroupId
 WHERE Id = @Id

@@ -21,10 +21,17 @@ public class SqlDatabaseRepository(string connectionString) : IDatabaseRepositor
         await connection.ExecuteAsync(InitializationDataAccess.DropAllTables);
     }
 
-    public async Task PopulateDefaultValues()
+    public async Task PopulateSupportValues()
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateBodyParts);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateEquipment);
+    }
+
+    public async Task SeedData()
+    {
+        using var connection = new SqlConnection(_connectionString);
+        await connection.ExecuteAsync(InitializationDataAccess.PopulateExercises);
+        await connection.ExecuteAsync(InitializationDataAccess.PopulateTwoWorkouts);
     }
 }

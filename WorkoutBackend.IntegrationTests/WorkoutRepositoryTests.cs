@@ -37,12 +37,13 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanCreateNewDbWorkout()
     {
-        var workout = new WorkoutEntity(0, "Test Workout", null);
+        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", null);
 
         var savedWorkout = await workoutRepository.CreateWorkoutEntityAsync(workout);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));
+        Assert.That(savedWorkout.Description, Is.EqualTo(workout.Description));
         Assert.That(savedWorkout.ProgramId, Is.Null);
     }
 
@@ -64,12 +65,14 @@ public class WorkoutRepositoryTests
         var beforeUpdate = new WorkoutEntity(
             workoutToUpdate.Id,
             "Updated Name",
+            "Updated Description",
             workoutToUpdate.ProgramId);
 
         var afterUpdate = await workoutRepository.UpdateWorkoutEntityAsync(beforeUpdate);
 
         Assert.That(afterUpdate.Id, Is.EqualTo(beforeUpdate.Id));
         Assert.That(afterUpdate.Name, Is.EqualTo(beforeUpdate.Name));
+        Assert.That(afterUpdate.Description, Is.EqualTo(beforeUpdate.Description));
         Assert.That(afterUpdate.ProgramId, Is.EqualTo(beforeUpdate.ProgramId));
     }
 
@@ -187,30 +190,30 @@ public class WorkoutRepositoryTests
                         new ExerciseSet()
                         {
                             MinReps = 10,
-                            Weight = 45
+                            SetType = "warm up"
                         },
                         new ExerciseSet()
                         {
                             MinReps = 8,
-                            Weight = 90
+                            SetType = "warm up"
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            Weight = 135
+                            SetType = "work"
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            Weight = 135
+                            SetType = "work"
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            Weight = 135
+                            SetType = "work"
                         }
                     }
                 },
@@ -247,19 +250,19 @@ public class WorkoutRepositoryTests
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            Weight = 30
+                            SetType = "work"
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            Weight = 30
+                            SetType = "work"
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            Weight = 30
+                            SetType = "work"
                         }
                     }
                 }

@@ -1,7 +1,7 @@
 --Workouts
-INSERT INTO Workouts (Name, ProgramId)
-VALUES ('Push A', NULL),
-		('Pull A', NULL)
+INSERT INTO Workouts (Name, Description, ProgramId)
+VALUES ('Push A', 'Pushing day for the Push, Pull Leg workout', NULL),
+		('Pull A', 'Pulling day for the Push, Pull Leg workout', NULL)
 
 INSERT INTO ExerciseGroups (Note, RestTimeInSeconds, Sort, ExerciseId, WorkoutId)
 VALUES  --This is for first workout
@@ -25,47 +25,47 @@ VALUES  --This is for first workout
 			(SELECT Id FROM Exercises WHERE Name = 'Alternating Dumbbell Curls'),
 			(SELECT Id FROM Workouts WHERE Name = 'Pull A'))
 
-INSERT INTO ExerciseSets (MinReps, MaxReps, Weight, Sort, ExerciseGroupId)
+INSERT INTO ExerciseSets (MinReps, MaxReps, SetType, Sort, ExerciseGroupId)
 VALUES --first workout, first ExerciseGroup
-		(10, NULL, 45, 0,
+		(10, NULL, 'warm up', 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of first workout' )),
-		(8, NULL, 90, 1,
+		(8, NULL, 'warm up', 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of first workout' )),
-		(4, 6, 135, 2,
+		(4, 6, 'work', 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of first workout' )),
 		--first workout, second ExerciseGroup
-		(10, 12, 15, 0,
+		(10, 12, 'warm up', 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for second set of first workout' )),
-		(8, 10, 25, 1,
+		(8, 10, 'warm up', 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for second set of first workout' )),
-		(4, 6, 45, 2,
+		(4, 6, 'form-focused', 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for second set of first workout' )),
 		-- first workout, third ExerciseGroup
-		(10, 12, 15, 0,
+		(10, 12, 'warm up', 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of first workout' )),
-		(6, 8, 25, 1,
+		(6, 8, 'warm up', 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of first workout' )),
-		(4, 6, 45, 2,
+		(4, 6, 'form-focused', 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of first workout' )),
 
 		-- second workout, first ExerciseGroup
-		(6, 10, NULL, 0,
+		(6, 10, 'work', 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of second workout' )),
-		(6, 10, NULL, 1,
+		(6, 10, 'work', 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of second workout' )),
-		(6, 10, NULL, 2,
+		(6, 10, 'work', 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for first set of second workout' )),
 		--first workout, second ExerciseGroup
-		(8, 10, 20, 0,
+		(8, 10, 'warm up', 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for second set of second workout' )),
-		(6, 8, 30, 1,
+		(6, 8, 'warm up', 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for second set of second workout' )),
-		(4, 6, 70, 2,
+		(4, 6, 'work', 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for second set of second workout' )),
 		-- first workout, third ExerciseGroup
-		(6, 8, 25, 0,
+		(6, 8, 'work', 0,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of second workout' )),
-		(6, 8, 25, 1,
+		(6, 8, 'work', 1,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of second workout' )),
-		(6, 8, 25, 2,
+		(6, 8, 'work', 2,
 			(SELECT Id FROM ExerciseGroups WHERE Note = 'Note for third set of second workout' ))

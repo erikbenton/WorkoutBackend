@@ -1,3 +1,3 @@
-SELECT Id, MinReps, MaxReps, Weight, Sort, ExerciseGroupId
+SELECT Id, MinReps, MaxReps, SetType, Sort, ExerciseGroupId
 FROM ExerciseSets
 WHERE Id = @Id

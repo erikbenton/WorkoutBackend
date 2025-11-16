@@ -1,2 +1,2 @@
-SELECT Id, Name, ProgramId FROM Workouts
+SELECT Id, Name, Description, ProgramId FROM Workouts
 WHERE Id = @Id
