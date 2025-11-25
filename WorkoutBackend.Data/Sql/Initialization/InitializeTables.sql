@@ -64,7 +64,8 @@ CREATE TABLE CompletedWorkouts (
 	Note VARCHAR(255),
 	DurationInSeconds INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
-	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id) -- Do not DELETE if workout template is deleted
+	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id)
+		ON DELETE SET NULL -- Do not DELETE if workout template is deleted
 )
 
 CREATE TABLE CompletedExerciseGroups (
