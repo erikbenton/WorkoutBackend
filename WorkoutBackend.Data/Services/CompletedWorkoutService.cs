@@ -105,8 +105,8 @@ public class CompletedWorkoutService(
         var dbWorkoutToSave = new CompletedWorkoutEntity(
             completedWorkout.Id,
             completedWorkout.WorkoutId,
-            completedWorkout.Name,
-            completedWorkout.Note,
+            completedWorkout.Name.Trim(),
+            completedWorkout.Note?.Trim(),
             (int)(duration));
 
         // Create or Update depending on Id
@@ -117,7 +117,7 @@ public class CompletedWorkoutService(
         // update the completed workout
         savedCompletedWorkout.Id = savedWorkoutEntity.Id;
         savedCompletedWorkout.WorkoutId = savedWorkoutEntity.WorkoutId;
-        savedCompletedWorkout.Name = completedWorkout.Name;
+        savedCompletedWorkout.Name = savedWorkoutEntity.Name;
         savedCompletedWorkout.Note = savedWorkoutEntity.Note;
         savedCompletedWorkout.Duration = TimeSpan.FromSeconds(savedWorkoutEntity.DurationInSeconds);
         savedCompletedWorkout.CreatedAt = savedWorkoutEntity.CreatedAt;
@@ -167,8 +167,8 @@ public class CompletedWorkoutService(
 
             var dbGroup = new CompletedExerciseGroupEntity(
                 group.Id,
-                group.Note,
-                group.Comment,
+                group.Note?.Trim(),
+                group.Comment?.Trim(),
                 group.Sort,
                 group.Exercise.Id,
                 group.CompletedWorkoutId);

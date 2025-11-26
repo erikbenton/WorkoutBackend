@@ -107,7 +107,11 @@ public class WorkoutService(
 
     public async Task<Workout> SaveWorkoutAsync(Workout workout)
     {
-        var workoutEntityToSave = new WorkoutEntity(workout.Id, workout.Name, workout.Description, workout.WorkoutProgramId);
+        var workoutEntityToSave = new WorkoutEntity(
+            workout.Id,
+            workout.Name.Trim(),
+            workout.Description?.Trim(),
+            workout.WorkoutProgramId);
 
         // save the workout to ensure correct Id
         var savedDbWorkout = workout.Id == 0
@@ -117,6 +121,7 @@ public class WorkoutService(
         // update the fields with the saved entity
         workout.Id = savedDbWorkout.Id;
         workout.Name = savedDbWorkout.Name;
+        workout.Description = savedDbWorkout.Description;
         workout.WorkoutProgramId = savedDbWorkout.ProgramId;
 
         // Populate the ExerciseGroups with saved Id and assign Sort
@@ -150,7 +155,7 @@ public class WorkoutService(
     public async Task<ExerciseGroup> SaveExerciseGroupAsync(ExerciseGroup exerciseGroup)
     {
         var exerciseGroupEntity = new ExerciseGroupEntity(exerciseGroup.Id,
-            exerciseGroup.Note,
+            exerciseGroup.Note?.Trim(),
             (int?)exerciseGroup.RestTime?.TotalSeconds,
             exerciseGroup.Sort,
             exerciseGroup.Exercise.Id,
