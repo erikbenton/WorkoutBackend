@@ -79,6 +79,9 @@ public class CompletedWorkoutService(
                     Id = set.Id,
                     Reps = set.Reps,
                     Weight = set.Weight,
+                    MinReps = set.MinReps,
+                    MaxReps = set.MaxReps,
+                    SetType = set.SetType,
                     Sort = set.Sort,
                     CreatedAt = set.CreatedAt,
                     CompletedExerciseGroupId = group.Id
@@ -213,6 +216,9 @@ public class CompletedWorkoutService(
                     exerciseSet.Id,
                     exerciseSet.Reps,
                     exerciseSet.Weight,
+                    exerciseSet.MinReps,
+                    exerciseSet.MaxReps,
+                    exerciseSet.SetType,
                     exerciseSet.Sort,
                     group.Id);
 
