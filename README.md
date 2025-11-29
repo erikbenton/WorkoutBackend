@@ -41,6 +41,7 @@ The backend is then built and deployed to an Azure Web App and Azure SQL Databas
 * Dapper: Great lightweight tool for communicating with a SQL database that I really wanted to get more experience with after seeing its use in a few other projects.
 * SQL Server: Creating a database, its tables, all of the queries, etc. from scratch was a major goal. I wanted to write all of it myself (minus some help from Dapper for parameterization and object mapping).
   * Implementing the correct Foreign Key ON DELETE statement consistently can be tricky.
+* Project Management: Using a Jira kanban board to keep track of features to implement, to view progress over time, and to organize repo branches.
 
 
 # Acknowledgements
