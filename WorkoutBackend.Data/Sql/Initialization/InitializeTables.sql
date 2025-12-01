@@ -1,7 +1,7 @@
 CREATE TABLE Programs (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Name VARCHAR(100) NOT NULL,
-	Description VARCHAR(255)
+	Description VARCHAR(500)
 )
 
 CREATE TABLE Workouts (
@@ -35,7 +35,7 @@ CREATE TABLE Exercises (
 
 CREATE TABLE ExerciseGroups (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Note VARCHAR(255),
+	Note VARCHAR(500),
 	RestTimeInSeconds INT,
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
@@ -61,7 +61,8 @@ CREATE TABLE CompletedWorkouts (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	WorkoutId INT, -- NULLable because it might be an "empty workout"
 	Name VARCHAR(100) NOT NULL,
-	Note VARCHAR(255),
+	Description VARCHAR(1000),
+	Note VARCHAR(500),
 	DurationInSeconds INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id)
@@ -70,8 +71,9 @@ CREATE TABLE CompletedWorkouts (
 
 CREATE TABLE CompletedExerciseGroups (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Note VARCHAR(255),
-	Comment VARCHAR(255),
+	Note VARCHAR(500),
+	Comment VARCHAR(500),
+	RestTimeInSeconds INT,
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
 	CompletedWorkoutId INT NOT NULL,
