@@ -44,11 +44,16 @@ public class CompletedWorkoutService(
         // populate the exercise groups
         var unpopulatedGroups = dbExerciseGroups.Select(group =>
         {
+            TimeSpan? restTime = group.RestTimeInSeconds is not null
+                ? TimeSpan.FromSeconds((long)group.RestTimeInSeconds)
+                : null;
+
             return new CompletedExerciseGroup()
             {
                 Id = group.Id,
                 Note = group.Note,
                 Comment = group.Comment,
+                RestTime = restTime,
                 Sort = group.Sort,
                 Exercise = new Exercise()
                 {
@@ -109,6 +114,7 @@ public class CompletedWorkoutService(
             completedWorkout.Id,
             completedWorkout.WorkoutId,
             completedWorkout.Name.Trim(),
+            completedWorkout.Description?.Trim(),
             completedWorkout.Note?.Trim(),
             (int)(duration));
 
@@ -121,6 +127,7 @@ public class CompletedWorkoutService(
         savedCompletedWorkout.Id = savedWorkoutEntity.Id;
         savedCompletedWorkout.WorkoutId = savedWorkoutEntity.WorkoutId;
         savedCompletedWorkout.Name = savedWorkoutEntity.Name;
+        savedCompletedWorkout.Description = savedWorkoutEntity.Description;
         savedCompletedWorkout.Note = savedWorkoutEntity.Note;
         savedCompletedWorkout.Duration = TimeSpan.FromSeconds(savedWorkoutEntity.DurationInSeconds);
         savedCompletedWorkout.CreatedAt = savedWorkoutEntity.CreatedAt;
@@ -172,6 +179,7 @@ public class CompletedWorkoutService(
                 group.Id,
                 group.Note?.Trim(),
                 group.Comment?.Trim(),
+                (int?)group.RestTime?.TotalSeconds,
                 group.Sort,
                 group.Exercise.Id,
                 group.CompletedWorkoutId);
