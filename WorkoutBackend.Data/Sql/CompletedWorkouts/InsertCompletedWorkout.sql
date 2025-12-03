@@ -1,10 +1,11 @@
 INSERT INTO CompletedWorkouts
-	(WorkoutId, Name, Note, DurationInSeconds)
+	(WorkoutId, Name, Description, Note, DurationInSeconds)
 OUTPUT
 	INSERTED.Id,
 	INSERTED.WorkoutId,
 	INSERTED.Name,
+	INSERTED.Description,
 	INSERTED.Note,
 	INSERTED.DurationInSeconds,
 	INSERTED.CreatedAt
-VALUES (@WorkoutId, @Name, @Note, @DurationInSeconds);
+VALUES (@WorkoutId, @Name, @Description, @Note, @DurationInSeconds);

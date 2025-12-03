@@ -32,6 +32,7 @@ public class CompletedWorkoutService(
             Id = dbCompletedWorkout.Id,
             WorkoutId = dbCompletedWorkout.WorkoutId,
             Name = dbCompletedWorkout.Name,
+            Description = dbCompletedWorkout.Description,
             Note = dbCompletedWorkout.Note,
             Duration = TimeSpan.FromSeconds(dbCompletedWorkout.DurationInSeconds),
             CreatedAt = dbCompletedWorkout.CreatedAt,

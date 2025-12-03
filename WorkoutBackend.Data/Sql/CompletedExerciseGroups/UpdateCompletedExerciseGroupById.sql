@@ -2,6 +2,7 @@ UPDATE CompletedExerciseGroups
 SET
 	Note = @Note,
 	Comment = @Comment,
+	RestTimeInSeconds = @RestTimeInSeconds,
 	Sort = @Sort,
 	ExerciseId = @ExerciseId,
 	CompletedWorkoutId = @CompletedWorkoutId,
@@ -10,6 +11,7 @@ OUTPUT
 	INSERTED.Id,
 	INSERTED.Note,
 	INSERTED.Comment,
+	INSERTED.RestTimeInSeconds,
 	INSERTED.Sort,
 	INSERTED.ExerciseId,
 	INSERTED.CompletedWorkoutId,
