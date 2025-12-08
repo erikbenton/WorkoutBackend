@@ -260,6 +260,7 @@ public class CompletedWorkoutService(
                 Year = group.Year,
                 Month = group.Month,
                 Day = group.Day,
+                Comment = group.Comment,
                 ExerciseId = group.ExerciseId,
             };
         })

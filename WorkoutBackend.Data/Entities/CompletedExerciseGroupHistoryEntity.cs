@@ -5,6 +5,7 @@ public record CompletedExerciseGroupHistoryEntity(
     int Year,
     int Month,
     int Day,
+    string? Comment,
     int ExerciseId)
 {
 }
