@@ -29,6 +29,7 @@ builder.Services.AddScoped<ICompletedExerciseSetRepository, SqlCompletedExercise
 builder.Services.AddScoped<IDatabaseRepository, SqlDatabaseRepository>(repo => new SqlDatabaseRepository(workoutDbConnectionString));
 
 // Workout services
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<ICompletedWorkoutService, CompletedWorkoutService>();
 

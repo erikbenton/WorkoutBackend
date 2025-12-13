@@ -12,7 +12,7 @@ public interface IExerciseRepository
 
     public Task<Exercise> UpdateExerciseAsync(Exercise exercise);
 
-    public Task<Exercise> CreateExercise(Exercise exercise);
+    public Task<Exercise> CreateExerciseAsync(Exercise exercise);
 
     public Task DeleteExerciseByIdAsync(int id);
 

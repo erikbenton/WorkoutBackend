@@ -30,7 +30,7 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
         return exercises;
     }
 
-    public async Task<Exercise> CreateExercise(Exercise exercise)
+    public async Task<Exercise> CreateExerciseAsync(Exercise exercise)
     {
         using var connection = new SqlConnection(_connectionString);
         int exerciseId = await connection.QueryFirstAsync<int>(ExerciseDataAccess.InsertExerciseWithDetails, exercise);

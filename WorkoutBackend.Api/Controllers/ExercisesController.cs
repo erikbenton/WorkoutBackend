@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Services;
 
 namespace WorkoutBackend.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ExercisesController(IExerciseRepository exerciseRepository) : ControllerBase
+public class ExercisesController(IExerciseService exerciseService) : ControllerBase
 {
-    private readonly IExerciseRepository _exerciseRepository = exerciseRepository;
+    private readonly IExerciseService _exerciseService = exerciseService;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Exercise>>> GetAllExercisesAsync()
     {
-        var exercises = await _exerciseRepository.GetAllExercisesAsync();
+        var exercises = await _exerciseService.GetAllExercisesAsync();
 
         return Ok(exercises);
     }
@@ -21,7 +22,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [HttpGet("{id}")]
     public async Task<ActionResult<Exercise>> GetExerciseByIdAsync(int id)
     {
-        var exercise = await _exerciseRepository.GetExerciseByIdAsync(id);
+        var exercise = await _exerciseService.GetExerciseByIdAsync(id);
 
         return Ok(exercise);
     }
@@ -29,7 +30,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [HttpGet("Name/{name}")]
     public async Task<ActionResult<IEnumerable<Exercise>>> GetExerciseByNameAsync(string name)
     {
-        var exercise = await _exerciseRepository.GetExercisesByNameAsync(name);
+        var exercise = await _exerciseService.GetExercisesByNameAsync(name);
 
         return Ok(exercise);
     }
@@ -38,7 +39,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [Route("BodyParts")]
     public async Task<ActionResult<IEnumerable<BodyPartOption>>> GetAllBodyPartOptionsAsync()
     {
-        var bodyParts = await _exerciseRepository.GetAllBodyPartOptionsAsync();
+        var bodyParts = await _exerciseService.GetExerciseBodyPartOptionsAsync();
 
         return Ok(bodyParts);
     }
@@ -47,7 +48,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [Route("Equipment")]
     public async Task<ActionResult<IEnumerable<BodyPartOption>>> GetAllEquipmentOptionsAsync()
     {
-        var equipment = await _exerciseRepository.GetAllEquipmentOptionsAsync();
+        var equipment = await _exerciseService.GetExerciseEquipmentOptionsAsync();
 
         return Ok(equipment);
     }
@@ -55,7 +56,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [HttpPost]
     public async Task<ActionResult<Exercise>> CreateExerciseAsync(Exercise exercise)
     {
-        var createdExercise = await _exerciseRepository.CreateExercise(exercise);
+        var createdExercise = await _exerciseService.SaveExerciseAsync(exercise);
 
         return Ok(createdExercise);
     }
@@ -64,7 +65,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [Route("{id}")]
     public async Task<ActionResult<Exercise>> UpdateExerciseAsync(Exercise exercise)
     {
-        var updatedExercise = await _exerciseRepository.UpdateExerciseAsync(exercise);
+        var updatedExercise = await _exerciseService.SaveExerciseAsync(exercise);
 
         return Ok(updatedExercise);
     }
@@ -72,7 +73,7 @@ public class ExercisesController(IExerciseRepository exerciseRepository) : Contr
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteExerciseByIdAsync(int id)
     {
-        await _exerciseRepository.DeleteExerciseByIdAsync(id);
+        await _exerciseService.DeleteExerciseAsync(id);
 
         return NoContent();
     }

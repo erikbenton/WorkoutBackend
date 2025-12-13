@@ -53,7 +53,7 @@ public class ExerciseRepositoryTests
             Equipment = "barbell"
         };
 
-        var savedExercise = await _exerciseRepository.CreateExercise(exercise);
+        var savedExercise = await _exerciseRepository.CreateExerciseAsync(exercise);
 
         Assert.Multiple(() =>
         {
