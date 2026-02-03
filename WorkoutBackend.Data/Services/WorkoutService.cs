@@ -261,41 +261,30 @@ public class WorkoutService(
         await _workoutRepository.DeleteWorkoutEntityAsync(workoutId);
     }
 
-    public async Task<IEnumerable<WorkoutSummary>> RetrieveAllWorkoutSummariesAsync()
+    public async Task<IEnumerable<Workout>> RetrieveAllWorkoutsAsync()
     {
-        var workoutSummaryEntries = await _workoutRepository.GetAllWorkoutSummariesEntriesAsync();
+        var workoutEntities = await _workoutRepository.GetAllWorkoutEntitiesAsync();
 
-        // create a Dictionary in order to aggregate the entries
-        // so that the summaries have a collection of the exercise names
-        var workoutIdWithSummaries = new Dictionary<int, WorkoutSummary>();
-
-        foreach (var entry in workoutSummaryEntries)
+        var workouts = workoutEntities.Select(w => new Workout()
         {
-            // if the entry has already been added to the dictionary
-            if (workoutIdWithSummaries.ContainsKey(entry.WorkoutId))
-            {
-                if (entry.ExerciseName is not null)
-                {
-                    workoutIdWithSummaries[entry.WorkoutId].ExerciseNames.Add(entry.ExerciseName);
-                }
-            }
-            else
-            {
-                // initiate the new WorkoutSummary
-                workoutIdWithSummaries.Add(entry.WorkoutId, new WorkoutSummary()
-                {
-                    Id = entry.WorkoutId,
-                    Name = entry.WorkoutName,
-                    ExerciseNames = [entry.ExerciseName]
-                });
-            }
+            Id = w.Id,
+            Name = w.Name,
+            Description = w.Description,
+            WorkoutProgramId = w.ProgramId,
+            ExerciseGroups = []
+        }).ToList(); // needs to be a list for the loop
+
+        var exerciseGroups = await _exerciseGroupRepository.GetAllExerciseGroupsPopulatedAsync();
+
+        foreach (var workout in workouts)
+        {
+            IEnumerable<ExerciseGroup> groups = exerciseGroups != null
+                ? exerciseGroups.Where(g => g.WorkoutId == workout.Id).OrderBy(g => g.Sort)
+                : [];
+
+            workout.ExerciseGroups = groups;
         }
 
-        // Only need the "Values" from the dictionary
-        var workoutSummaries = workoutIdWithSummaries
-            .Select(kvp => kvp.Value)
-            .OrderBy(summary => summary.Id);
-
-        return workoutSummaries;
+        return workouts;
     }
 }

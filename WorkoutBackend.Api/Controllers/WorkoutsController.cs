@@ -12,9 +12,9 @@ public class WorkoutsController(
     private readonly IWorkoutService _workoutService = workoutService;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WorkoutSummary>>> GetAllWorkoutsListAsync()
+    public async Task<ActionResult<IEnumerable<Workout>>> GetAllWorkoutsListAsync()
     {
-        var workoutSummaries = await _workoutService.RetrieveAllWorkoutSummariesAsync();
+        var workoutSummaries = await _workoutService.RetrieveAllWorkoutsAsync();
 
         return Ok(workoutSummaries);
     }
