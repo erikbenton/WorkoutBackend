@@ -1,4 +1,5 @@
-﻿using WorkoutBackend.Data.Entities;
+﻿using WorkoutBackend.Core.Models;
+using WorkoutBackend.Data.Entities;
 
 namespace WorkoutBackend.Data.Repositories.Workouts;
 
@@ -9,4 +10,6 @@ public interface IExerciseGroupRepository
     public Task<ExerciseGroupEntity> CreateExerciseGroupEntityAsync(ExerciseGroupEntity exerciseGroup);
     public Task<ExerciseGroupEntity> UpdateExerciseGroupEntityAsync(ExerciseGroupEntity exerciseGroup);
     public Task DeleteExerciseGroupEntityByIdAsync(int id);
+
+    public Task<IEnumerable<ExerciseGroup>> GetAllExerciseGroupsPopulatedAsync();
 }

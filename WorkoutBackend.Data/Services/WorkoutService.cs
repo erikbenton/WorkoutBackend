@@ -39,8 +39,7 @@ public class WorkoutService(
         {
             exerciseGroups[i].ExerciseSets = await RetrieveAllExerciseSetsForExerciseGroupIdAsync(exerciseGroups[i].Id);
 
-            exerciseGroups[i].Exercise = await _exerciseRepository
-                .GetExerciseByIdAsync(exerciseGroups[i].Exercise.Id);
+            exerciseGroups[i].ExerciseId = exerciseGroups[i].ExerciseId;
         }
 
         workout.ExerciseGroups = exerciseGroups;
@@ -63,10 +62,7 @@ public class WorkoutService(
                 Note = group.Note,
                 RestTime = restTime,
                 Sort = group.Sort,
-                Exercise = new Exercise()
-                {
-                    Id = group.ExerciseId
-                },
+                ExerciseId = group.ExerciseId,
                 WorkoutId = group.WorkoutId,
             };
         });
@@ -158,7 +154,7 @@ public class WorkoutService(
             exerciseGroup.Note?.Trim(),
             (int?)exerciseGroup.RestTime?.TotalSeconds,
             exerciseGroup.Sort,
-            exerciseGroup.Exercise.Id,
+            exerciseGroup.ExerciseId,
             exerciseGroup.WorkoutId);
 
         var savedExerciseGroup = exerciseGroup.Id == 0

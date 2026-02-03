@@ -25,6 +25,7 @@
     <None Remove="Sql\CompletedWorkouts\InsertCompletedWorkout.sql" />
     <None Remove="Sql\CompletedWorkouts\UpdateCompletedWorkoutById.sql" />
     <None Remove="Sql\ExerciseGroups\DeleteExerciseGroupById.sql" />
+    <None Remove="Sql\ExerciseGroups\GetAllExerciseGroups.sql" />
     <None Remove="Sql\ExerciseGroups\GetExerciseGroupById.sql" />
     <None Remove="Sql\ExerciseGroups\GetExerciseGroupsByWorkoutId.sql" />
     <None Remove="Sql\ExerciseGroups\GetExerciseGroupsByWorkoutName.sql" />
@@ -61,6 +62,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\CompletedExerciseGroups\GetCompletedGroupHistoryByExerciseId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\ExerciseGroups\GetAllExerciseGroups.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Exercises\DeleteExerciseMusclesByExerciseId.sql">

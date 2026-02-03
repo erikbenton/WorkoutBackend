@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
 using WorkoutBackend.Data.Entities;
 
@@ -40,5 +41,52 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
         using var connection = new SqlConnection(_connectionString);
         var updatedGroup = await connection.QueryFirstAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.UpdateExerciseGroupById, exerciseGroup);
         return updatedGroup;
+    }
+
+    public async Task<IEnumerable<ExerciseGroup>> GetAllExerciseGroupsPopulatedAsync()
+    {
+        using var connection = new SqlConnection(_connectionString);
+
+        List<ExerciseGroup> exerciseGroups = new();
+
+        var results = await connection.QueryMultipleAsync(ExerciseGroupDataAccess.GetAllExerciseGroups);
+
+        var groups = results.Read<ExerciseGroupEntity>();
+        var sets = results.Read<ExerciseSetEntity>();
+
+        foreach (var group in groups)
+        {
+            TimeSpan? restTime = group.RestTimeInSeconds is not null
+                ? TimeSpan.FromSeconds((long)group.RestTimeInSeconds)
+                : null;
+
+            var exerciseGroup = new ExerciseGroup()
+            {
+                Id = group.Id,
+                Sort = group.Sort,
+                ExerciseId = group.ExerciseId,
+                Note = group.Note,
+                RestTime = restTime,
+                WorkoutId = group.WorkoutId,
+            };
+
+            var exerciseSets = sets
+                .Where(s => s.ExerciseGroupId == group.Id)
+                .Select(s => new ExerciseSet()
+                {
+                    Id = s.Id,
+                    MinReps = s.MinReps,
+                    MaxReps = s.MaxReps,
+                    SetType = s.SetType,
+                    Sort = s.Sort,
+                    ExerciseGroupId = group.Id
+                })
+                .OrderBy(s => s.Sort);
+
+            exerciseGroup.ExerciseSets = exerciseSets;
+            exerciseGroups.Add(exerciseGroup);
+        }
+
+        return exerciseGroups;
     }
 }
