@@ -17,9 +17,9 @@ public class ExerciseService(IExerciseRepository exerciseRepository) : IExercise
         return await _exerciseRepository.GetAllExercisesAsync();
     }
 
-    public async Task<IEnumerable<BodyPartOption>> GetExerciseBodyPartOptionsAsync()
+    public async Task<IEnumerable<MuscleOption>> GetExerciseMuscleOptionsAsync()
     {
-        return await _exerciseRepository.GetAllBodyPartOptionsAsync();
+        return await _exerciseRepository.GetAllMuscleOptionsAsync();
     }
 
     public async Task<Exercise> GetExerciseByIdAsync(int id)

@@ -34,9 +34,13 @@
     <None Remove="Sql\ExerciseSets\GetExerciseSetById.sql" />
     <None Remove="Sql\ExerciseSets\UpdateExerciseSetById.sql" />
     <None Remove="Sql\Exercises\DeleteExerciseById.sql" />
+    <None Remove="Sql\Exercises\DeleteExerciseMusclesByExerciseId.sql" />
+    <None Remove="Sql\Exercises\GetAllMuscleOptions.sql" />
     <None Remove="Sql\Exercises\GetExerciseById.sql" />
+    <None Remove="Sql\Exercises\InsertExerciseMuscles.sql" />
     <None Remove="Sql\Exercises\UpdateExerciseWithDetails.sql" />
     <None Remove="Sql\Initialization\PopulateCompletedWorkoutForPushA.sql" />
+    <None Remove="Sql\Initialization\PopulateMuscles.sql" />
     <None Remove="Sql\Workouts\DeleteWorkoutById.sql" />
     <None Remove="Sql\Workouts\GetAllWorkouts.sql" />
     <None Remove="Sql\Workouts\GetWorkoutById.sql" />
@@ -57,6 +61,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\CompletedExerciseGroups\GetCompletedGroupHistoryByExerciseId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\DeleteExerciseMusclesByExerciseId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\GetAllMuscleOptions.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Exercises\InsertExerciseMuscles.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateMuscles.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Workouts\GetAllWorkoutSummaryEntries.sql">
@@ -137,9 +153,6 @@
     <EmbeddedResource Include="Sql\Exercises\DeleteExerciseById.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sql\Exercises\GetAllExerciseBodyPartOptions.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Sql\Exercises\GetAllExerciseEquipmentOptions.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -162,9 +175,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Initialization\InitializeTables.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Sql\Initialization\PopulateBodyParts.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Initialization\PopulateCompletedWorkoutForPushA.sql">

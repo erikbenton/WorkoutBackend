@@ -16,7 +16,7 @@ public interface IExerciseRepository
 
     public Task DeleteExerciseByIdAsync(int id);
 
-    public Task<IEnumerable<BodyPartOption>> GetAllBodyPartOptionsAsync();
+    public Task<IEnumerable<MuscleOption>> GetAllMuscleOptionsAsync();
 
     public Task<IEnumerable<EquipmentOption>> GetAllEquipmentOptionsAsync();
 }

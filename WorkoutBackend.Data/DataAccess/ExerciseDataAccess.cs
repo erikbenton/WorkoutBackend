@@ -7,8 +7,10 @@ public static class ExerciseDataAccess
     public static string GetExercisesByName => DataAccessHelper.GetSqlString(sqlFolder, "GetExercisesByName.sql");
     public static string GetExerciseById => DataAccessHelper.GetSqlString(sqlFolder, "GetExerciseById.sql");
     public static string InsertExerciseWithDetails => DataAccessHelper.GetSqlString(sqlFolder, "InsertExerciseWithDetails.sql");
+    public static string InsertExerciseMuscles => DataAccessHelper.GetSqlString(sqlFolder, "InsertExerciseMuscles.sql");
     public static string UpdateExerciseWithDetails => DataAccessHelper.GetSqlString(sqlFolder, "UpdateExerciseWithDetails.sql");
     public static string DeleteExerciseById => DataAccessHelper.GetSqlString(sqlFolder, "DeleteExerciseById.sql");
-    public static string GetAllExerciseBodyPartOptions => DataAccessHelper.GetSqlString(sqlFolder, "GetAllExerciseBodyPartOptions.sql");
+    public static string DeleteExerciseMusclesByExerciseId => DataAccessHelper.GetSqlString(sqlFolder, "DeleteExerciseMusclesByExerciseId.sql");
+    public static string GetAllExerciseMuslceOptions => DataAccessHelper.GetSqlString(sqlFolder, "GetAllMuscleOptions.sql");
     public static string GetAllExerciseEquipmentOptions => DataAccessHelper.GetSqlString(sqlFolder, "GetAllExerciseEquipmentOptions.sql");
 }

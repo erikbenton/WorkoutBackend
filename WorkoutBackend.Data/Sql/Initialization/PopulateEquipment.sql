@@ -1,4 +1,4 @@
-INSERT INTO Equipment (Equipment)
+INSERT INTO Equipment (Name)
 VALUES   ('assisted'),
 		 ('band'),
 		 ('barbell'),

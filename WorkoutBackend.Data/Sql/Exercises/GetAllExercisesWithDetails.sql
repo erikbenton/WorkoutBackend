@@ -1,12 +1,19 @@
 SELECT
 	ex.Id,
 	ex.Name,
+	ex.Category,
 	ex.Instructions,
-	bp.BodyPart,
-	eq.Equipment
+	eq.Name AS Equipment
 FROM Exercises ex
-JOIN BodyParts bp
-ON bp.Id = ex.BodyPartId
 JOIN Equipment eq
-ON eq.Id = ex.EquipmentId
-ORDER BY ex.Name
+ON eq.Id = ex.EquipmentId;
+
+SELECT
+	exMus.Id,
+	exMus.ExerciseId,
+	exMus.MuscleId,
+	exMus.Weight,
+	mus.Name AS MuscleName
+FROM ExercisesMuscles exMus
+JOIN Muscles mus
+ON mus.Id = exMus.MuscleId;

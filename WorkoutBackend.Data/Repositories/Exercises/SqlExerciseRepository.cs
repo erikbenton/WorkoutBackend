@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
+using WorkoutBackend.Data.Entities;
 
 namespace WorkoutBackend.Data.Repositories.Exercises;
 
@@ -12,14 +13,35 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
     public async Task<IEnumerable<Exercise>> GetAllExercisesAsync()
     {
         using var connection = new SqlConnection(_connectionString);
-        var exercises = await connection.QueryAsync<Exercise>(ExerciseDataAccess.GetAllExercises);
-        return exercises;
+
+        var results = await connection.QueryMultipleAsync(ExerciseDataAccess.GetAllExercises);
+
+        var exercises = results.Read<Exercise>();
+        var exercisesMuscles = results.Read<ExerciseMuscleEntity>();
+
+        foreach (var exercise in exercises)
+        {
+            var muscleData = exercisesMuscles.Where(exMus => exMus.ExerciseId == exercise.Id);
+            exercise.Muscles = muscleData.Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight });
+        }
+
+        return exercises.AsEnumerable();
     }
 
     public async Task<Exercise> GetExerciseByIdAsync(int id)
     {
         using var connection = new SqlConnection(_connectionString);
-        var exercise = await connection.QueryFirstAsync<Exercise>(ExerciseDataAccess.GetExerciseById, new { id });
+        
+        var results = await connection.QueryMultipleAsync(ExerciseDataAccess.GetExerciseById, new { id });
+        
+        var exercise = results
+            .Read<Exercise>()
+            .First();
+        
+        exercise.Muscles = results
+            .Read<ExerciseMuscleEntity>()
+            .Select(entity => new MuscleData() { Name = entity.MuscleName, Weight = entity.Weight });
+        
         return exercise;
     }
 
@@ -34,6 +56,10 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
     {
         using var connection = new SqlConnection(_connectionString);
         int exerciseId = await connection.QueryFirstAsync<int>(ExerciseDataAccess.InsertExerciseWithDetails, exercise);
+        var exerciseMuscleEntities = exercise.Muscles?
+            .Select(mus => new ExerciseMuscleEntity(null, exerciseId, null, mus.Weight, mus.Name)) ?? [];
+
+        await connection.ExecuteAsync(ExerciseDataAccess.InsertExerciseMuscles, exerciseMuscleEntities);
         return await GetExerciseByIdAsync(exerciseId);
     }
 
@@ -41,6 +67,14 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.ExecuteAsync(ExerciseDataAccess.UpdateExerciseWithDetails, exercise);
+
+        await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseMusclesByExerciseId, new { ExerciseId = exercise.Id });
+
+        var exerciseMuscleEntities = exercise.Muscles?
+            .Select(mus => new ExerciseMuscleEntity(null, exercise.Id, null, mus.Weight, mus.Name)) ?? [];
+
+        await connection.ExecuteAsync(ExerciseDataAccess.InsertExerciseMuscles, exerciseMuscleEntities);
+
         return await GetExerciseByIdAsync(exercise.Id);
     }
 
@@ -48,13 +82,14 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseById, new { id });
+        await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseMusclesByExerciseId, new { ExerciseId = id });
     }
 
-    public async Task<IEnumerable<BodyPartOption>> GetAllBodyPartOptionsAsync()
+    public async Task<IEnumerable<MuscleOption>> GetAllMuscleOptionsAsync()
     {
         using var connection = new SqlConnection(_connectionString);
-        var bodyPartOptions = await connection.QueryAsync<BodyPartOption>(ExerciseDataAccess.GetAllExerciseBodyPartOptions);
-        return bodyPartOptions;
+        var muscleOptions = await connection.QueryAsync<MuscleOption>(ExerciseDataAccess.GetAllExerciseMuslceOptions);
+        return muscleOptions;
     }
 
     public async Task<IEnumerable<EquipmentOption>> GetAllEquipmentOptionsAsync()

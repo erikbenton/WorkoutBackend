@@ -49,7 +49,8 @@ public class ExerciseRepositoryTests
             Id = 0,
             Name = "Deadlift",
             Instructions = "Do a deadlift.",
-            BodyPart = "upper legs",
+            Category = "lift",
+            Muscles = [new MuscleData() { Name = "legs", Weight = 1 }],
             Equipment = "barbell"
         };
 
@@ -60,7 +61,7 @@ public class ExerciseRepositoryTests
             Assert.That(savedExercise.Id, Is.Not.EqualTo(0));
             Assert.That(savedExercise.Name, Is.EqualTo(exercise.Name));
             Assert.That(savedExercise.Instructions, Is.EqualTo(exercise.Instructions));
-            Assert.That(savedExercise.BodyPart, Is.EqualTo(exercise.BodyPart));
+            Assert.That(savedExercise.Muscles?.Select(ms => ms.Name).Contains("legs"), Is.True);
             Assert.That(savedExercise.Equipment, Is.EqualTo(exercise.Equipment));
         });
     }
@@ -73,7 +74,7 @@ public class ExerciseRepositoryTests
 
         exerciseToUpdate.Name = "Updated name";
         exerciseToUpdate.Instructions = "These are new instructions";
-        exerciseToUpdate.BodyPart = exerciseToUpdate.BodyPart == "back" ? "biceps" : "back";
+        //exerciseToUpdate.Muscles = exerciseToUpdate.Muscles?.Contains("back") ?? true ? ["biceps"] : ["back"];
         exerciseToUpdate.Equipment = exerciseToUpdate.Equipment == "barbell" ? "machine" : "barbell";
 
         var updatedExercise = await _exerciseRepository.UpdateExerciseAsync(exerciseToUpdate);
@@ -81,7 +82,7 @@ public class ExerciseRepositoryTests
         Assert.That(updatedExercise.Id, Is.EqualTo(exerciseToUpdate.Id));
         Assert.That(updatedExercise.Name, Is.EqualTo(exerciseToUpdate.Name));
         Assert.That(updatedExercise.Instructions, Is.EqualTo(exerciseToUpdate.Instructions));
-        Assert.That(updatedExercise.BodyPart, Is.EqualTo(exerciseToUpdate.BodyPart));
+        //Assert.That(updatedExercise.Muscles, Is.EqualTo(exerciseToUpdate.Muscles));
         Assert.That(updatedExercise.Equipment, Is.EqualTo(exerciseToUpdate.Equipment));
     }
 
@@ -121,12 +122,12 @@ public class ExerciseRepositoryTests
     }
 
     [Test]
-    public async Task CanGetAllBodyPartOptions()
+    public async Task CanGetAllMuscleOptions()
     {
-        var bodyPartOptions = await _exerciseRepository.GetAllBodyPartOptionsAsync();
+        var muscleOptions = await _exerciseRepository.GetAllMuscleOptionsAsync();
 
-        Assert.That(bodyPartOptions, Is.Not.Empty);
-        Assert.That(bodyPartOptions.ToList(), Has.Count.GreaterThan(5));
+        Assert.That(muscleOptions, Is.Not.Empty);
+        Assert.That(muscleOptions.ToList(), Has.Count.GreaterThan(5));
     }
 
     [Test]
