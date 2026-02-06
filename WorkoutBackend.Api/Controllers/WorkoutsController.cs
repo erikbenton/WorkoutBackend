@@ -20,6 +20,15 @@ public class WorkoutsController(
     }
 
     [HttpGet]
+    [Route("SetTagOptions")]
+    public async Task<ActionResult<IEnumerable<SetTagOption>>> GetSetTagOptions()
+    {
+        var setTagOptions = await _workoutService.GetSetTagOptionsAsync();
+
+        return Ok(setTagOptions);
+    }
+
+    [HttpGet]
     [Route("{id}")]
     public async Task<ActionResult<Workout>> GetPopulatedWorkoutById(int id)
     {

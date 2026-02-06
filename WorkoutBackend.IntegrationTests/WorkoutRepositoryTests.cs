@@ -182,30 +182,30 @@ public class WorkoutRepositoryTests
                         new ExerciseSet()
                         {
                             MinReps = 10,
-                            SetType = "warm up"
+                            SetTagId = 1,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 8,
-                            SetType = "warm up"
+                            SetTagId = 1,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            SetType = "work"
+                           SetTagId = 2,
                         }
                     }
                 },
@@ -242,19 +242,19 @@ public class WorkoutRepositoryTests
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            SetType = "work"
+                           SetTagId = 2,
                         }
                     }
                 }

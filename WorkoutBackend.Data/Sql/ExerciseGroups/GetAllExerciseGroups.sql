@@ -11,7 +11,7 @@ SELECT
 	Id,
 	MinReps,
 	MaxReps,
-	SetType,
+	SetTagId,
 	Sort,
 	ExerciseGroupId
-FROM ExerciseSets
+FROM ExerciseSets exSets;

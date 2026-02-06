@@ -42,7 +42,9 @@
     <None Remove="Sql\Exercises\UpdateExerciseWithDetails.sql" />
     <None Remove="Sql\Initialization\PopulateCompletedWorkoutForPushA.sql" />
     <None Remove="Sql\Initialization\PopulateMuscles.sql" />
+    <None Remove="Sql\Initialization\PopulateSetTags.sql" />
     <None Remove="Sql\Workouts\DeleteWorkoutById.sql" />
+    <None Remove="Sql\Workouts\GetAllSetTagOptions.sql" />
     <None Remove="Sql\Workouts\GetAllWorkouts.sql" />
     <None Remove="Sql\Workouts\GetWorkoutById.sql" />
     <None Remove="Sql\Workouts\InsertWorkoutNoProgramId.sql" />
@@ -77,6 +79,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Initialization\PopulateMuscles.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Initialization\PopulateSetTags.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Workouts\GetAllSetTagOptions.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Workouts\GetAllWorkoutSummaryEntries.sql">

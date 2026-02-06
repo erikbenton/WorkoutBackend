@@ -24,5 +24,6 @@ public static class DatabaseHelper
         await connection.ExecuteAsync(InitializationDataAccess.InitializeTables);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateMuscles);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateEquipment);
+        await connection.ExecuteAsync(InitializationDataAccess.PopulateSetTags);
     }
 }

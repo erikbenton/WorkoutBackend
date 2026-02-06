@@ -77,7 +77,7 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
                     Id = s.Id,
                     MinReps = s.MinReps,
                     MaxReps = s.MaxReps,
-                    SetType = s.SetType,
+                    SetTagId = s.SetTagId,
                     Sort = s.Sort,
                     ExerciseGroupId = group.Id
                 })

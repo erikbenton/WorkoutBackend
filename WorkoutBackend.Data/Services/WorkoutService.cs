@@ -79,7 +79,7 @@ public class WorkoutService(
                 Id = set.Id,
                 MinReps = set.MinReps,
                 MaxReps = set.MaxReps,
-                SetType = set.SetType,
+                SetTagId = set.SetTagId,
                 Sort = set.Sort,
                 ExerciseGroupId = set.ExerciseGroupId,
             };
@@ -237,7 +237,7 @@ public class WorkoutService(
             exerciseSet.Id,
             exerciseSet.MinReps,
             exerciseSet.MaxReps,
-            exerciseSet.SetType,
+            exerciseSet.SetTagId,
             exerciseSet.Sort,
             exerciseSet.ExerciseGroupId);
 
@@ -249,7 +249,7 @@ public class WorkoutService(
         exerciseSet.Id = dbSet.Id;
         exerciseSet.MinReps = dbSet.MinReps;
         exerciseSet.MaxReps = dbSet.MaxReps;
-        exerciseSet.SetType = dbSet.SetType;
+        exerciseSet.SetTagId = dbSet.SetTagId;
         exerciseSet.Sort = dbSet.Sort;
         exerciseSet.ExerciseGroupId = dbSet.ExerciseGroupId;
 
@@ -286,5 +286,11 @@ public class WorkoutService(
         }
 
         return workouts;
+    }
+
+    public async Task<IEnumerable<SetTagOption>> GetSetTagOptionsAsync()
+    {
+        var setTagOptions = await _workoutRepository.GetAllSetTagOptionsAsync();
+        return setTagOptions;
     }
 }

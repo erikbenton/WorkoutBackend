@@ -1,9 +1,9 @@
-INSERT INTO ExerciseSets (MinReps, MaxReps, SetType, Sort, ExerciseGroupId)
+INSERT INTO ExerciseSets (MinReps, MaxReps, SetTagId, Sort, ExerciseGroupId)
 OUTPUT
 	INSERTED.Id,
 	INSERTED.MinReps,
 	INSERTED.MaxReps,
-	INSERTED.SetType,
+	INSERTED.SetTagId,
 	INSERTED.Sort,
 	INSERTED.ExerciseGroupId
-VALUES (@MinReps, @MaxReps, @SetType, @Sort, @ExerciseGroupId)
+VALUES (@MinReps, @MaxReps, @SetTagId, @Sort, @ExerciseGroupId)

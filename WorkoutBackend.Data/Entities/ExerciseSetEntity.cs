@@ -3,7 +3,7 @@
 public record ExerciseSetEntity(int Id,
     int? MinReps,
     int? MaxReps,
-    string? SetType,
+    int? SetTagId,
     int Sort,
     int ExerciseGroupId)
 { }

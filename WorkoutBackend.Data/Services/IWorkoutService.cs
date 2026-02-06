@@ -5,6 +5,7 @@ namespace WorkoutBackend.Data.Services;
 public interface IWorkoutService
 {
     public Task<Workout> RetrieveFullyPopulatedWorkoutAsync(int workoutId);
+    public Task<IEnumerable<SetTagOption>> GetSetTagOptionsAsync();
     public Task<IEnumerable<Workout>> RetrieveAllWorkoutsAsync();
     public Task<IEnumerable<Workout>> RetrieveAllWorkoutsList();
     public Task<IEnumerable<ExerciseGroup>> RetrieveAllExerciseGroupsForWorkoutAsync(int workoutId);
