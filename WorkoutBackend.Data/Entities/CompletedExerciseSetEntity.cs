@@ -6,7 +6,7 @@ public record CompletedExerciseSetEntity(
     double? Weight,
     int? MinReps,
     int? MaxReps,
-    string? SetType,
+    int? SetTagId,
     int Sort,
     int CompletedExerciseGroupId,
     DateTime? CreatedAt = null)

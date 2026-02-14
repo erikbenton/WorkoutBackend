@@ -107,10 +107,11 @@ CREATE TABLE CompletedExerciseSets (
 	Weight FLOAT,
 	MinReps INT,
 	MaxReps INT,
-	SetType VARCHAR(100),
+	SetTagId INT,
 	Sort INT NOT NULL,
 	CompletedExerciseGroupId INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 	FOREIGN KEY (CompletedExerciseGroupId) REFERENCES CompletedExerciseGroups(Id)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id)
 )

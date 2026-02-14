@@ -7,7 +7,7 @@ public class CompletedExerciseSet
     public double? Weight { get; set; }
     public int? MinReps { get; set; }
     public int? MaxReps { get; set; }
-    public string? SetType { get; set; }
+    public int? SetTagId { get; set; }
     public int Sort { get; set; }
     public DateTime? CreatedAt { get; set; }
     public int CompletedExerciseGroupId { get; set; }

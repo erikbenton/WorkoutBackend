@@ -4,7 +4,7 @@ SET
 	Weight = @Weight,
 	MinReps = @MinReps,
 	MaxReps = @MaxReps,
-	SetType = @SetType,
+	SetTagId = @SetTagId,
 	Sort = @Sort,
 	CompletedExerciseGroupId = @CompletedExerciseGroupId,
 	CreatedAt = @CreatedAt
@@ -14,7 +14,7 @@ OUTPUT
 	INSERTED.Weight,
 	INSERTED.MinReps,
 	INSERTED.MaxReps,
-	INSERTED.SetType,
+	INSERTED.SetTagId,
 	INSERTED.Sort,
 	INSERTED.CompletedExerciseGroupId,
 	INSERTED.CreatedAt
