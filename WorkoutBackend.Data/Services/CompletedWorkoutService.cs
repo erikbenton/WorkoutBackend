@@ -2,6 +2,7 @@
 using WorkoutBackend.Data.Entities;
 using WorkoutBackend.Data.Repositories.CompletedWorkouts;
 using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.Workouts;
 
 namespace WorkoutBackend.Data.Services;
 
@@ -281,5 +282,35 @@ public class CompletedWorkoutService(
         }
 
         return groupHistories;
+    }
+
+    public async Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync()
+    {
+        var workoutEntities = await _completedWorkoutRepository.GetAllCompletedWorkoutEntitiesAsync();
+
+        var workouts = workoutEntities.Select(dbCompletedWorkout => new CompletedWorkout()
+        {
+            Id = dbCompletedWorkout.Id,
+            WorkoutId = dbCompletedWorkout.WorkoutId,
+            Name = dbCompletedWorkout.Name,
+            Description = dbCompletedWorkout.Description,
+            Note = dbCompletedWorkout.Note,
+            Duration = TimeSpan.FromSeconds(dbCompletedWorkout.DurationInSeconds),
+            CreatedAt = dbCompletedWorkout.CreatedAt,
+            CompletedExerciseGroups = []
+        }).ToList(); // needs to be a list for the loop
+
+        var exerciseGroups = await _completedExerciseGroupRepository.GetAllCompletedGroupsPopulatedAsync();
+
+        foreach (var workout in workouts)
+        {
+            IEnumerable<CompletedExerciseGroup> groups = exerciseGroups != null
+                ? exerciseGroups.Where(g => g.CompletedWorkoutId == workout.Id).OrderBy(g => g.Sort)
+                : [];
+
+            workout.CompletedExerciseGroups = groups;
+        }
+
+        return workouts;
     }
 }

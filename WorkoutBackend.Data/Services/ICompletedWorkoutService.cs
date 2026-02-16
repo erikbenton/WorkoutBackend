@@ -6,6 +6,8 @@ public interface ICompletedWorkoutService
 {
     public Task<IEnumerable<CompletedWorkoutSummary>> GetAllCompletedWorkoutSummariesAsync();
 
+    public Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync();
+
     public Task<CompletedWorkout> GetCompletedWorkoutByIdAsync(int id);
 
     public Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId);

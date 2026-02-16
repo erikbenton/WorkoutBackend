@@ -1,4 +1,5 @@
-﻿using WorkoutBackend.Data.Entities;
+﻿using WorkoutBackend.Core.Models;
+using WorkoutBackend.Data.Entities;
 
 namespace WorkoutBackend.Data.Repositories.CompletedWorkouts;
 
@@ -10,4 +11,5 @@ public interface ICompletedExerciseGroupRepository
     public Task<CompletedExerciseGroupEntity> CreateCompletedExerciseGroupEntityAsync(CompletedExerciseGroupEntity exerciseGroup);
     public Task<CompletedExerciseGroupEntity> UpdateCompletedExerciseGroupEntityAsync(CompletedExerciseGroupEntity exerciseGroup);
     public Task DeleteCompletedExerciseGroupEntityByIdAsync(int id);
+    public Task<IEnumerable<CompletedExerciseGroup>> GetAllCompletedGroupsPopulatedAsync();
 }

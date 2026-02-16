@@ -30,7 +30,7 @@ public class SqlCompletedWorkoutRepository(string connectionString) : ICompleted
         var workoutEntities = await connection
             .QueryAsync<CompletedWorkoutEntity>(
                 CompletedWorkoutDataAccess.GetAllCompletedWorkouts);
-        throw new NotImplementedException();
+        return workoutEntities;
     }
 
     public async Task<CompletedWorkoutEntity> GetCompletedWorkoutEntityByIdAsync(int id)
