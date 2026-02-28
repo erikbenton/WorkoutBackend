@@ -274,9 +274,12 @@ public class CompletedWorkoutService(
                     Id = set.Id,
                     Reps = set.Reps,
                     Weight = set.Weight,
+                    MinReps = set.MinReps,
+                    MaxReps = set.MaxReps,
+                    SetTagId = set.SetTagId,
                     Sort = set.Sort,
                     CreatedAt = set.CreatedAt,
-                    CompletedExerciseGroupId = set.CompletedExerciseGroupId
+                    CompletedExerciseGroupId = set.CompletedExerciseGroupId,
                 };
             });
         }
