@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WorkoutBackend.Identity;
 
-public class WorkItOutDbContext : IdentityDbContext
+public class WorkItOutDbContext(DbContextOptions<WorkItOutDbContext> options) : IdentityDbContext(options)
 {
-    public WorkItOutDbContext(DbContextOptions<WorkItOutDbContext> options) : base(options)
-    {
-        
-    }
 }
