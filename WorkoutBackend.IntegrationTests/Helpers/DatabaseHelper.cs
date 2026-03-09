@@ -22,7 +22,8 @@ public static class DatabaseHelper
         using var connection = new SqlConnection(TestConnectionString);
         await connection.ExecuteAsync(InitializationDataAccess.DropAllTables);
         await connection.ExecuteAsync(InitializationDataAccess.InitializeTables);
-        await connection.ExecuteAsync(InitializationDataAccess.PopulateBodyParts);
+        await connection.ExecuteAsync(InitializationDataAccess.PopulateMuscles);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateEquipment);
+        await connection.ExecuteAsync(InitializationDataAccess.PopulateSetTags);
     }
 }

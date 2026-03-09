@@ -24,7 +24,7 @@ public class SqlDatabaseRepository(string connectionString) : IDatabaseRepositor
     public async Task PopulateSupportValues()
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(InitializationDataAccess.PopulateBodyParts);
+        await connection.ExecuteAsync(InitializationDataAccess.PopulateMuscles);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateEquipment);
     }
 

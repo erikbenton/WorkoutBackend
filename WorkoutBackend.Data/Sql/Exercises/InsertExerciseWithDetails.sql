@@ -1,6 +1,6 @@
-INSERT INTO Exercises (Name, Instructions, BodyPartId, EquipmentId)
+INSERT INTO Exercises (Name, Instructions, Category, EquipmentId)
 OUTPUT INSERTED.Id
 VALUES (@Name,
 		@Instructions,
-		(SELECT Id FROM BodyParts WHERE BodyPart = @BodyPart),
-		(SELECT Id FROM Equipment WHERE Equipment = @Equipment));
+		@Category,
+		(SELECT Id FROM Equipment eq WHERE eq.Name = @Equipment));

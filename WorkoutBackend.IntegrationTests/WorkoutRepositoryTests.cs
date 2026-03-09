@@ -116,20 +116,12 @@ public class WorkoutRepositoryTests
             {
                 new ExerciseGroup()
                 {
-                    Exercise = new Exercise()
-                    {
-                        Id = 1,
-                        Name = "Exercise 1"
-                    },
+                    ExerciseId = 1,
                     ExerciseSets = []
                 },
                 new ExerciseGroup()
                 {
-                    Exercise = new Exercise()
-                    {
-                        Id = 2,
-                        Name = "Exercise 2"
-                    },
+                    ExerciseId = 2,
                     ExerciseSets = []
                 },
 
@@ -183,43 +175,43 @@ public class WorkoutRepositoryTests
             {
                 new ExerciseGroup()
                 {
-                    Exercise = benchPress,
+                    ExerciseId = benchPress.Id,
                     Note = "Try to go heavy. If you can do more than 5 reps on a work set, increase the total weight by 5lbs.",
                     ExerciseSets = new []
                     {
                         new ExerciseSet()
                         {
                             MinReps = 10,
-                            SetType = "warm up"
+                            SetTagId = 1,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 8,
-                            SetType = "warm up"
+                            SetTagId = 1,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 4,
                             MaxReps = 6,
-                            SetType = "work"
+                           SetTagId = 2,
                         }
                     }
                 },
                 new ExerciseGroup()
                 {
-                    Exercise = pullUp,
+                    ExerciseId = pullUp.Id,
                     Note = "Try to increase the reps you can do, but if you can do more than 10 in a set, do another set instead of going past 10 reps.",
                     ExerciseSets = new []
                     {
@@ -242,7 +234,7 @@ public class WorkoutRepositoryTests
                 },
                 new ExerciseGroup()
                 {
-                    Exercise = shoulderPress,
+                    ExerciseId = shoulderPress.Id,
                     Note = "Go slow and try not pinch/stress out your neck.",
                     ExerciseSets = new []
                     {
@@ -250,19 +242,19 @@ public class WorkoutRepositoryTests
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            SetType = "work"
+                           SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                            SetType = "work"
+                           SetTagId = 2,
                         }
                     }
                 }

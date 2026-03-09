@@ -6,7 +6,7 @@ public class ExerciseGroup
 
     public int WorkoutId { get; set; }
 
-    public Exercise Exercise { get; set; }
+    public int ExerciseId { get; set; }
 
     public string? Note { get; set; }
 

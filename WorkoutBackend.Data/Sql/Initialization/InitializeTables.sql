@@ -13,24 +13,40 @@ CREATE TABLE Workouts (
 		ON DELETE CASCADE
 )
 
-CREATE TABLE BodyParts (
+CREATE TABLE Muscles (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	BodyPart VARCHAR(50) NOT NULL
+	Name VARCHAR(100) NOT NULL
 )
 
 CREATE TABLE Equipment (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Equipment VARCHAR(50) NOT NULL
+	Name VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE SetTags (
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Name VARCHAR(50) NOT NULL,
+	ColorRgb VARCHAR(10) NOT NULL
 )
 
 CREATE TABLE Exercises (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Name VARCHAR(100) NOT NULL,
 	Instructions VARCHAR(1000),
-	BodyPartId INT NOT NULL,
+	Category VARCHAR(20) NOT NULL DEFAULT 'lift',
 	EquipmentId INT NOT NULL,
-	FOREIGN KEY (BodyPartId) REFERENCES BodyParts(Id),
-	FOREIGN KEY (EquipmentId) REFERENCES Equipment(Id)
+	FOREIGN KEY (EquipmentId) REFERENCES Equipment(Id),
+	CONSTRAINT CHK_Category CHECK(Category IN ('lift', 'timed', 'conditioning'))
+)
+
+CREATE TABLE ExercisesMuscles (
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	ExerciseId INT NOT NULL,
+	MuscleId INT NOT NULL,
+	Weight INT NOT NULL DEFAULT 1,
+	FOREIGN KEY (ExerciseId) REFERENCES Exercises(Id)
+		ON DELETE CASCADE,
+	FOREIGN KEY (MuscleId) REFERENCES Muscles(Id),
 )
 
 CREATE TABLE ExerciseGroups (
@@ -50,11 +66,12 @@ CREATE TABLE ExerciseSets (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	MinReps INT,
 	MaxReps INT,
-	SetType VARCHAR(100),
+	SetTagId INT,
 	Sort INT NOT NULL,
 	ExerciseGroupId INT NOT NULL,
 	FOREIGN KEY (ExerciseGroupId) REFERENCES ExerciseGroups(Id)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id)
 )
 
 CREATE TABLE CompletedWorkouts (
@@ -90,10 +107,11 @@ CREATE TABLE CompletedExerciseSets (
 	Weight FLOAT,
 	MinReps INT,
 	MaxReps INT,
-	SetType VARCHAR(100),
+	SetTagId INT,
 	Sort INT NOT NULL,
 	CompletedExerciseGroupId INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
 	FOREIGN KEY (CompletedExerciseGroupId) REFERENCES CompletedExerciseGroups(Id)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id)
 )

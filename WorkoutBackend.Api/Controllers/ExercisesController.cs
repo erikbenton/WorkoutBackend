@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkoutBackend.Core.Models;
-using WorkoutBackend.Data.Repositories.Exercises;
 using WorkoutBackend.Data.Services;
 
 namespace WorkoutBackend.Api.Controllers;
@@ -36,17 +35,17 @@ public class ExercisesController(IExerciseService exerciseService) : ControllerB
     }
 
     [HttpGet]
-    [Route("BodyParts")]
-    public async Task<ActionResult<IEnumerable<BodyPartOption>>> GetAllBodyPartOptionsAsync()
+    [Route("Muscles")]
+    public async Task<ActionResult<IEnumerable<MuscleOption>>> GetAllBodyPartOptionsAsync()
     {
-        var bodyParts = await _exerciseService.GetExerciseBodyPartOptionsAsync();
+        var bodyParts = await _exerciseService.GetExerciseMuscleOptionsAsync();
 
         return Ok(bodyParts);
     }
 
     [HttpGet]
     [Route("Equipment")]
-    public async Task<ActionResult<IEnumerable<BodyPartOption>>> GetAllEquipmentOptionsAsync()
+    public async Task<ActionResult<IEnumerable<EquipmentOption>>> GetAllEquipmentOptionsAsync()
     {
         var equipment = await _exerciseService.GetExerciseEquipmentOptionsAsync();
 

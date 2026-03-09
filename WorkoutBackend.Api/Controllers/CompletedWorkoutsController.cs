@@ -11,9 +11,9 @@ public class CompletedWorkoutsController(ICompletedWorkoutService completedWorko
     private readonly ICompletedWorkoutService _completedWorkoutService = completedWorkoutService;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CompletedWorkoutSummary>>> GetCompletedWorkoutsSummariesAsync()
+    public async Task<ActionResult<IEnumerable<CompletedWorkout>>> GetAllCompletedWorkoutsAsync()
     {
-        var summaries = await _completedWorkoutService.GetAllCompletedWorkoutSummariesAsync();
+        var summaries = await _completedWorkoutService.GetAllCompletedWorkoutsPopulatedAsync();
 
         return Ok(summaries);
     }

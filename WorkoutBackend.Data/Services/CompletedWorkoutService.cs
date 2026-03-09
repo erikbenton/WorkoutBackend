@@ -2,6 +2,7 @@
 using WorkoutBackend.Data.Entities;
 using WorkoutBackend.Data.Repositories.CompletedWorkouts;
 using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.Workouts;
 
 namespace WorkoutBackend.Data.Services;
 
@@ -56,10 +57,7 @@ public class CompletedWorkoutService(
                 Comment = group.Comment,
                 RestTime = restTime,
                 Sort = group.Sort,
-                Exercise = new Exercise()
-                {
-                    Id = group.ExerciseId
-                },
+                ExerciseId = group.ExerciseId,
                 CreatedAt = group.CreatedAt,
                 CompletedWorkoutId = completedWorkout.Id
             };
@@ -87,15 +85,12 @@ public class CompletedWorkoutService(
                     Weight = set.Weight,
                     MinReps = set.MinReps,
                     MaxReps = set.MaxReps,
-                    SetType = set.SetType,
+                    SetTagId = set.SetTagId,
                     Sort = set.Sort,
                     CreatedAt = set.CreatedAt,
                     CompletedExerciseGroupId = group.Id
                 };
             });
-
-            // and their exercises
-            group.Exercise = await _exerciseRepository.GetExerciseByIdAsync(group.Exercise.Id);
         }
 
         // assign the fully populated exercise groups to the workout
@@ -182,7 +177,7 @@ public class CompletedWorkoutService(
                 group.Comment?.Trim(),
                 (int?)group.RestTime?.TotalSeconds,
                 group.Sort,
-                group.Exercise.Id,
+                group.ExerciseId,
                 group.CompletedWorkoutId);
 
             // Create or Update depending on Id
@@ -227,7 +222,7 @@ public class CompletedWorkoutService(
                     exerciseSet.Weight,
                     exerciseSet.MinReps,
                     exerciseSet.MaxReps,
-                    exerciseSet.SetType,
+                    exerciseSet.SetTagId,
                     exerciseSet.Sort,
                     group.Id);
 
@@ -279,13 +274,46 @@ public class CompletedWorkoutService(
                     Id = set.Id,
                     Reps = set.Reps,
                     Weight = set.Weight,
+                    MinReps = set.MinReps,
+                    MaxReps = set.MaxReps,
+                    SetTagId = set.SetTagId,
                     Sort = set.Sort,
                     CreatedAt = set.CreatedAt,
-                    CompletedExerciseGroupId = set.CompletedExerciseGroupId
+                    CompletedExerciseGroupId = set.CompletedExerciseGroupId,
                 };
             });
         }
 
         return groupHistories;
+    }
+
+    public async Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync()
+    {
+        var workoutEntities = await _completedWorkoutRepository.GetAllCompletedWorkoutEntitiesAsync();
+
+        var workouts = workoutEntities.Select(dbCompletedWorkout => new CompletedWorkout()
+        {
+            Id = dbCompletedWorkout.Id,
+            WorkoutId = dbCompletedWorkout.WorkoutId,
+            Name = dbCompletedWorkout.Name,
+            Description = dbCompletedWorkout.Description,
+            Note = dbCompletedWorkout.Note,
+            Duration = TimeSpan.FromSeconds(dbCompletedWorkout.DurationInSeconds),
+            CreatedAt = dbCompletedWorkout.CreatedAt,
+            CompletedExerciseGroups = []
+        }).ToList(); // needs to be a list for the loop
+
+        var exerciseGroups = await _completedExerciseGroupRepository.GetAllCompletedGroupsPopulatedAsync();
+
+        foreach (var workout in workouts)
+        {
+            IEnumerable<CompletedExerciseGroup> groups = exerciseGroups != null
+                ? exerciseGroups.Where(g => g.CompletedWorkoutId == workout.Id).OrderBy(g => g.Sort)
+                : [];
+
+            workout.CompletedExerciseGroups = groups;
+        }
+
+        return workouts;
     }
 }

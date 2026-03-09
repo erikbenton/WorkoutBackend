@@ -4,6 +4,7 @@ public static class ExerciseGroupDataAccess
 {
     private static readonly string sqlFolder = "Sql/ExerciseGroups";
 
+    public static string GetAllExerciseGroups => DataAccessHelper.GetSqlString(sqlFolder, "GetAllExerciseGroups.sql");
     public static string GetExerciseGroupsByWorkoutId => DataAccessHelper.GetSqlString(sqlFolder, "GetExerciseGroupsByWorkoutId.sql");
     public static string GetExerciseGroupsByWorkoutName => DataAccessHelper.GetSqlString(sqlFolder, "GetExerciseGroupsByWorkoutName.sql");
     public static string GetExerciseGroupById => DataAccessHelper.GetSqlString(sqlFolder, "GetExerciseGroupById.sql");

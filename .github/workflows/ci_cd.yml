@@ -15,7 +15,7 @@ jobs:
       - name: Get the Latest Front End Workflow Run-Id
         env:
           GH_TOKEN: ${{ github.token }}
-        run: $latestRunId = gh api /repos/erikbenton/WorkoutFrontend/actions/runs | jq ".workflow_runs[0].id";
+        run: $latestRunId = gh api /repos/erikbenton/work-it-out-frontend/actions/runs | jq ".workflow_runs[0].id";
              echo "LATEST_RUN_ID=$latestRunId" | Out-File -FilePath $env:GITHUB_ENV -Append;
              
       - name: Check Run-Id
@@ -43,7 +43,7 @@ jobs:
           name: react-app-build
           path: WorkoutBackend.Api/wwwroot
           github-token: ${{ github.token }}
-          repository: erikbenton/WorkoutFrontend
+          repository: erikbenton/work-it-out-frontend
           run-id: ${{ env.LATEST_RUN_ID }}
 
       - name: Build with dotnet

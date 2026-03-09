@@ -3,6 +3,7 @@ using WorkoutBackend.Data.Repositories.Database;
 using WorkoutBackend.Data.Repositories.Exercises;
 using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
+using WorkoutBackend.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,9 @@ builder.Services.AddOpenApi();
 // Database connection string
 var workoutDbConnectionString = builder.Configuration.GetConnectionString("WorkoutDb")
     ?? throw new InvalidOperationException("Connection string 'WorkoutDb' not found.");
+
+// add the EF Core identity context for handling users
+builder.Services.AddIdentityContext(workoutDbConnectionString);
 
 // Repos
 builder.Services.AddScoped<IExerciseRepository, SqlExerciseRepository>(repo => new SqlExerciseRepository(workoutDbConnectionString));
@@ -50,6 +54,7 @@ var app = builder.Build();
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
+app.UseAuthentication();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

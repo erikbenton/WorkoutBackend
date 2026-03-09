@@ -39,8 +39,7 @@ public class WorkoutService(
         {
             exerciseGroups[i].ExerciseSets = await RetrieveAllExerciseSetsForExerciseGroupIdAsync(exerciseGroups[i].Id);
 
-            exerciseGroups[i].Exercise = await _exerciseRepository
-                .GetExerciseByIdAsync(exerciseGroups[i].Exercise.Id);
+            exerciseGroups[i].ExerciseId = exerciseGroups[i].ExerciseId;
         }
 
         workout.ExerciseGroups = exerciseGroups;
@@ -63,10 +62,7 @@ public class WorkoutService(
                 Note = group.Note,
                 RestTime = restTime,
                 Sort = group.Sort,
-                Exercise = new Exercise()
-                {
-                    Id = group.ExerciseId
-                },
+                ExerciseId = group.ExerciseId,
                 WorkoutId = group.WorkoutId,
             };
         });
@@ -83,7 +79,7 @@ public class WorkoutService(
                 Id = set.Id,
                 MinReps = set.MinReps,
                 MaxReps = set.MaxReps,
-                SetType = set.SetType,
+                SetTagId = set.SetTagId,
                 Sort = set.Sort,
                 ExerciseGroupId = set.ExerciseGroupId,
             };
@@ -158,7 +154,7 @@ public class WorkoutService(
             exerciseGroup.Note?.Trim(),
             (int?)exerciseGroup.RestTime?.TotalSeconds,
             exerciseGroup.Sort,
-            exerciseGroup.Exercise.Id,
+            exerciseGroup.ExerciseId,
             exerciseGroup.WorkoutId);
 
         var savedExerciseGroup = exerciseGroup.Id == 0
@@ -241,7 +237,7 @@ public class WorkoutService(
             exerciseSet.Id,
             exerciseSet.MinReps,
             exerciseSet.MaxReps,
-            exerciseSet.SetType,
+            exerciseSet.SetTagId,
             exerciseSet.Sort,
             exerciseSet.ExerciseGroupId);
 
@@ -253,7 +249,7 @@ public class WorkoutService(
         exerciseSet.Id = dbSet.Id;
         exerciseSet.MinReps = dbSet.MinReps;
         exerciseSet.MaxReps = dbSet.MaxReps;
-        exerciseSet.SetType = dbSet.SetType;
+        exerciseSet.SetTagId = dbSet.SetTagId;
         exerciseSet.Sort = dbSet.Sort;
         exerciseSet.ExerciseGroupId = dbSet.ExerciseGroupId;
 
@@ -265,41 +261,36 @@ public class WorkoutService(
         await _workoutRepository.DeleteWorkoutEntityAsync(workoutId);
     }
 
-    public async Task<IEnumerable<WorkoutSummary>> RetrieveAllWorkoutSummariesAsync()
+    public async Task<IEnumerable<Workout>> RetrieveAllWorkoutsAsync()
     {
-        var workoutSummaryEntries = await _workoutRepository.GetAllWorkoutSummariesEntriesAsync();
+        var workoutEntities = await _workoutRepository.GetAllWorkoutEntitiesAsync();
 
-        // create a Dictionary in order to aggregate the entries
-        // so that the summaries have a collection of the exercise names
-        var workoutIdWithSummaries = new Dictionary<int, WorkoutSummary>();
-
-        foreach (var entry in workoutSummaryEntries)
+        var workouts = workoutEntities.Select(w => new Workout()
         {
-            // if the entry has already been added to the dictionary
-            if (workoutIdWithSummaries.ContainsKey(entry.WorkoutId))
-            {
-                if (entry.ExerciseName is not null)
-                {
-                    workoutIdWithSummaries[entry.WorkoutId].ExerciseNames.Add(entry.ExerciseName);
-                }
-            }
-            else
-            {
-                // initiate the new WorkoutSummary
-                workoutIdWithSummaries.Add(entry.WorkoutId, new WorkoutSummary()
-                {
-                    Id = entry.WorkoutId,
-                    Name = entry.WorkoutName,
-                    ExerciseNames = [entry.ExerciseName]
-                });
-            }
+            Id = w.Id,
+            Name = w.Name,
+            Description = w.Description,
+            WorkoutProgramId = w.ProgramId,
+            ExerciseGroups = []
+        }).ToList(); // needs to be a list for the loop
+
+        var exerciseGroups = await _exerciseGroupRepository.GetAllExerciseGroupsPopulatedAsync();
+
+        foreach (var workout in workouts)
+        {
+            IEnumerable<ExerciseGroup> groups = exerciseGroups != null
+                ? exerciseGroups.Where(g => g.WorkoutId == workout.Id).OrderBy(g => g.Sort)
+                : [];
+
+            workout.ExerciseGroups = groups;
         }
 
-        // Only need the "Values" from the dictionary
-        var workoutSummaries = workoutIdWithSummaries
-            .Select(kvp => kvp.Value)
-            .OrderBy(summary => summary.Id);
+        return workouts;
+    }
 
-        return workoutSummaries;
+    public async Task<IEnumerable<SetTagOption>> GetSetTagOptionsAsync()
+    {
+        var setTagOptions = await _workoutRepository.GetAllSetTagOptionsAsync();
+        return setTagOptions;
     }
 }

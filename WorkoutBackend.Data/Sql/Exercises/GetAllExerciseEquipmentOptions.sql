@@ -1,1 +1,1 @@
-SELECT Id, Equipment FROM Equipment
+SELECT Id, Name FROM Equipment

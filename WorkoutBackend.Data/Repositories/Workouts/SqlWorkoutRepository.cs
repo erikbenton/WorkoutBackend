@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.DataAccess;
 using WorkoutBackend.Data.Entities;
 
@@ -24,6 +25,13 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         using var connection = new SqlConnection(_connectionString);
         await connection.ExecuteAsync(WorkoutDataAccess.DeleteWorkoutById, new { id });
 
+    }
+
+    public async Task<IEnumerable<SetTagOption>> GetAllSetTagOptionsAsync()
+    {
+        using var connection = new SqlConnection(_connectionString);
+        var setTags = await connection.QueryAsync<SetTagOption>(WorkoutDataAccess.GetAllSetTagOptions);
+        return setTags;
     }
 
     public async Task<IEnumerable<WorkoutEntity>> GetAllWorkoutEntitiesAsync()

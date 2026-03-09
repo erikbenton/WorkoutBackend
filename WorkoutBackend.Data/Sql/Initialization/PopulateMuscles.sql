@@ -1,12 +1,11 @@
-INSERT INTO BodyParts (BodyPart)
+INSERT INTO Muscles (Name)
 VALUES  ('back'),
 		('cardio'),
 		('chest'),
 		('forearms'),
-		('lower legs'),
-		('neck'),
+		('legs'),
 		('shoulders'),
 		('biceps'),
 		('triceps'),
-		('upper legs'),
-		('core')
+		('calves'),
+		('abs');
