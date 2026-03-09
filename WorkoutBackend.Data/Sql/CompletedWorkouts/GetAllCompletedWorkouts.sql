@@ -7,3 +7,4 @@ SELECT
 	cw.DurationInSeconds,
 	cw.CreatedAt
 FROM CompletedWorkouts cw
+ORDER BY cw.CreatedAt DESC;

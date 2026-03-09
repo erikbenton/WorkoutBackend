@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Services;
 
@@ -7,13 +8,18 @@ namespace WorkoutBackend.Api.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class WorkoutsController(
-    IWorkoutService workoutService) : ControllerBase
+    IWorkoutService workoutService,
+     UserManager<IdentityUser> userManager) : ControllerBase
 {
     private readonly IWorkoutService _workoutService = workoutService;
+    private readonly UserManager<IdentityUser> _userManager = userManager;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Workout>>> GetAllWorkoutsListAsync()
     {
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
         var workoutSummaries = await _workoutService.RetrieveAllWorkoutsAsync();
 
         return Ok(workoutSummaries);

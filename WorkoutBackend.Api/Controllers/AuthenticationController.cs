@@ -50,7 +50,7 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<ActionResult> Login([FromBody] LoginRequest loginRequest)
+    public async Task<ActionResult<RegistrationResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var result = await _signInManager.PasswordSignInAsync(
             loginRequest.Email,
@@ -58,7 +58,9 @@ public class AuthenticationController : ControllerBase
             loginRequest.RememberMe,
             lockoutOnFailure: false);
 
-        return result.Succeeded ? Ok(result) : BadRequest();
+        return result.Succeeded
+            ? Ok(new RegistrationResponse(true, [], loginRequest.Email))
+            : BadRequest(new RegistrationResponse(false, ["Unable to login. Check your email and password."]));
     }
 
     [HttpPost]
@@ -68,6 +70,22 @@ public class AuthenticationController : ControllerBase
         await _signInManager.SignOutAsync();
 
         return Ok();
+    }
+
+    [HttpGet]
+    [Route("userInfo")]
+    public async Task<ActionResult<UserInfoResponse>> GetUserInfo()
+    {
+        var user = HttpContext.User;
+
+        if (user.Identity == null || !user.Identity.IsAuthenticated)
+        {
+            return Ok(new UserInfoResponse(false));
+        }
+
+        var identity = await _userManager.GetUserAsync(HttpContext.User);
+
+        return Ok(new UserInfoResponse(identity != null, identity?.Email));
     }
 
     private IdentityUser CreateUser()

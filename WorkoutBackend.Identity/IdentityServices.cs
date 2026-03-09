@@ -24,6 +24,13 @@ public static class IdentityServices
         })
         .AddIdentityCookies(o => { });
 
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.HttpOnly = false;
+            options.Cookie.Name = "WorkItOut";
+            options.ExpireTimeSpan = TimeSpan.FromDays(30);
+        });
+
         services.AddIdentityCore<IdentityUser>(o =>
         {
             o.Stores.MaxLengthForKeys = 128;
