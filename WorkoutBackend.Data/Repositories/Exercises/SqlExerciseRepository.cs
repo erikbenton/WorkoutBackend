@@ -17,12 +17,12 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
         var results = await connection.QueryMultipleAsync(ExerciseDataAccess.GetAllExercises);
 
         var exercises = results.Read<Exercise>();
-        var exercisesMuscles = results.Read<ExerciseMuscleEntity>();
+        var exercisesMuscles = results.Read<MuscleEntity>();
 
         foreach (var exercise in exercises)
         {
             var muscleData = exercisesMuscles.Where(exMus => exMus.ExerciseId == exercise.Id);
-            exercise.Muscles = muscleData.Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight });
+            exercise.Muscles = muscleData.Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight, ColorRgb = data.ColorRgb });
         }
 
         return exercises.AsEnumerable();
