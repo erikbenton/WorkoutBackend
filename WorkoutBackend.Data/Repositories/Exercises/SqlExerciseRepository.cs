@@ -88,7 +88,7 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
     public async Task<IEnumerable<MuscleOption>> GetAllMuscleOptionsAsync()
     {
         using var connection = new SqlConnection(_connectionString);
-        var muscleOptions = await connection.QueryAsync<MuscleOption>(ExerciseDataAccess.GetAllExerciseMuslceOptions);
+        var muscleOptions = await connection.QueryAsync<MuscleOption>(ExerciseDataAccess.GetAllExerciseMuscleOptions);
         return muscleOptions;
     }
 

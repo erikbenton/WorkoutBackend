@@ -11,6 +11,6 @@ public static class ExerciseDataAccess
     public static string UpdateExerciseWithDetails => DataAccessHelper.GetSqlString(sqlFolder, "UpdateExerciseWithDetails.sql");
     public static string DeleteExerciseById => DataAccessHelper.GetSqlString(sqlFolder, "DeleteExerciseById.sql");
     public static string DeleteExerciseMusclesByExerciseId => DataAccessHelper.GetSqlString(sqlFolder, "DeleteExerciseMusclesByExerciseId.sql");
-    public static string GetAllExerciseMuslceOptions => DataAccessHelper.GetSqlString(sqlFolder, "GetAllMuscleOptions.sql");
+    public static string GetAllExerciseMuscleOptions => DataAccessHelper.GetSqlString(sqlFolder, "GetAllMuscleOptions.sql");
     public static string GetAllExerciseEquipmentOptions => DataAccessHelper.GetSqlString(sqlFolder, "GetAllExerciseEquipmentOptions.sql");
 }

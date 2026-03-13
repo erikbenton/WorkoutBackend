@@ -1,4 +1,3 @@
 ﻿namespace WorkoutBackend.Core.Models;
 
-public record MuscleOption(int Id, string Name)
-{ }
+public record MuscleOption(int Id, string Name, string ColorRgb);
