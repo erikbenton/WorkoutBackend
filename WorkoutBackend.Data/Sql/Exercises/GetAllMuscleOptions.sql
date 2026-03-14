@@ -1,1 +1,1 @@
-SELECT Id, Name FROM Muscles
+SELECT Id, Name, ColorRgb FROM Muscles

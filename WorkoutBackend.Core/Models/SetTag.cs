@@ -1,5 +1,3 @@
 ﻿namespace WorkoutBackend.Core.Models;
 
-public record SetTagOption(int Id, string Name, string ColorRgb)
-{
-}
+public record SetTagOption(int Id, string Name, string ColorRgb);

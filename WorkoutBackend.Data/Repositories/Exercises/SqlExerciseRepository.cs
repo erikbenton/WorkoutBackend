@@ -17,12 +17,12 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
         var results = await connection.QueryMultipleAsync(ExerciseDataAccess.GetAllExercises);
 
         var exercises = results.Read<Exercise>();
-        var exercisesMuscles = results.Read<ExerciseMuscleEntity>();
+        var exercisesMuscles = results.Read<MuscleEntity>();
 
         foreach (var exercise in exercises)
         {
             var muscleData = exercisesMuscles.Where(exMus => exMus.ExerciseId == exercise.Id);
-            exercise.Muscles = muscleData.Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight });
+            exercise.Muscles = muscleData.Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight, ColorRgb = data.ColorRgb });
         }
 
         return exercises.AsEnumerable();
@@ -88,7 +88,7 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
     public async Task<IEnumerable<MuscleOption>> GetAllMuscleOptionsAsync()
     {
         using var connection = new SqlConnection(_connectionString);
-        var muscleOptions = await connection.QueryAsync<MuscleOption>(ExerciseDataAccess.GetAllExerciseMuslceOptions);
+        var muscleOptions = await connection.QueryAsync<MuscleOption>(ExerciseDataAccess.GetAllExerciseMuscleOptions);
         return muscleOptions;
     }
 
