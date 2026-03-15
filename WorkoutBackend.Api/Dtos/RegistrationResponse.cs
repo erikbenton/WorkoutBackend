@@ -1,3 +1,3 @@
 ﻿namespace WorkoutBackend.Api.Dtos;
 
-public record RegistrationResponse(bool Succeeded, IEnumerable<string> errors, string? UserId = null);
+public record RegistrationResponse(bool Succeeded, IEnumerable<string> errors, string? UserName = null);

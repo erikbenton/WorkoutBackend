@@ -36,11 +36,11 @@ public class AuthenticationController : ControllerBase
 
         if (result.Succeeded)
         {
-            var userId = await _userManager.GetUserIdAsync(user);
+            var userName = await _userManager.GetUserNameAsync(user);
 
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            return Ok(new RegistrationResponse(true, [], userId));
+            return Ok(new RegistrationResponse(true, [], userName));
         }
 
         var errorDescriptions = result.Errors.Select(err => err.Description);
