@@ -1,5 +1,5 @@
 INSERT INTO CompletedExerciseGroups
-	(Note, Comment, RestTimeInSeconds, Sort, ExerciseId, CompletedWorkoutId)
+	(Note, Comment, RestTimeInSeconds, Sort, ExerciseId, CompletedWorkoutId, UserId)
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Note,
@@ -8,5 +8,6 @@ OUTPUT
 	INSERTED.Sort,
 	INSERTED.ExerciseId,
 	INSERTED.CompletedWorkoutId,
+	INSERTED.UserId,
 	INSERTED.CreatedAt
-VALUES (@Note, @Comment, @RestTimeInSeconds, @Sort, @ExerciseId, @CompletedWorkoutId);
+VALUES (@Note, @Comment, @RestTimeInSeconds, @Sort, @ExerciseId, @CompletedWorkoutId, @UserId);

@@ -19,28 +19,28 @@ public class SqlCompletedExerciseGroupRepository(string connectionString) : ICom
         return savedEntity;
     }
 
-    public async Task DeleteCompletedExerciseGroupEntityByIdAsync(int id)
+    public async Task DeleteCompletedExerciseGroupEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(CompletedExerciseGroupsDataAccess.DeleteCompletedExerciseGroupById, new { id });
+        await connection.ExecuteAsync(CompletedExerciseGroupsDataAccess.DeleteCompletedExerciseGroupById, new { id, userId });
     }
 
-    public async Task<IEnumerable<CompletedExerciseGroupEntity>> GetAllCompletedExerciseGroupEntitiesForCompletedWorkoutAsync(int completedWorkoutId)
+    public async Task<IEnumerable<CompletedExerciseGroupEntity>> GetAllCompletedExerciseGroupEntitiesForCompletedWorkoutAsync(int completedWorkoutId, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var groupEntities = await connection
             .QueryAsync<CompletedExerciseGroupEntity>(
-                CompletedExerciseGroupsDataAccess.GetCompletedExerciseGroupsByCompletedWorkoutId, new { completedWorkoutId });
+                CompletedExerciseGroupsDataAccess.GetCompletedExerciseGroupsByCompletedWorkoutId, new { completedWorkoutId, userId });
         return groupEntities;
     }
 
-    public async Task<IEnumerable<CompletedExerciseGroup>> GetAllCompletedGroupsPopulatedAsync()
+    public async Task<IEnumerable<CompletedExerciseGroup>> GetAllCompletedGroupsPopulatedAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
 
         List<CompletedExerciseGroup> exerciseGroups = new();
 
-        var results = await connection.QueryMultipleAsync(CompletedExerciseGroupsDataAccess.GetAllCompletedExerciseGroups);
+        var results = await connection.QueryMultipleAsync(CompletedExerciseGroupsDataAccess.GetAllCompletedExerciseGroups, new { userId });
 
         var groups = results.Read<CompletedExerciseGroupEntity>();
         var sets = results.Read<CompletedExerciseSetEntity>();
@@ -86,20 +86,20 @@ public class SqlCompletedExerciseGroupRepository(string connectionString) : ICom
         return exerciseGroups;
     }
 
-    public async Task<CompletedExerciseGroupEntity> GetCompletedExerciseGroupEntityByIdAsync(int id)
+    public async Task<CompletedExerciseGroupEntity> GetCompletedExerciseGroupEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var groupEntity = await connection
             .QueryFirstAsync<CompletedExerciseGroupEntity>(
-                CompletedExerciseGroupsDataAccess.GetCompletedExerciseGroupById, new { id });
+                CompletedExerciseGroupsDataAccess.GetCompletedExerciseGroupById, new { id, userId });
         return groupEntity;
     }
 
-    public async Task<IEnumerable<CompletedExerciseGroupHistoryEntity>> GetCompletedGroupHistoryByExerciseIdAsync(int exerciseId)
+    public async Task<IEnumerable<CompletedExerciseGroupHistoryEntity>> GetCompletedGroupHistoryByExerciseIdAsync(int exerciseId, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var groupHistory = await connection.QueryAsync<CompletedExerciseGroupHistoryEntity>(
-            CompletedExerciseGroupsDataAccess.GetCompletedGroupHistoryByExerciseId, new { exerciseId });
+            CompletedExerciseGroupsDataAccess.GetCompletedGroupHistoryByExerciseId, new { exerciseId, userId });
         return groupHistory;
     }
 

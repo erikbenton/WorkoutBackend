@@ -5,5 +5,5 @@ public record ExerciseGroupEntity(int Id,
     int? RestTimeInSeconds,
     int Sort,
     int ExerciseId,
-    int WorkoutId)
-{ }
+    int WorkoutId,
+    string UserId);

@@ -15,6 +15,7 @@ public class WorkoutRepositoryTests
     IExerciseSetRepository exerciseSetRepository;
     IExerciseRepository exerciseRepository;
     IWorkoutService workoutService;
+    private string testId;
 
     [OneTimeSetUp]
     public async Task WorkoutOneTimeSetup()
@@ -22,6 +23,7 @@ public class WorkoutRepositoryTests
         await DatabaseHelper.RefreshDatabase();
         await ExerciseHelper.InitializeExercises();
         await WorkoutHelper.InitializeWorkouts();
+        testId = await DatabaseHelper.GetTestUserId();
     }
 
     [SetUp]
@@ -31,13 +33,13 @@ public class WorkoutRepositoryTests
         exerciseGroupRepository = new SqlExerciseGroupRepository(DatabaseHelper.TestConnectionString);
         exerciseSetRepository = new SqlExerciseSetRepository(DatabaseHelper.TestConnectionString);
         exerciseRepository = new SqlExerciseRepository(DatabaseHelper.TestConnectionString);
-        workoutService = new WorkoutService(workoutRepository, exerciseGroupRepository, exerciseSetRepository, exerciseRepository);
+        workoutService = new WorkoutService(workoutRepository, exerciseGroupRepository, exerciseSetRepository);
     }
 
     [Test]
     public async Task CanCreateNewDbWorkout()
     {
-        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", null);
+        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", null, testId);
 
         var savedWorkout = await workoutRepository.CreateWorkoutEntityAsync(workout);
 
@@ -50,7 +52,7 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanGetAllDbWorkouts()
     {
-        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync();
+        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync(testId);
 
         Assert.That(workouts, Is.Not.Empty);
     }
@@ -58,7 +60,7 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanUpdateExistingWorkout()
     {
-        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync();
+        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync(testId);
 
         var workoutToUpdate = workouts.First();
 
@@ -66,7 +68,8 @@ public class WorkoutRepositoryTests
             workoutToUpdate.Id,
             "Updated Name",
             "Updated Description",
-            workoutToUpdate.ProgramId);
+            workoutToUpdate.ProgramId,
+            testId);
 
         var afterUpdate = await workoutRepository.UpdateWorkoutEntityAsync(beforeUpdate);
 
@@ -79,11 +82,11 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanGetDbWorkoutById()
     {
-        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync();
+        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync(testId);
 
         var workout = workouts.First();
 
-        var retrievedWorkout = await workoutRepository.GetWorkoutEntityByIdAsync(workout.Id);
+        var retrievedWorkout = await workoutRepository.GetWorkoutEntityByIdAsync(workout.Id, testId);
 
         Assert.That(retrievedWorkout.Id, Is.EqualTo(workout.Id));
         Assert.That(retrievedWorkout.Name, Is.EqualTo(workout.Name));
@@ -93,13 +96,13 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanDeleteDbWorkoutById()
     {
-        var workoutsBeforeDeletion = await workoutRepository.GetAllWorkoutEntitiesAsync();
+        var workoutsBeforeDeletion = await workoutRepository.GetAllWorkoutEntitiesAsync(testId);
 
         var workoutToDelete = workoutsBeforeDeletion.First();
 
-        await workoutRepository.DeleteWorkoutEntityAsync(workoutToDelete.Id);
+        await workoutRepository.DeleteWorkoutEntityAsync(workoutToDelete.Id, testId);
 
-        var workoutsAfterDeletion = await workoutRepository.GetAllWorkoutEntitiesAsync();
+        var workoutsAfterDeletion = await workoutRepository.GetAllWorkoutEntitiesAsync(testId);
 
         var workoutIdsAfterDeletion = workoutsAfterDeletion.Select(w => w.Id);
 
@@ -128,7 +131,7 @@ public class WorkoutRepositoryTests
             }
         };
 
-        var savedWorkout = await workoutService.SaveWorkoutAsync(workout);
+        var savedWorkout = await workoutService.SaveWorkoutAsync(workout, testId);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));
@@ -149,12 +152,12 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanUpdateAnExistingWorkout()
     {
-        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync();
-        var workout = await workoutService.RetrieveFullyPopulatedWorkoutAsync(workouts.First().Id);
+        var workouts = await workoutRepository.GetAllWorkoutEntitiesAsync(testId);
+        var workout = await workoutService.RetrieveFullyPopulatedWorkoutAsync(workouts.First().Id, testId);
 
         workout.Name = "Updated workout name";
 
-        var updatedWorkout = await workoutService.SaveWorkoutAsync(workout);
+        var updatedWorkout = await workoutService.SaveWorkoutAsync(workout, testId);
 
         Assert.That(updatedWorkout.Id, Is.EqualTo(workout.Id));
         Assert.That(updatedWorkout.Name, Is.EqualTo(workout.Name));
@@ -242,26 +245,26 @@ public class WorkoutRepositoryTests
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                           SetTagId = 2,
+                            SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                           SetTagId = 2,
+                            SetTagId = 2,
                         },
                         new ExerciseSet()
                         {
                             MinReps = 6,
                             MaxReps = 8,
-                           SetTagId = 2,
+                            SetTagId = 2,
                         }
                     }
                 }
             }
         };
 
-        var savedWorkout = await workoutService.SaveWorkoutAsync(workout);
+        var savedWorkout = await workoutService.SaveWorkoutAsync(workout, testId);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));

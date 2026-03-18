@@ -6,7 +6,8 @@ SET
 	Sort = @Sort,
 	ExerciseId = @ExerciseId,
 	CompletedWorkoutId = @CompletedWorkoutId,
-	CreatedAt = @CreatedAt
+	CreatedAt = @CreatedAt,
+	UserId = @UserId
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Note,
@@ -15,5 +16,7 @@ OUTPUT
 	INSERTED.Sort,
 	INSERTED.ExerciseId,
 	INSERTED.CompletedWorkoutId,
+	INSERTED.UserId,
 	INSERTED.CreatedAt
-WHERE Id = @Id;
+WHERE Id = @Id
+	AND UserId = @UserId;

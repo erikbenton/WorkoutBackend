@@ -6,6 +6,5 @@ public record CompletedExerciseGroupHistoryEntity(
     int Month,
     int Day,
     string? Comment,
-    int ExerciseId)
-{
-}
+    int ExerciseId,
+    string UserId);

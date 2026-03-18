@@ -5,11 +5,11 @@ namespace WorkoutBackend.Data.Repositories.CompletedWorkouts;
 
 public interface ICompletedExerciseGroupRepository
 {
-    public Task<IEnumerable<CompletedExerciseGroupEntity>> GetAllCompletedExerciseGroupEntitiesForCompletedWorkoutAsync(int completedWorkoutId);
-    public Task<CompletedExerciseGroupEntity> GetCompletedExerciseGroupEntityByIdAsync(int id);
-    public Task<IEnumerable<CompletedExerciseGroupHistoryEntity>> GetCompletedGroupHistoryByExerciseIdAsync(int exerciseId);
+    public Task<IEnumerable<CompletedExerciseGroupEntity>> GetAllCompletedExerciseGroupEntitiesForCompletedWorkoutAsync(int completedWorkoutId, string userId);
+    public Task<CompletedExerciseGroupEntity> GetCompletedExerciseGroupEntityByIdAsync(int id, string userId);
+    public Task<IEnumerable<CompletedExerciseGroupHistoryEntity>> GetCompletedGroupHistoryByExerciseIdAsync(int exerciseId, string userId);
     public Task<CompletedExerciseGroupEntity> CreateCompletedExerciseGroupEntityAsync(CompletedExerciseGroupEntity exerciseGroup);
     public Task<CompletedExerciseGroupEntity> UpdateCompletedExerciseGroupEntityAsync(CompletedExerciseGroupEntity exerciseGroup);
-    public Task DeleteCompletedExerciseGroupEntityByIdAsync(int id);
-    public Task<IEnumerable<CompletedExerciseGroup>> GetAllCompletedGroupsPopulatedAsync();
+    public Task DeleteCompletedExerciseGroupEntityByIdAsync(int id, string userId);
+    public Task<IEnumerable<CompletedExerciseGroup>> GetAllCompletedGroupsPopulatedAsync(string userId);
 }

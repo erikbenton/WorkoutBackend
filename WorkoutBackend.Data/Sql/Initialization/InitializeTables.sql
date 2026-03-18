@@ -9,7 +9,10 @@ CREATE TABLE Workouts (
 	Description VARCHAR(1000),
 	Name VARCHAR(100) NOT NULL,
 	ProgramId INT,
+		UserId NVARCHAR(450) NOT NULL,
 	FOREIGN KEY (ProgramId) REFERENCES Programs(Id)
+		ON DELETE CASCADE,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
 		ON DELETE CASCADE
 )
 
@@ -57,10 +60,13 @@ CREATE TABLE ExerciseGroups (
 	Sort INT NOT NULL,
 	ExerciseId INT NOT NULL,
 	WorkoutId INT NOT NULL,
+	UserId NVARCHAR(450) NOT NULL,
 	FOREIGN KEY (ExerciseId) REFERENCES Exercises(Id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE NO ACTION
 )
 
 CREATE TABLE ExerciseSets (
@@ -70,21 +76,24 @@ CREATE TABLE ExerciseSets (
 	SetTagId INT,
 	Sort INT NOT NULL,
 	ExerciseGroupId INT NOT NULL,
+	UserId NVARCHAR(450) NOT NULL,
 	FOREIGN KEY (ExerciseGroupId) REFERENCES ExerciseGroups(Id)
 		ON DELETE CASCADE,
-	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id)
+	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id),
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE NO ACTION
 )
 
 CREATE TABLE CompletedWorkouts (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	WorkoutId INT, -- NULLable because it might be an "empty workout"
 	Name VARCHAR(100) NOT NULL,
 	Description VARCHAR(1000),
 	Note VARCHAR(500),
 	DurationInSeconds INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
-	FOREIGN KEY (WorkoutId) REFERENCES Workouts(Id)
-		ON DELETE SET NULL -- Do not DELETE if workout template is deleted
+	UserId NVARCHAR(450) NOT NULL,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE CASCADE
 )
 
 CREATE TABLE CompletedExerciseGroups (
@@ -96,10 +105,13 @@ CREATE TABLE CompletedExerciseGroups (
 	ExerciseId INT NOT NULL,
 	CompletedWorkoutId INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+	UserId NVARCHAR(450) NOT NULL,
 	FOREIGN KEY (ExerciseId) REFERENCES Exercises(Id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (CompletedWorkoutId) REFERENCES CompletedWorkouts(Id)
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE NO ACTION
 )
 
 CREATE TABLE CompletedExerciseSets (
@@ -112,7 +124,10 @@ CREATE TABLE CompletedExerciseSets (
 	Sort INT NOT NULL,
 	CompletedExerciseGroupId INT NOT NULL,
 	CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+		UserId NVARCHAR(450) NOT NULL,
 	FOREIGN KEY (CompletedExerciseGroupId) REFERENCES CompletedExerciseGroups(Id)
 		ON DELETE CASCADE,
-	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id)
+	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id),
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE NO ACTION
 )

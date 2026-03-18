@@ -15,23 +15,23 @@ public class SqlExerciseSetRepository(string connectionString) : IExerciseSetRep
         return savedSet;
     }
 
-    public async Task DeleteExerciseSetEntityByIdAsync(int id)
+    public async Task DeleteExerciseSetEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ExerciseSetDataAccess.DeleteExerciseSetById, new { id });
+        await connection.ExecuteAsync(ExerciseSetDataAccess.DeleteExerciseSetById, new { id, userId });
     }
 
-    public async Task<IEnumerable<ExerciseSetEntity>> GetAllExerciseSetEntitiesForExerciseGroupAsync(int exerciseGroupId)
+    public async Task<IEnumerable<ExerciseSetEntity>> GetAllExerciseSetEntitiesForExerciseGroupAsync(int exerciseGroupId, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var sets = await connection.QueryAsync<ExerciseSetEntity>(ExerciseSetDataAccess.GetAllExerciseSetsByGroupId, new { exerciseGroupId });
+        var sets = await connection.QueryAsync<ExerciseSetEntity>(ExerciseSetDataAccess.GetAllExerciseSetsByGroupId, new { exerciseGroupId, userId });
         return sets;
     }
 
-    public async Task<ExerciseSetEntity> GetExerciseSetEntityByIdAsync(int id)
+    public async Task<ExerciseSetEntity> GetExerciseSetEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var set = await connection.QueryFirstAsync<ExerciseSetEntity>(ExerciseSetDataAccess.GetExerciseSetById, new { id });
+        var set = await connection.QueryFirstAsync<ExerciseSetEntity>(ExerciseSetDataAccess.GetExerciseSetById, new { id, userId });
         return set;
     }
 

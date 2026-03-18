@@ -4,16 +4,9 @@ namespace WorkoutBackend.Data.Services;
 
 public interface IWorkoutService
 {
-    public Task<Workout> RetrieveFullyPopulatedWorkoutAsync(int workoutId);
+    public Task<Workout> RetrieveFullyPopulatedWorkoutAsync(int workoutId, string userId);
     public Task<IEnumerable<SetTagOption>> GetSetTagOptionsAsync();
-    public Task<IEnumerable<Workout>> RetrieveAllWorkoutsAsync();
-    public Task<IEnumerable<Workout>> RetrieveAllWorkoutsList();
-    public Task<IEnumerable<ExerciseGroup>> RetrieveAllExerciseGroupsForWorkoutAsync(int workoutId);
-    public Task<IEnumerable<ExerciseSet>> RetrieveAllExerciseSetsForExerciseGroupIdAsync(int groupId);
-    public Task<Workout> SaveWorkoutAsync(Workout workout);
-    public Task<IEnumerable<ExerciseGroup>> SaveAWorkoutsExerciseGroupsAsync(Workout workout);
-    public Task<ExerciseGroup> SaveExerciseGroupAsync(ExerciseGroup exerciseGroup);
-    public Task<IEnumerable<ExerciseSet>> SaveAnExerciseGroupsExerciseSetsAsync(ExerciseGroup exerciseGroup);
-    public Task<ExerciseSet> SaveExerciseSetAsync(ExerciseSet exerciseSet);
-    public Task DeleteWorkoutByIdAsync(int workoutId);
+    public Task<IEnumerable<Workout>> RetrieveAllWorkoutsAsync(string userId);
+    public Task<Workout> SaveWorkoutAsync(Workout workout, string userId);
+    public Task DeleteWorkoutByIdAsync(int workoutId, string userId);
 }

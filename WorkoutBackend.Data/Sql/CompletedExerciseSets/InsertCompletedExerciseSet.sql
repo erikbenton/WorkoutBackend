@@ -1,5 +1,5 @@
 INSERT INTO CompletedExerciseSets
-	(Reps, Weight, MinReps, MaxReps, SetTagId, Sort, CompletedExerciseGroupId)
+	(Reps, Weight, MinReps, MaxReps, SetTagId, Sort, CompletedExerciseGroupId, UserId)
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Reps,
@@ -9,5 +9,6 @@ OUTPUT
 	INSERTED.SetTagId,
 	INSERTED.Sort,
 	INSERTED.CompletedExerciseGroupId,
+	INSERTED.UserId,
 	INSERTED.CreatedAt
-VALUES (@Reps, @Weight,@MinReps, @MaxReps, @SetTagId, @Sort, @CompletedExerciseGroupId);
+VALUES (@Reps, @Weight,@MinReps, @MaxReps, @SetTagId, @Sort, @CompletedExerciseGroupId, @UserId);

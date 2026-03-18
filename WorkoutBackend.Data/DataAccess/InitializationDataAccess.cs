@@ -10,4 +10,5 @@ public static class InitializationDataAccess
     public static string PopulateEquipment => DataAccessHelper.GetSqlString(sqlFolder, "PopulateEquipment.sql");
     public static string PopulateExercises => DataAccessHelper.GetSqlString(sqlFolder, "PopulateExercises.sql");
     public static string PopulateTwoWorkouts => DataAccessHelper.GetSqlString(sqlFolder, "PopulateTwoWorkouts.sql");
+    public static string TestUserId => DataAccessHelper.GetSqlString(sqlFolder, "TestUserId.sql");
 }

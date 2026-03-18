@@ -8,5 +8,5 @@ public record CompletedExerciseGroupEntity(
     int Sort,
     int ExerciseId,
     int CompletedWorkoutId,
-    DateTime? CreatedAt = null)
-{ }
+    string UserId,
+    DateTime? CreatedAt = null);

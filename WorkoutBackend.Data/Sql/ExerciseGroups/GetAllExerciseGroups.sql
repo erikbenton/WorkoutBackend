@@ -4,8 +4,10 @@ SELECT
 	RestTimeInSeconds,
 	Sort,
 	ExerciseId,
-	WorkoutId
-FROM ExerciseGroups;
+	WorkoutId,
+	UserId
+FROM ExerciseGroups
+WHERE UserId = @UserId;
 
 SELECT
 	Id,
@@ -13,5 +15,7 @@ SELECT
 	MaxReps,
 	SetTagId,
 	Sort,
-	ExerciseGroupId
-FROM ExerciseSets exSets;
+	ExerciseGroupId,
+	UserId
+FROM ExerciseSets exSets
+WHERE exSets.UserId = @UserId;;

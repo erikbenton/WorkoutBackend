@@ -5,11 +5,11 @@ namespace WorkoutBackend.Data.Repositories.Workouts;
 
 public interface IWorkoutRepository
 {
-    public Task<IEnumerable<WorkoutEntity>> GetAllWorkoutEntitiesAsync();
+    public Task<IEnumerable<WorkoutEntity>> GetAllWorkoutEntitiesAsync(string userId);
     public Task<IEnumerable<SetTagOption>> GetAllSetTagOptionsAsync();
-    public Task<IEnumerable<WorkoutSummaryEntry>> GetAllWorkoutSummariesEntriesAsync();
-    public Task<WorkoutEntity> GetWorkoutEntityByIdAsync(int id);
+    public Task<IEnumerable<WorkoutSummaryEntry>> GetAllWorkoutSummariesEntriesAsync(string userId);
+    public Task<WorkoutEntity> GetWorkoutEntityByIdAsync(int id, string userId);
     public Task<WorkoutEntity> CreateWorkoutEntityAsync(WorkoutEntity workout);
     public Task<WorkoutEntity> UpdateWorkoutEntityAsync(WorkoutEntity workout);
-    public Task DeleteWorkoutEntityAsync(int id);
+    public Task DeleteWorkoutEntityAsync(int id, string userId);
 }

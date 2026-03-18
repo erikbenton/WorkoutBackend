@@ -18,28 +18,28 @@ public class SqlCompletedExerciseSetRepository(string connectionString) : ICompl
         return createdEntity;
     }
 
-    public async Task DeleteCompletedExerciseSetEntityByIdAsync(int id)
+    public async Task DeleteCompletedExerciseSetEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         await connection
-            .ExecuteAsync(CompletedExerciseGroupsDataAccess.DeleteCompletedExerciseGroupById, new { id });
+            .ExecuteAsync(CompletedExerciseGroupsDataAccess.DeleteCompletedExerciseGroupById, new { id, userId });
     }
 
-    public async Task<IEnumerable<CompletedExerciseSetEntity>> GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(int completedExerciseGroupId)
+    public async Task<IEnumerable<CompletedExerciseSetEntity>> GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(int completedExerciseGroupId, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var setEntities = await connection
             .QueryAsync<CompletedExerciseSetEntity>(
-                CompletedExerciseSetsDataAccess.GetCompletedExerciseSetsByCompletedGroupId, new { completedExerciseGroupId });
+                CompletedExerciseSetsDataAccess.GetCompletedExerciseSetsByCompletedGroupId, new { completedExerciseGroupId, userId });
         return setEntities;
     }
 
-    public async Task<CompletedExerciseSetEntity> GetCompletedExerciseSetEntityByIdAsync(int id)
+    public async Task<CompletedExerciseSetEntity> GetCompletedExerciseSetEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var setEntity = await connection
             .QueryFirstAsync<CompletedExerciseSetEntity>(
-                CompletedExerciseSetsDataAccess.GetCompletedExerciseSetById, new { id });
+                CompletedExerciseSetsDataAccess.GetCompletedExerciseSetById, new { id, userId });
         return setEntity;
     }
 

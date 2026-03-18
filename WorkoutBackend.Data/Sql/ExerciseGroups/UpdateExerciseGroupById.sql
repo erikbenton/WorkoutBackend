@@ -4,12 +4,15 @@ SET
 	RestTimeInSeconds = @RestTimeInSeconds,
 	Sort = @Sort,
 	ExerciseId = @ExerciseId,
-	WorkoutId = @WorkoutId
+	WorkoutId = @WorkoutId,
+	UserId = @UserId
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Note,
 	INSERTED.RestTimeInSeconds,
 	INSERTED.Sort,
 	INSERTED.ExerciseId,
-	INSERTED.WorkoutId 
+	INSERTED.WorkoutId,
+	INSERTED.UserId
 WHERE Id = @Id
+	AND UserId = @UserId;

@@ -1,7 +1,8 @@
-INSERT INTO Workouts (Name, Description, ProgramId)
+INSERT INTO Workouts (Name, Description, UserId, ProgramId)
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Name,
 	INSERTED.Description,
-	INSERTED.ProgramId
-VALUES (@Name, @Description, NULL)
+	INSERTED.ProgramId,
+	INSERTED.UserId
+VALUES (@Name, @Description, @UserId, NULL);

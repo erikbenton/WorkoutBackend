@@ -6,8 +6,10 @@ SELECT
 	Sort,
 	ExerciseId,
 	CompletedWorkoutId,
+	UserId,
 	CreatedAt
-FROM CompletedExerciseGroups;
+FROM CompletedExerciseGroups
+WHERE UserId = @UserId;
 
 SELECT
 	Id,
@@ -18,5 +20,7 @@ SELECT
 	SetTagId,
 	Sort,
 	CompletedExerciseGroupId,
+	UserId,
 	CreatedAt
-FROM CompletedExerciseSets;
+FROM CompletedExerciseSets
+WHERE UserId = @UserId;

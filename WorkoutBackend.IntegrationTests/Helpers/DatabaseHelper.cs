@@ -26,4 +26,10 @@ public static class DatabaseHelper
         await connection.ExecuteAsync(InitializationDataAccess.PopulateEquipment);
         await connection.ExecuteAsync(InitializationDataAccess.PopulateSetTags);
     }
+
+    public static async Task<string> GetTestUserId()
+    {
+        using var connection = new SqlConnection(TestConnectionString);
+        return await connection.QueryFirstAsync<string>(InitializationDataAccess.TestUserId);
+    }
 }

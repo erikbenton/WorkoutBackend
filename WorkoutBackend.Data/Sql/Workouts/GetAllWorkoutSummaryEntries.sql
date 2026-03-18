@@ -8,4 +8,5 @@ LEFT JOIN ExerciseGroups eg
 ON eg.WorkoutId = w.Id
 LEFT JOIN Exercises ex
 ON eg.ExerciseId = ex.Id
+WHERE w.UserId = @UserId
 ORDER BY w.Id ASC, eg.Sort ASC

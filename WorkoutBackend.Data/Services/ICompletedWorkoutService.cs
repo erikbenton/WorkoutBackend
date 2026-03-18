@@ -4,15 +4,13 @@ namespace WorkoutBackend.Data.Services;
 
 public interface ICompletedWorkoutService
 {
-    public Task<IEnumerable<CompletedWorkoutSummary>> GetAllCompletedWorkoutSummariesAsync();
+    public Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync(string userId);
 
-    public Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync();
+    public Task<CompletedWorkout> GetCompletedWorkoutByIdAsync(int id, string userId);
 
-    public Task<CompletedWorkout> GetCompletedWorkoutByIdAsync(int id);
+    public Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId, string userId);
 
-    public Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId);
+    public Task<CompletedWorkout> SaveCompletedWorkoutAsync(CompletedWorkout completedWorkout, string userId);
 
-    public Task<CompletedWorkout> SaveCompletedWorkoutAsync(CompletedWorkout completedWorkout);
-
-    public Task DeleteCompletedWorkoutAsync(int id);
+    public Task DeleteCompletedWorkoutAsync(int id, string userId);
 }

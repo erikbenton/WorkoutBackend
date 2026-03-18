@@ -16,23 +16,23 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
         return savedGroup;
     }
 
-    public async Task DeleteExerciseGroupEntityByIdAsync(int id)
+    public async Task DeleteExerciseGroupEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ExerciseGroupDataAccess.DeleteExerciseGroupById, new { id });
+        await connection.ExecuteAsync(ExerciseGroupDataAccess.DeleteExerciseGroupById, new { id, userId });
     }
 
-    public async Task<ExerciseGroupEntity> GetExerciseGroupByIdAsync(int id)
+    public async Task<ExerciseGroupEntity> GetExerciseGroupByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var exerciseGroup = await connection.QueryFirstAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.GetExerciseGroupById, new { id });
+        var exerciseGroup = await connection.QueryFirstAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.GetExerciseGroupById, new { id, userId });
         return exerciseGroup;
     }
 
-    public async Task<IEnumerable<ExerciseGroupEntity>> GetAllExerciseGroupEntitiesForWorkoutAsync(int workoutId)
+    public async Task<IEnumerable<ExerciseGroupEntity>> GetAllExerciseGroupEntitiesForWorkoutAsync(int workoutId, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var exerciseGroups = await connection.QueryAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.GetExerciseGroupsByWorkoutId, new { workoutId });
+        var exerciseGroups = await connection.QueryAsync<ExerciseGroupEntity>(ExerciseGroupDataAccess.GetExerciseGroupsByWorkoutId, new { workoutId, userId });
         return exerciseGroups;
     }
 
@@ -43,13 +43,13 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
         return updatedGroup;
     }
 
-    public async Task<IEnumerable<ExerciseGroup>> GetAllExerciseGroupsPopulatedAsync()
+    public async Task<IEnumerable<ExerciseGroup>> GetAllExerciseGroupsPopulatedAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
 
         List<ExerciseGroup> exerciseGroups = new();
 
-        var results = await connection.QueryMultipleAsync(ExerciseGroupDataAccess.GetAllExerciseGroups);
+        var results = await connection.QueryMultipleAsync(ExerciseGroupDataAccess.GetAllExerciseGroups, new { userId });
 
         var groups = results.Read<ExerciseGroupEntity>();
         var sets = results.Read<ExerciseSetEntity>();

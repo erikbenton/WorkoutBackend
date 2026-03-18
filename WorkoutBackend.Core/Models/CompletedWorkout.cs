@@ -3,7 +3,6 @@
 public class CompletedWorkout
 {
     public int Id { get; set; }
-    public int? WorkoutId { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
     public string? Note { get; set; }

@@ -9,29 +9,26 @@ namespace WorkoutBackend.Data.Services;
 public class CompletedWorkoutService(
     ICompletedWorkoutRepository completedWorkoutRepository,
     ICompletedExerciseGroupRepository completedExerciseGroupRepository,
-    ICompletedExerciseSetRepository completedExerciseSetRepository,
-    IExerciseRepository exerciseRepository) : ICompletedWorkoutService
+    ICompletedExerciseSetRepository completedExerciseSetRepository) : ICompletedWorkoutService
 {
     private readonly ICompletedWorkoutRepository _completedWorkoutRepository = completedWorkoutRepository;
     private readonly ICompletedExerciseGroupRepository _completedExerciseGroupRepository = completedExerciseGroupRepository;
     private readonly ICompletedExerciseSetRepository _completedExerciseSetRepository = completedExerciseSetRepository;
-    private readonly IExerciseRepository _exerciseRepository = exerciseRepository;
 
-    public async Task DeleteCompletedWorkoutAsync(int id)
+    public async Task DeleteCompletedWorkoutAsync(int id, string userId)
     {
-        await _completedWorkoutRepository.DeleteCompletedWorkoutEntityAsync(id);
+        await _completedWorkoutRepository.DeleteCompletedWorkoutEntityAsync(id, userId);
     }
 
-    public async Task<CompletedWorkout> GetCompletedWorkoutByIdAsync(int id)
+    public async Task<CompletedWorkout> GetCompletedWorkoutByIdAsync(int id, string userId)
     {
         // Get the DB completedWorkout
-        var dbCompletedWorkout = await _completedWorkoutRepository.GetCompletedWorkoutEntityByIdAsync(id);
+        var dbCompletedWorkout = await _completedWorkoutRepository.GetCompletedWorkoutEntityByIdAsync(id, userId);
 
         // populate new CompletedWorkout
         var completedWorkout = new CompletedWorkout()
         {
             Id = dbCompletedWorkout.Id,
-            WorkoutId = dbCompletedWorkout.WorkoutId,
             Name = dbCompletedWorkout.Name,
             Description = dbCompletedWorkout.Description,
             Note = dbCompletedWorkout.Note,
@@ -41,7 +38,7 @@ public class CompletedWorkoutService(
 
         // Get the DB Completed Exercise Groups for the CompletedWorkout
         var dbExerciseGroups = await _completedExerciseGroupRepository
-            .GetAllCompletedExerciseGroupEntitiesForCompletedWorkoutAsync(completedWorkout.Id);
+            .GetAllCompletedExerciseGroupEntitiesForCompletedWorkoutAsync(completedWorkout.Id, userId);
 
         // populate the exercise groups
         var unpopulatedGroups = dbExerciseGroups.Select(group =>
@@ -73,7 +70,7 @@ public class CompletedWorkoutService(
 
             // get their completed exercise sets
             var dbSets = await _completedExerciseSetRepository
-                .GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(group.Id);
+                .GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(group.Id, userId);
 
             // map the db entity
             group.CompletedExerciseSets = dbSets.Select(set =>
@@ -99,7 +96,7 @@ public class CompletedWorkoutService(
         return completedWorkout;
     }
 
-    public async Task<CompletedWorkout> SaveCompletedWorkoutAsync(CompletedWorkout completedWorkout)
+    public async Task<CompletedWorkout> SaveCompletedWorkoutAsync(CompletedWorkout completedWorkout, string userId)
     {
         var savedCompletedWorkout = new CompletedWorkout();
 
@@ -108,11 +105,11 @@ public class CompletedWorkoutService(
 
         var dbWorkoutToSave = new CompletedWorkoutEntity(
             completedWorkout.Id,
-            completedWorkout.WorkoutId,
             completedWorkout.Name.Trim(),
             completedWorkout.Description?.Trim(),
             completedWorkout.Note?.Trim(),
-            (int)(duration));
+            (int)(duration),
+            userId);
 
         // Create or Update depending on Id
         var savedWorkoutEntity = dbWorkoutToSave.Id == 0
@@ -121,7 +118,6 @@ public class CompletedWorkoutService(
 
         // update the completed workout
         savedCompletedWorkout.Id = savedWorkoutEntity.Id;
-        savedCompletedWorkout.WorkoutId = savedWorkoutEntity.WorkoutId;
         savedCompletedWorkout.Name = savedWorkoutEntity.Name;
         savedCompletedWorkout.Description = savedWorkoutEntity.Description;
         savedCompletedWorkout.Note = savedWorkoutEntity.Note;
@@ -137,16 +133,16 @@ public class CompletedWorkoutService(
                 return group;
             });
 
-        completedWorkout.CompletedExerciseGroups = await SaveCompletedExerciseGroupsAsync(completedWorkout);
+        completedWorkout.CompletedExerciseGroups = await SaveCompletedExerciseGroupsAsync(completedWorkout, userId);
 
-        savedCompletedWorkout.CompletedExerciseGroups = await SaveCompletedExerciseGroupsSetsAsync(completedWorkout.CompletedExerciseGroups);
+        savedCompletedWorkout.CompletedExerciseGroups = await SaveCompletedExerciseGroupsSetsAsync(completedWorkout.CompletedExerciseGroups, userId);
 
         return savedCompletedWorkout;
     }
 
-    public async Task<IEnumerable<CompletedWorkoutSummary>> GetAllCompletedWorkoutSummariesAsync()
+    public async Task<IEnumerable<CompletedWorkoutSummary>> GetAllCompletedWorkoutSummariesAsync(string userId)
     {
-        var dbWorkoutSummaries = await _completedWorkoutRepository.GetCompletedWorkoutSummariesAsync();
+        var dbWorkoutSummaries = await _completedWorkoutRepository.GetCompletedWorkoutSummariesAsync(userId);
         var workoutSummaries = dbWorkoutSummaries.Select(summary =>
         {
             return new CompletedWorkoutSummary()
@@ -162,7 +158,7 @@ public class CompletedWorkoutService(
         return workoutSummaries;
     }
 
-    private async Task<IEnumerable<CompletedExerciseGroup>> SaveCompletedExerciseGroupsAsync(CompletedWorkout completedWorkout)
+    private async Task<IEnumerable<CompletedExerciseGroup>> SaveCompletedExerciseGroupsAsync(CompletedWorkout completedWorkout, string userId)
     {
         var exerciseGroupsToSave = completedWorkout.CompletedExerciseGroups.ToArray();
 
@@ -178,7 +174,8 @@ public class CompletedWorkoutService(
                 (int?)group.RestTime?.TotalSeconds,
                 group.Sort,
                 group.ExerciseId,
-                group.CompletedWorkoutId);
+                group.CompletedWorkoutId,
+                userId);
 
             // Create or Update depending on Id
             dbGroup = dbGroup.Id == 0
@@ -203,7 +200,7 @@ public class CompletedWorkoutService(
         return exerciseGroupsToSave;
     }
 
-    private async Task<IEnumerable<CompletedExerciseGroup>> SaveCompletedExerciseGroupsSetsAsync(IEnumerable<CompletedExerciseGroup> exerciseGroups)
+    private async Task<IEnumerable<CompletedExerciseGroup>> SaveCompletedExerciseGroupsSetsAsync(IEnumerable<CompletedExerciseGroup> exerciseGroups, string userId)
     {
         // Array for indexing due to async
         var exerciseGroupsWithSetsToSave = exerciseGroups.ToArray();
@@ -224,7 +221,8 @@ public class CompletedWorkoutService(
                     exerciseSet.MaxReps,
                     exerciseSet.SetTagId,
                     exerciseSet.Sort,
-                    group.Id);
+                    group.Id,
+                    userId);
 
                 var savedDbSet = dbSetToSave.Id == 0
                     ? await _completedExerciseSetRepository.CreateCompletedExerciseSetEntityAsync(dbSetToSave)
@@ -242,10 +240,10 @@ public class CompletedWorkoutService(
         return exerciseGroupsWithSetsToSave;
     }
 
-    public async Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId)
+    public async Task<IEnumerable<CompletedExerciseGroupHistory>> GetCompletedGroupHistoryByExerciseAsync(int exerciseId, string userId)
     {
         var dbGroupHistory = await _completedExerciseGroupRepository
-            .GetCompletedGroupHistoryByExerciseIdAsync(exerciseId);
+            .GetCompletedGroupHistoryByExerciseIdAsync(exerciseId, userId);
 
         var groupHistories = dbGroupHistory.Select(group =>
         {
@@ -265,7 +263,7 @@ public class CompletedWorkoutService(
         {
             var group = groupHistories[i];
             var dbSets = await _completedExerciseSetRepository
-                .GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(group.CompletedExerciseGroupId);
+                .GetAllCompletedExerciseSetEntitiesForCompletedGroupAsync(group.CompletedExerciseGroupId, userId);
 
             group.CompletedExerciseSets = dbSets.Select(set =>
             {
@@ -287,14 +285,13 @@ public class CompletedWorkoutService(
         return groupHistories;
     }
 
-    public async Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync()
+    public async Task<IEnumerable<CompletedWorkout>> GetAllCompletedWorkoutsPopulatedAsync(string userId)
     {
-        var workoutEntities = await _completedWorkoutRepository.GetAllCompletedWorkoutEntitiesAsync();
+        var workoutEntities = await _completedWorkoutRepository.GetAllCompletedWorkoutEntitiesAsync(userId);
 
         var workouts = workoutEntities.Select(dbCompletedWorkout => new CompletedWorkout()
         {
             Id = dbCompletedWorkout.Id,
-            WorkoutId = dbCompletedWorkout.WorkoutId,
             Name = dbCompletedWorkout.Name,
             Description = dbCompletedWorkout.Description,
             Note = dbCompletedWorkout.Note,
@@ -303,7 +300,7 @@ public class CompletedWorkoutService(
             CompletedExerciseGroups = []
         }).ToList(); // needs to be a list for the loop
 
-        var exerciseGroups = await _completedExerciseGroupRepository.GetAllCompletedGroupsPopulatedAsync();
+        var exerciseGroups = await _completedExerciseGroupRepository.GetAllCompletedGroupsPopulatedAsync(userId);
 
         foreach (var workout in workouts)
         {

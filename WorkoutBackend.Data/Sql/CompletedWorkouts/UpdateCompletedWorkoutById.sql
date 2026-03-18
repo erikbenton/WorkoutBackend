@@ -1,17 +1,18 @@
 UPDATE CompletedWorkouts
 SET
-	WorkoutId = @WorkoutId,
 	Name = @Name,
 	Description = @Description,
 	Note = @Note,
 	DurationInSeconds = @DurationInSeconds,
-	CreatedAt = @CreatedAt
+	CreatedAt = @CreatedAt,
+	UserId = @UserId
 OUTPUT
 	INSERTED.Id,
-	INSERTED.WorkoutId,
 	INSERTED.Name,
 	INSERTED.Description,
 	INSERTED.Note,
 	INSERTED.DurationInSeconds,
+	INSERTED.UserId,
 	INSERTED.CreatedAt
-WHERE Id = @Id;
+WHERE Id = @Id
+	AND UserId = @UserId;

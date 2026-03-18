@@ -2,10 +2,13 @@ UPDATE Workouts
 SET
 	Name = @Name,
 	Description = @Description,
-	ProgramId = @ProgramId
+	ProgramId = @ProgramId,
+	UserId = @UserId
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Name,
 	INSERTED.Description,
-	INSERTED.ProgramId
+	INSERTED.ProgramId,
+	INSERTED.UserId
 WHERE Id = @Id
+	AND UserId = @UserId;

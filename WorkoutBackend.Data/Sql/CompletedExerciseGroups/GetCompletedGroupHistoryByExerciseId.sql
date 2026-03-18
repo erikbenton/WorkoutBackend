@@ -4,7 +4,9 @@ SELECT
 	DATEPART(MONTH, ceg.CreatedAt) AS Month,
 	DATEPART(DAY, ceg.CreatedAt) AS Day,
 	ceg.Comment AS Comment,
-	ceg.ExerciseId AS ExerciseId
+	ceg.ExerciseId AS ExerciseId,
+	ceg.UserId
 FROM CompletedExerciseGroups ceg
 WHERE ceg.ExerciseId = @ExerciseId
+	AND ceg.UserId = @UserId
 ORDER BY ceg.CreatedAt DESC;

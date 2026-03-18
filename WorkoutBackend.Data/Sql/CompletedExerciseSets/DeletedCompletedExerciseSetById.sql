@@ -1,2 +1,3 @@
 DELETE FROM CompletedExerciseSets
-WHERE Id = @Id;
+WHERE Id = @Id
+	AND UserId = @UserId;

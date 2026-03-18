@@ -7,7 +7,8 @@ SET
 	SetTagId = @SetTagId,
 	Sort = @Sort,
 	CompletedExerciseGroupId = @CompletedExerciseGroupId,
-	CreatedAt = @CreatedAt
+	CreatedAt = @CreatedAt,
+	UserId = @UserId
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Reps,
@@ -17,5 +18,7 @@ OUTPUT
 	INSERTED.SetTagId,
 	INSERTED.Sort,
 	INSERTED.CompletedExerciseGroupId,
+	INSERTED.UserId,
 	INSERTED.CreatedAt
-WHERE Id = @Id;
+WHERE Id = @Id
+	AND UserId = @UserId;

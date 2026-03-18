@@ -18,34 +18,34 @@ public class SqlCompletedWorkoutRepository(string connectionString) : ICompleted
         return createdEntity;
     }
 
-    public async Task DeleteCompletedWorkoutEntityAsync(int id)
+    public async Task DeleteCompletedWorkoutEntityAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(CompletedWorkoutDataAccess.DeleteCompletedWorkoutById, new { id });
+        await connection.ExecuteAsync(CompletedWorkoutDataAccess.DeleteCompletedWorkoutById, new { id, userId });
     }
 
-    public async Task<IEnumerable<CompletedWorkoutEntity>> GetAllCompletedWorkoutEntitiesAsync()
+    public async Task<IEnumerable<CompletedWorkoutEntity>> GetAllCompletedWorkoutEntitiesAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var workoutEntities = await connection
             .QueryAsync<CompletedWorkoutEntity>(
-                CompletedWorkoutDataAccess.GetAllCompletedWorkouts);
+                CompletedWorkoutDataAccess.GetAllCompletedWorkouts, new { userId });
         return workoutEntities;
     }
 
-    public async Task<CompletedWorkoutEntity> GetCompletedWorkoutEntityByIdAsync(int id)
+    public async Task<CompletedWorkoutEntity> GetCompletedWorkoutEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
         var workoutEntity = await connection
             .QueryFirstAsync<CompletedWorkoutEntity>(
-                CompletedWorkoutDataAccess.GetCompletedWorkoutById, new { id });
+                CompletedWorkoutDataAccess.GetCompletedWorkoutById, new { id, userId });
         return workoutEntity;
     }
 
-    public async Task<IEnumerable<CompletedWorkoutSummaryEntity>> GetCompletedWorkoutSummariesAsync()
+    public async Task<IEnumerable<CompletedWorkoutSummaryEntity>> GetCompletedWorkoutSummariesAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var workoutSummaries = await connection.QueryAsync<CompletedWorkoutSummaryEntity>(CompletedWorkoutDataAccess.GetCompletedWorkoutsSummaries);
+        var workoutSummaries = await connection.QueryAsync<CompletedWorkoutSummaryEntity>(CompletedWorkoutDataAccess.GetCompletedWorkoutsSummaries, new { userId });
         return workoutSummaries;
     }
 

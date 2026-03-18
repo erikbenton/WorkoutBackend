@@ -9,7 +9,7 @@ namespace WorkoutBackend.Api.Controllers;
 [ApiController]
 public class WorkoutsController(
     IWorkoutService workoutService,
-     UserManager<IdentityUser> userManager) : ControllerBase
+    UserManager<IdentityUser> userManager) : ControllerBase
 {
     private readonly IWorkoutService _workoutService = workoutService;
     private readonly UserManager<IdentityUser> _userManager = userManager;
@@ -20,7 +20,12 @@ public class WorkoutsController(
         var user = HttpContext.User;
         var identityUser = await _userManager.GetUserAsync(user);
 
-        var workoutSummaries = await _workoutService.RetrieveAllWorkoutsAsync();
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        var workoutSummaries = await _workoutService.RetrieveAllWorkoutsAsync(identityUser.Id);
 
         return Ok(workoutSummaries);
     }
@@ -38,7 +43,15 @@ public class WorkoutsController(
     [Route("{id}")]
     public async Task<ActionResult<Workout>> GetPopulatedWorkoutById(int id)
     {
-        var workout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(id);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        var workout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(id, identityUser.Id);
 
         return Ok(workout);
     }
@@ -46,9 +59,17 @@ public class WorkoutsController(
     [HttpPost]
     public async Task<ActionResult<Workout>> CreateWorkoutAsync([FromBody]Workout workout)
     {
-        var savedWorkout = await _workoutService.SaveWorkoutAsync(workout);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
 
-        var populatedWorkout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id);
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        var savedWorkout = await _workoutService.SaveWorkoutAsync(workout, identityUser.Id);
+
+        var populatedWorkout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id, identityUser.Id);
 
         return Ok(populatedWorkout);
     }
@@ -57,9 +78,17 @@ public class WorkoutsController(
     [Route("{id}")]
     public async Task<ActionResult<Workout>> UpdateWorkoutAsync([FromBody]Workout workout)
     {
-        var savedWorkout = await _workoutService.SaveWorkoutAsync(workout);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
 
-        var populatedWorkout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id);
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        var savedWorkout = await _workoutService.SaveWorkoutAsync(workout, identityUser.Id);
+
+        var populatedWorkout = await _workoutService.RetrieveFullyPopulatedWorkoutAsync(savedWorkout.Id, identityUser.Id);
 
         return Ok(populatedWorkout);
     }
@@ -68,7 +97,15 @@ public class WorkoutsController(
     [Route("{id}")]
     public async Task<ActionResult> DeleteWorkoutByIdAsync(int id)
     {
-        await _workoutService.DeleteWorkoutByIdAsync(id);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        await _workoutService.DeleteWorkoutByIdAsync(id, identityUser.Id);
 
         return NoContent();
     }

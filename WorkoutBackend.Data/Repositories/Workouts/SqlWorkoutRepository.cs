@@ -20,10 +20,10 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         return savedWorkout;
     }
 
-    public async Task DeleteWorkoutEntityAsync(int id)
+    public async Task DeleteWorkoutEntityAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(WorkoutDataAccess.DeleteWorkoutById, new { id });
+        await connection.ExecuteAsync(WorkoutDataAccess.DeleteWorkoutById, new { id, userId });
 
     }
 
@@ -34,24 +34,24 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
         return setTags;
     }
 
-    public async Task<IEnumerable<WorkoutEntity>> GetAllWorkoutEntitiesAsync()
+    public async Task<IEnumerable<WorkoutEntity>> GetAllWorkoutEntitiesAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var workouts = await connection.QueryAsync<WorkoutEntity>(WorkoutDataAccess.GetAllWorkouts);
+        var workouts = await connection.QueryAsync<WorkoutEntity>(WorkoutDataAccess.GetAllWorkouts, new { userId });
         return workouts;
     }
 
-    public async Task<IEnumerable<WorkoutSummaryEntry>> GetAllWorkoutSummariesEntriesAsync()
+    public async Task<IEnumerable<WorkoutSummaryEntry>> GetAllWorkoutSummariesEntriesAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var summaryEntries = await connection.QueryAsync<WorkoutSummaryEntry>(WorkoutDataAccess.GetAllWorkoutSummaryEntries);
+        var summaryEntries = await connection.QueryAsync<WorkoutSummaryEntry>(WorkoutDataAccess.GetAllWorkoutSummaryEntries, new { userId });
         return summaryEntries;
     }
 
-    public async Task<WorkoutEntity> GetWorkoutEntityByIdAsync(int id)
+    public async Task<WorkoutEntity> GetWorkoutEntityByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var workout = await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.GetWorkoutById, new { id });
+        var workout = await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.GetWorkoutById, new { id, userId });
         return workout;
     }
 

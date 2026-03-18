@@ -5,5 +5,5 @@ public record ExerciseSetEntity(int Id,
     int? MaxReps,
     int? SetTagId,
     int Sort,
-    int ExerciseGroupId)
-{ }
+    int ExerciseGroupId,
+    string UserId);

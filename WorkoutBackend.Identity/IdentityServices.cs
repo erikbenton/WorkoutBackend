@@ -26,7 +26,6 @@ public static class IdentityServices
 
         services.ConfigureApplicationCookie(options =>
         {
-            options.Cookie.HttpOnly = false;
             options.Cookie.Name = "WorkItOut";
             options.ExpireTimeSpan = TimeSpan.FromDays(30);
         });

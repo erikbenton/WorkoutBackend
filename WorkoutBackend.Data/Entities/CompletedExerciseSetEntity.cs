@@ -9,5 +9,5 @@ public record CompletedExerciseSetEntity(
     int? SetTagId,
     int Sort,
     int CompletedExerciseGroupId,
-    DateTime? CreatedAt = null)
-{ }
+    string UserId,
+    DateTime? CreatedAt = null);
