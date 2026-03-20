@@ -250,9 +250,7 @@ public class CompletedWorkoutService(
             return new CompletedExerciseGroupHistory
             {
                 CompletedExerciseGroupId = group.CompletedExerciseGroupId,
-                Year = group.Year,
-                Month = group.Month,
-                Day = group.Day,
+                CreatedAt = group.CreatedAt,
                 Comment = group.Comment,
                 ExerciseId = group.ExerciseId,
             };

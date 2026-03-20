@@ -2,9 +2,7 @@
 
 public record CompletedExerciseGroupHistoryEntity(
     int CompletedExerciseGroupId,
-    int Year,
-    int Month,
-    int Day,
     string? Comment,
     int ExerciseId,
-    string UserId);
+    string UserId,
+    DateTime CreatedAt);
