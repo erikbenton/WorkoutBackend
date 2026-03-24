@@ -92,6 +92,9 @@
     <EmbeddedResource Include="Sql\Initialization\TestUserId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Sql\UserStats\GeneralStatsBeforeEqualEndDate.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sql\Workouts\GetAllSetTagOptions.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

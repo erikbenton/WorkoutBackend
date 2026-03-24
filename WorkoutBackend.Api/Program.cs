@@ -1,6 +1,7 @@
 using WorkoutBackend.Data.Repositories.CompletedWorkouts;
 using WorkoutBackend.Data.Repositories.Database;
 using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.UserStats;
 using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
 using WorkoutBackend.Identity;
@@ -30,25 +31,15 @@ builder.Services.AddScoped<ICompletedWorkoutRepository, SqlCompletedWorkoutRepos
 builder.Services.AddScoped<ICompletedExerciseGroupRepository, SqlCompletedExerciseGroupRepository>(repo => new SqlCompletedExerciseGroupRepository(workoutDbConnectionString));
 builder.Services.AddScoped<ICompletedExerciseSetRepository, SqlCompletedExerciseSetRepository>(repo => new SqlCompletedExerciseSetRepository(workoutDbConnectionString));
 
+builder.Services.AddScoped<IUserStatsRepository, SqlUserStatsRepository>(repo => new SqlUserStatsRepository(workoutDbConnectionString));
+
 builder.Services.AddScoped<IDatabaseRepository, SqlDatabaseRepository>(repo => new SqlDatabaseRepository(workoutDbConnectionString));
 
 // Workout services
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<ICompletedWorkoutService, CompletedWorkoutService>();
-
-//CORS
-var workoutFrontEndCorsPolicy = "workoutFrontEndCorsPolicy";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: workoutFrontEndCorsPolicy,
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5173")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
+builder.Services.AddScoped<IUserStatsService, UserStatsService>();
 
 var app = builder.Build();
 
@@ -60,7 +51,6 @@ app.UseAuthentication();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseCors(workoutFrontEndCorsPolicy);
 }
 
 app.UseHttpsRedirection();
