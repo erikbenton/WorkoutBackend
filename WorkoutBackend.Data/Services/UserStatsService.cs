@@ -12,13 +12,12 @@ public class UserStatsService(IUserStatsRepository userStatsRepository) : IUserS
         var today = DateTime.UtcNow;
         var enddate = today.AddDays(-numberOfDays);
         var userStatsEntity = await _userStatsRepository.GetUserStatsAsync(enddate, userId);
-        var duration = TimeSpan.FromSeconds(userStatsEntity.DurationInSeconds);
         return new UserStats()
         {
             NumberOfDays = numberOfDays,
             NumberOfWorkouts = userStatsEntity.NumberOfWorkouts,
             Duration = TimeSpan.FromSeconds(userStatsEntity.DurationInSeconds),
-            NumberOfExercises = userStatsEntity.NumberOfExercises,
+            DurationInSeconds = userStatsEntity.DurationInSeconds,
             NumberOfSets = userStatsEntity.NumberOfSets,
             NumberOfReps = userStatsEntity.NumberOfReps,
             TotalVolume = userStatsEntity.TotalVolume

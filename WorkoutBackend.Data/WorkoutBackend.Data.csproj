@@ -45,6 +45,7 @@
     <None Remove="Sql\Initialization\PopulateMuscles.sql" />
     <None Remove="Sql\Initialization\PopulateSetTags.sql" />
     <None Remove="Sql\Initialization\TestUserId.sql" />
+    <None Remove="Sql\UserStats\WorkoutStatsBeforeEqualsEndDate.sql" />
     <None Remove="Sql\Workouts\DeleteWorkoutById.sql" />
     <None Remove="Sql\Workouts\GetAllSetTagOptions.sql" />
     <None Remove="Sql\Workouts\GetAllWorkouts.sql" />
@@ -92,7 +93,10 @@
     <EmbeddedResource Include="Sql\Initialization\TestUserId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sql\UserStats\GeneralStatsBeforeEqualEndDate.sql">
+    <EmbeddedResource Include="Sql\UserStats\SetStatsBeforeEqualsEndDate.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\UserStats\WorkoutStatsBeforeEqualsEndDate.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Workouts\GetAllSetTagOptions.sql">

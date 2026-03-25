@@ -12,7 +12,8 @@ public class SqlUserStatsRepository(string connectionString) : IUserStatsReposit
     public async Task<UserStatsEntity> GetUserStatsAsync(DateTime endDate, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var userStats = await connection.QueryFirstAsync<UserStatsEntity>(UserStatsDataAccess.GeneralStatsBeforeEqualEndDate, new { endDate, userId });
-        return userStats;
+        var workoutStats = await connection.QueryFirstAsync<WorkoutStatsEntity>(UserStatsDataAccess.WorkoutStatsBeforeEqualsEndDate, new { endDate, userId });
+        var setStats = await connection.QueryFirstAsync<SetStatsEntity>(UserStatsDataAccess.SetStatsBeforeEqualsEndDate, new { endDate, userId });
+        return new UserStatsEntity(workoutStats, setStats);
     }
 }
