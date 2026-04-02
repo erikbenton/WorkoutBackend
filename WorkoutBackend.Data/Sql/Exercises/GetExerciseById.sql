@@ -14,7 +14,8 @@ SELECT
 	exMus.ExerciseId,
 	exMus.MuscleId,
 	exMus.Weight,
-	mus.Name AS MuscleName
+	mus.Name AS MuscleName,
+	mus.ColorRgb AS ColorRgb
 FROM ExercisesMuscles exMus
 JOIN Muscles mus
 ON exMus.MuscleId = mus.Id

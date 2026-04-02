@@ -39,8 +39,8 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
             .First();
         
         exercise.Muscles = results
-            .Read<ExerciseMuscleEntity>()
-            .Select(entity => new MuscleData() { Name = entity.MuscleName, Weight = entity.Weight });
+            .Read<MuscleDataEntity>()
+            .Select(entity => new MuscleData() { Name = entity.MuscleName, Weight = entity.Weight, ColorRgb = entity.ColorRgb });
         
         return exercise;
     }
