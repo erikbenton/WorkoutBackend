@@ -4,5 +4,5 @@ VALUES ('warmup', '#00e676'),
 	   ('light', '#00e5ff'),
 	   ('heavy', '#b22a00'),
 	   ('focused', '#14a37f'),
-	   ('slow', '#00e5ff'),
+	   ('slow', '#7c4dff'),
 	   ('explosive', '#ffc400');
