@@ -13,7 +13,7 @@ jobs:
       - name: Get the Latest Front End Workflow Run-Id
         env:
           GH_TOKEN: ${{ github.token }}
-        run: latestRunId=$(gh api /repos/erikbenton/work-it-out-frontend/actions/runs | jq '.workflow_runs[0].id')
+        run: latestRunId=(gh api /repos/erikbenton/work-it-out-frontend/actions/runs | jq '.workflow_runs[0].id')
              echo "LATEST_RUN_ID=$latestRunId" >> $GITHUB_ENV
 
       - name: GH API Output
