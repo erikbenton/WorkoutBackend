@@ -1,8 +1,6 @@
 name: Build Work-It-Out Back End
 
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 jobs:
