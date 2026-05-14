@@ -72,14 +72,22 @@ public class SqlExerciseGroupRepository(string connectionString) : IExerciseGrou
 
             var exerciseSets = sets
                 .Where(s => s.ExerciseGroupId == group.Id)
-                .Select(s => new ExerciseSet()
+                .Select(s =>
                 {
-                    Id = s.Id,
-                    MinReps = s.MinReps,
-                    MaxReps = s.MaxReps,
-                    SetTagId = s.SetTagId,
-                    Sort = s.Sort,
-                    ExerciseGroupId = group.Id
+                    TimeSpan? targetDuration = s.TargetDurationInSeconds is not null
+                    ? TimeSpan.FromSeconds((long)s.TargetDurationInSeconds)
+                    : null;
+                    return new ExerciseSet()
+                    {
+                        Id = s.Id,
+                        MinReps = s.MinReps,
+                        MaxReps = s.MaxReps,
+                        TargetDuration = targetDuration,
+                        TargetDistance = s.TargetDistanceinMiles,
+                        SetTagId = s.SetTagId,
+                        Sort = s.Sort,
+                        ExerciseGroupId = group.Id
+                    };
                 })
                 .OrderBy(s => s.Sort);
 

@@ -1,4 +1,3 @@
 ﻿namespace WorkoutBackend.Core.Models;
 
-public record EquipmentOption(int Id, string Name)
-{ }
+public record EquipmentOption(int Id, string Name);

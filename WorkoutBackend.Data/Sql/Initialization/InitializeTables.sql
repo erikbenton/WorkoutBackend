@@ -40,7 +40,7 @@ CREATE TABLE Exercises (
 	Category VARCHAR(20) NOT NULL DEFAULT 'lift',
 	EquipmentId INT NOT NULL,
 	FOREIGN KEY (EquipmentId) REFERENCES Equipment(Id),
-	CONSTRAINT CHK_Category CHECK(Category IN ('lift', 'timed', 'conditioning'))
+	CONSTRAINT Exercise_Category_Check CHECK(Category IN ('lift', 'timed', 'conditioning', 'stretch'))
 )
 
 CREATE TABLE ExercisesMuscles (
@@ -73,6 +73,8 @@ CREATE TABLE ExerciseSets (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	MinReps INT,
 	MaxReps INT,
+	TargetDurationInSeconds INT,
+	TargetDistanceinMiles FLOAT,
 	SetTagId INT,
 	Sort INT NOT NULL,
 	ExerciseGroupId INT NOT NULL,
@@ -116,10 +118,12 @@ CREATE TABLE CompletedExerciseGroups (
 
 CREATE TABLE CompletedExerciseSets (
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Reps INT NOT NULL,
+	Reps INT,
 	Weight FLOAT,
 	MinReps INT,
 	MaxReps INT,
+	TargetDurationInSeconds INT,
+	TargetDistanceinMiles FLOAT,
 	SetTagId INT,
 	Sort INT NOT NULL,
 	CompletedExerciseGroupId INT NOT NULL,

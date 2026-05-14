@@ -2,10 +2,14 @@
 
 public record CompletedExerciseSetEntity(
     int Id,
-    int Reps,
+    int? Reps,
     double? Weight,
+    int? DurationInSeconds,
+    double? DistanceInMiles,
     int? MinReps,
     int? MaxReps,
+    int? TargetDurationInSeconds,
+    double? TargetDistanceInMiles,
     int? SetTagId,
     int Sort,
     int CompletedExerciseGroupId,

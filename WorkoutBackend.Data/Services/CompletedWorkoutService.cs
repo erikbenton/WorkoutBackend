@@ -213,12 +213,18 @@ public class CompletedWorkoutService(
             for (var j = 0; j < exerciseSets.Length; j++)
             {
                 var exerciseSet = exerciseSets[j];
+                var targetDurationInSeconds = exerciseSet.TargetDuration?.TotalSeconds;
+                var durationInSeconds = exerciseSet.Duration?.TotalSeconds;
                 var dbSetToSave = new CompletedExerciseSetEntity(
                     exerciseSet.Id,
                     exerciseSet.Reps,
                     exerciseSet.Weight,
+                    (int?)durationInSeconds,
+                    exerciseSet.Distance,
                     exerciseSet.MinReps,
                     exerciseSet.MaxReps,
+                    (int?)targetDurationInSeconds,
+                    exerciseSet.TargetDistance,
                     exerciseSet.SetTagId,
                     exerciseSet.Sort,
                     group.Id,

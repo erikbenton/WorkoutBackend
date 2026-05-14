@@ -72,11 +72,16 @@ public class WorkoutService(
 
         return sets.Select(set =>
         {
+            TimeSpan? duration = set.TargetDurationInSeconds is not null
+            ? TimeSpan.FromSeconds((double)set.TargetDurationInSeconds)
+            : null;
             return new ExerciseSet()
             {
                 Id = set.Id,
                 MinReps = set.MinReps,
                 MaxReps = set.MaxReps,
+                TargetDistance = set.TargetDistanceinMiles,
+                TargetDuration = duration,
                 SetTagId = set.SetTagId,
                 Sort = set.Sort,
                 ExerciseGroupId = set.ExerciseGroupId,
@@ -218,10 +223,13 @@ public class WorkoutService(
 
     public async Task<ExerciseSet> SaveExerciseSetAsync(ExerciseSet exerciseSet, string userId)
     {
+        var targetDurationInSeconds = exerciseSet.TargetDuration?.TotalSeconds;
         var dbSet = new ExerciseSetEntity(
             exerciseSet.Id,
             exerciseSet.MinReps,
             exerciseSet.MaxReps,
+            (int?)targetDurationInSeconds,
+            exerciseSet.TargetDistance,
             exerciseSet.SetTagId,
             exerciseSet.Sort,
             exerciseSet.ExerciseGroupId,

@@ -13,6 +13,8 @@ SELECT
 	Id,
 	MinReps,
 	MaxReps,
+	TargetDurationInSeconds,
+	TargetDistanceinMiles,
 	SetTagId,
 	Sort,
 	ExerciseGroupId,

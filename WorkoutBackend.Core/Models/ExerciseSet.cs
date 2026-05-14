@@ -5,6 +5,8 @@ public class ExerciseSet
     public int Id { get; set; }
     public int? MinReps { get; set; }
     public int? MaxReps { get; set; }
+    public TimeSpan? TargetDuration { get; set; }
+    public double? TargetDistance { get; set; }
     public int? SetTagId { get; set; }
     public int Sort { get; set; }
     public int ExerciseGroupId { get; set; }

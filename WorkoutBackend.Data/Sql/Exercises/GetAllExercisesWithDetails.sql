@@ -1,8 +1,8 @@
 SELECT
 	ex.Id,
 	ex.Name,
-	ex.Category,
 	ex.Instructions,
+	ex.Category,
 	eq.Name AS Equipment
 FROM Exercises ex
 JOIN Equipment eq

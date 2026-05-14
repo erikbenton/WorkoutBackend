@@ -1,4 +1,4 @@
-SELECT Id, MinReps, MaxReps, SetTagId, Sort, ExerciseGroupId, UserId
+SELECT Id, MinReps, MaxReps, TargetDurationInSeconds, TargetDistanceinMiles, SetTagId, Sort, ExerciseGroupId, UserId
 FROM ExerciseSets
 WHERE ExerciseGroupId = @ExerciseGroupId
 	AND UserId = @UserId

@@ -65,17 +65,30 @@ public class SqlCompletedExerciseGroupRepository(string connectionString) : ICom
 
             var exerciseSets = sets
                 .Where(set => set.CompletedExerciseGroupId == group.Id)
-                .Select(set => new CompletedExerciseSet()
+                .Select(set =>
                 {
-                    Id = set.Id,
-                    Reps = set.Reps,
-                    Weight = set.Weight,
-                    MinReps = set.MinReps,
-                    MaxReps = set.MaxReps,
-                    SetTagId = set.SetTagId,
-                    Sort = set.Sort,
-                    CreatedAt = set.CreatedAt,
-                    CompletedExerciseGroupId = set.CompletedExerciseGroupId,
+                    TimeSpan? targetDuration = set.TargetDurationInSeconds is not null
+                        ? TimeSpan.FromSeconds((long)set.TargetDurationInSeconds)
+                        : null;
+                    TimeSpan? duration = set.DurationInSeconds is not null
+                        ? TimeSpan.FromSeconds((long)set.DurationInSeconds)
+                        : null;
+                    return new CompletedExerciseSet()
+                    {
+                        Id = set.Id,
+                        Reps = set.Reps,
+                        Weight = set.Weight,
+                        Duration = duration,
+                        Distance = set.DistanceInMiles,
+                        MinReps = set.MinReps,
+                        MaxReps = set.MaxReps,
+                        TargetDistance = set.TargetDistanceInMiles,
+                        TargetDuration = targetDuration,
+                        SetTagId = set.SetTagId,
+                        Sort = set.Sort,
+                        CreatedAt = set.CreatedAt,
+                        CompletedExerciseGroupId = set.CompletedExerciseGroupId,
+                    };
                 })
                 .OrderBy(s => s.Sort);
 

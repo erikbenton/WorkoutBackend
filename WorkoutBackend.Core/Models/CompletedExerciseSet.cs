@@ -3,10 +3,14 @@
 public class CompletedExerciseSet
 {
     public int Id { get; set; }
-    public int Reps { get; set; }
+    public int? Reps { get; set; }
     public double? Weight { get; set; }
+    public TimeSpan? Duration { get; set; }
+    public double? Distance { get; set; }
     public int? MinReps { get; set; }
     public int? MaxReps { get; set; }
+    public TimeSpan? TargetDuration { get; set; }
+    public double? TargetDistance { get; set; }
     public int? SetTagId { get; set; }
     public int Sort { get; set; }
     public DateTime? CreatedAt { get; set; }
