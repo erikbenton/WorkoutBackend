@@ -1,4 +1,4 @@
-SELECT Id, Name, Description, ProgramId, UserId
+SELECT Id, Name, Description, UserId
 FROM Workouts
 WHERE Id = @Id
 	AND UserId = @UserId;

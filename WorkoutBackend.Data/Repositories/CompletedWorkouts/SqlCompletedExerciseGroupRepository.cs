@@ -38,7 +38,7 @@ public class SqlCompletedExerciseGroupRepository(string connectionString) : ICom
     {
         using var connection = new SqlConnection(_connectionString);
 
-        List<CompletedExerciseGroup> exerciseGroups = new();
+        List<CompletedExerciseGroup> exerciseGroups = [];
 
         var results = await connection.QueryMultipleAsync(CompletedExerciseGroupsDataAccess.GetAllCompletedExerciseGroups, new { userId });
 

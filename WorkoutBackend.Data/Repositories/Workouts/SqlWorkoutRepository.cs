@@ -13,9 +13,8 @@ public class SqlWorkoutRepository(string connectionString) : IWorkoutRepository
     public async Task<WorkoutEntity> CreateWorkoutEntityAsync(WorkoutEntity workout)
     {
         using var connection = new SqlConnection(_connectionString);
-        var savedWorkout = workout.ProgramId == null
-            ? await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.InsertWorkoutNoProgramId, workout)
-            : await connection.QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.InsertWorkoutWithProgramId, workout);
+        var savedWorkout = await connection
+            .QueryFirstAsync<WorkoutEntity>(WorkoutDataAccess.InsertWorkoutNoProgramId, workout);
 
         return savedWorkout;
     }

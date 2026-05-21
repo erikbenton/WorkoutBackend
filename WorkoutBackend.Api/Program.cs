@@ -1,6 +1,7 @@
 using WorkoutBackend.Data.Repositories.CompletedWorkouts;
 using WorkoutBackend.Data.Repositories.Database;
 using WorkoutBackend.Data.Repositories.Exercises;
+using WorkoutBackend.Data.Repositories.Programs;
 using WorkoutBackend.Data.Repositories.UserStats;
 using WorkoutBackend.Data.Repositories.Workouts;
 using WorkoutBackend.Data.Services;
@@ -31,6 +32,8 @@ builder.Services.AddScoped<ICompletedWorkoutRepository, SqlCompletedWorkoutRepos
 builder.Services.AddScoped<ICompletedExerciseGroupRepository, SqlCompletedExerciseGroupRepository>(repo => new SqlCompletedExerciseGroupRepository(workoutDbConnectionString));
 builder.Services.AddScoped<ICompletedExerciseSetRepository, SqlCompletedExerciseSetRepository>(repo => new SqlCompletedExerciseSetRepository(workoutDbConnectionString));
 
+builder.Services.AddScoped<IProgramRepository, SqlProgramRepository>(repo => new SqlProgramRepository(workoutDbConnectionString));
+
 builder.Services.AddScoped<IUserStatsRepository, SqlUserStatsRepository>(repo => new SqlUserStatsRepository(workoutDbConnectionString));
 
 builder.Services.AddScoped<IDatabaseRepository, SqlDatabaseRepository>(repo => new SqlDatabaseRepository(workoutDbConnectionString));
@@ -39,6 +42,7 @@ builder.Services.AddScoped<IDatabaseRepository, SqlDatabaseRepository>(repo => n
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<ICompletedWorkoutService, CompletedWorkoutService>();
+builder.Services.AddScoped<IWorkoutProgramService, WorkoutProgramService>();
 builder.Services.AddScoped<IUserStatsService, UserStatsService>();
 
 var app = builder.Build();

@@ -55,14 +55,14 @@ public class ExerciseRepositoryTests
 
         var savedExercise = await _exerciseRepository.CreateExerciseAsync(exercise);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(savedExercise.Id, Is.Not.EqualTo(0));
             Assert.That(savedExercise.Name, Is.EqualTo(exercise.Name));
             Assert.That(savedExercise.Instructions, Is.EqualTo(exercise.Instructions));
             Assert.That(savedExercise.Muscles?.Select(ms => ms.Name).Contains("legs"), Is.True);
             Assert.That(savedExercise.Equipment, Is.EqualTo(exercise.Equipment));
-        });
+        }
     }
 
     [Test]
@@ -78,11 +78,14 @@ public class ExerciseRepositoryTests
 
         var updatedExercise = await _exerciseRepository.UpdateExerciseAsync(exerciseToUpdate);
 
-        Assert.That(updatedExercise.Id, Is.EqualTo(exerciseToUpdate.Id));
-        Assert.That(updatedExercise.Name, Is.EqualTo(exerciseToUpdate.Name));
-        Assert.That(updatedExercise.Instructions, Is.EqualTo(exerciseToUpdate.Instructions));
-        //Assert.That(updatedExercise.Muscles, Is.EqualTo(exerciseToUpdate.Muscles));
-        Assert.That(updatedExercise.Equipment, Is.EqualTo(exerciseToUpdate.Equipment));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(updatedExercise.Id, Is.EqualTo(exerciseToUpdate.Id));
+            Assert.That(updatedExercise.Name, Is.EqualTo(exerciseToUpdate.Name));
+            Assert.That(updatedExercise.Instructions, Is.EqualTo(exerciseToUpdate.Instructions));
+            //Assert.That(updatedExercise.Muscles, Is.EqualTo(exerciseToUpdate.Muscles));
+            Assert.That(updatedExercise.Equipment, Is.EqualTo(exerciseToUpdate.Equipment));
+        }
     }
 
     [Test]
@@ -96,13 +99,13 @@ public class ExerciseRepositoryTests
 
         var exerciseNames = exercises.Select(x => x.Name);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             foreach (var exerciseName in exerciseNames)
             {
-                Assert.That(exerciseName.Contains(name), Is.True);
+                Assert.That(exerciseName?.Contains(name), Is.True);
             }
-        });
+        }
     }
 
     [Test]

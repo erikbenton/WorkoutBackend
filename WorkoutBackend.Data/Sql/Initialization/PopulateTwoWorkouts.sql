@@ -1,7 +1,7 @@
 --Workouts
-INSERT INTO Workouts (Name, Description, ProgramId, UserId)
-VALUES ('Push A', 'Pushing day for the Push, Pull Leg workout', NULL, @UserId),
-		('Pull A', 'Pulling day for the Push, Pull Leg workout', NULL, @UserId)
+INSERT INTO Workouts (Name, Description, UserId)
+VALUES ('Push A', 'Pushing day for the Push, Pull Leg workout', @UserId),
+		('Pull A', 'Pulling day for the Push, Pull Leg workout', @UserId)
 
 INSERT INTO ExerciseGroups (Note, RestTimeInSeconds, Sort, UserId, ExerciseId, WorkoutId)
 VALUES  --This is for first workout

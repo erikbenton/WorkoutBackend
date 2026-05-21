@@ -2,7 +2,7 @@
 
 public static class InitializationDataAccess
 {
-    private static readonly string sqlFolder = "Sql/Initialization";
+    private static readonly string sqlFolder = "/Sql/Initialization";
     public static string DropAllTables => DataAccessHelper.GetSqlString(sqlFolder, "DropAllTables.sql");
     public static string InitializeTables => DataAccessHelper.GetSqlString(sqlFolder, "InitializeTables.sql");
     public static string PopulateMuscles => DataAccessHelper.GetSqlString(sqlFolder, "PopulateMuscles.sql");

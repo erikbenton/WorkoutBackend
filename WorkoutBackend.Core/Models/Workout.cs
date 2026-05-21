@@ -6,9 +6,7 @@ public class Workout
 
     public string? Description { get; set; }
 
-    public int? WorkoutProgramId { get; set; }
-
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public IEnumerable<ExerciseGroup> ExerciseGroups { get; set; } = [];
 }

@@ -2,7 +2,7 @@
 
 public static class ExerciseDataAccess
 {
-    private static readonly string sqlFolder = "Sql/Exercises";
+    private static readonly string sqlFolder = "/Sql/Exercises";
     public static string GetAllExercises => DataAccessHelper.GetSqlString(sqlFolder, "GetAllExercisesWithDetails.sql");
     public static string GetExercisesByName => DataAccessHelper.GetSqlString(sqlFolder, "GetExercisesByName.sql");
     public static string GetExerciseById => DataAccessHelper.GetSqlString(sqlFolder, "GetExerciseById.sql");
