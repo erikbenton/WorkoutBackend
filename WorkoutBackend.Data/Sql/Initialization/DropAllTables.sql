@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS ExerciseSets;
 
 DROP TABLE IF EXISTS ExerciseGroups;
 
+DROP TABLE IF EXISTS ProgramWorkouts;
+
 DROP TABLE IF EXISTS Workouts;
 
 DROP TABLE IF EXISTS Programs;

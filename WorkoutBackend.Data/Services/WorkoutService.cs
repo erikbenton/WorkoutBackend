@@ -93,9 +93,8 @@ public class WorkoutService(
     {
         var workoutEntityToSave = new WorkoutEntity(
             workout.Id,
-            workout.Name.Trim(),
+            (workout.Name ?? "").Trim(),
             workout.Description?.Trim(),
-            workout.WorkoutProgramId,
             userId);
 
         // save the workout to ensure correct Id
@@ -107,7 +106,6 @@ public class WorkoutService(
         workout.Id = savedDbWorkout.Id;
         workout.Name = savedDbWorkout.Name;
         workout.Description = savedDbWorkout.Description;
-        workout.WorkoutProgramId = savedDbWorkout.ProgramId;
 
         // Populate the ExerciseGroups with saved Id and assign Sort
         workout.ExerciseGroups = workout.ExerciseGroups
@@ -264,7 +262,6 @@ public class WorkoutService(
             Id = w.Id,
             Name = w.Name,
             Description = w.Description,
-            WorkoutProgramId = w.ProgramId,
             ExerciseGroups = []
         }).ToList(); // needs to be a list for the loop
 

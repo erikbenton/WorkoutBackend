@@ -1,11 +1,11 @@
-UPDATE Workouts
-SET
+UPDATE Programs SET
 	Name = @Name,
-	Description = @Description,
-	UserId = @UserId
+	ColorRgb = @ColorRgb,
+	Description = @Description
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Name,
+	INSERTED.ColorRgb,
 	INSERTED.Description,
 	INSERTED.UserId
 WHERE Id = @Id

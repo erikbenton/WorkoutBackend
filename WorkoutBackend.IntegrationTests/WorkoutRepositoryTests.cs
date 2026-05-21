@@ -39,14 +39,13 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanCreateNewDbWorkout()
     {
-        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", null, testId);
+        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", testId);
 
         var savedWorkout = await workoutRepository.CreateWorkoutEntityAsync(workout);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));
         Assert.That(savedWorkout.Description, Is.EqualTo(workout.Description));
-        Assert.That(savedWorkout.ProgramId, Is.Null);
     }
 
     [Test]
@@ -68,7 +67,6 @@ public class WorkoutRepositoryTests
             workoutToUpdate.Id,
             "Updated Name",
             "Updated Description",
-            workoutToUpdate.ProgramId,
             testId);
 
         var afterUpdate = await workoutRepository.UpdateWorkoutEntityAsync(beforeUpdate);
@@ -76,7 +74,6 @@ public class WorkoutRepositoryTests
         Assert.That(afterUpdate.Id, Is.EqualTo(beforeUpdate.Id));
         Assert.That(afterUpdate.Name, Is.EqualTo(beforeUpdate.Name));
         Assert.That(afterUpdate.Description, Is.EqualTo(beforeUpdate.Description));
-        Assert.That(afterUpdate.ProgramId, Is.EqualTo(beforeUpdate.ProgramId));
     }
 
     [Test]
@@ -90,7 +87,6 @@ public class WorkoutRepositoryTests
 
         Assert.That(retrievedWorkout.Id, Is.EqualTo(workout.Id));
         Assert.That(retrievedWorkout.Name, Is.EqualTo(workout.Name));
-        Assert.That(retrievedWorkout.ProgramId, Is.EqualTo(workout.ProgramId));
     }
 
     [Test]
@@ -136,13 +132,13 @@ public class WorkoutRepositoryTests
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             foreach (var group in savedWorkout.ExerciseGroups)
             {
                 Assert.That(group.WorkoutId, Is.EqualTo(savedWorkout.Id));
             }
-        });
+        }
 
         var exerciseGroupSorts = savedWorkout.ExerciseGroups.Select(group => group.Sort);
 
@@ -167,15 +163,15 @@ public class WorkoutRepositoryTests
     public async Task CanSaveAFullWorkout()
     {
         var exercises = await exerciseRepository.GetAllExercisesAsync();
-        var benchPress = exercises.First(ex => ex.Name.Contains("Bench Press"));
-        var pullUp = exercises.First(ex => ex.Name.Contains("Pull-Up"));
-        var shoulderPress = exercises.First(ex => ex.Name.Contains("Shoulder Press"));
+        var benchPress = exercises.First(ex => (ex.Name ?? "").Contains("Bench Press"));
+        var pullUp = exercises.First(ex => (ex.Name ?? "").Contains("Pull-Up"));
+        var shoulderPress = exercises.First(ex => (ex.Name ?? "").Contains("Shoulder Press"));
 
         var workout = new Workout()
         {
             Name = "Day A",
-            ExerciseGroups = new[]
-            {
+            ExerciseGroups =
+            [
                 new ExerciseGroup()
                 {
                     ExerciseId = benchPress.Id,
@@ -261,7 +257,7 @@ public class WorkoutRepositoryTests
                         }
                     }
                 }
-            }
+            ]
         };
 
         var savedWorkout = await workoutService.SaveWorkoutAsync(workout, testId);

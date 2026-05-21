@@ -46,6 +46,12 @@
     <None Remove="Sql\Initialization\PopulateMuscles.sql" />
     <None Remove="Sql\Initialization\PopulateSetTags.sql" />
     <None Remove="Sql\Initialization\TestUserId.sql" />
+    <None Remove="Sql\Programs\DeleteProgram.sql" />
+    <None Remove="Sql\Programs\GetAllProgramsWithWorkoutIds.sql" />
+    <None Remove="Sql\Programs\GetAllProgramWorkoutsByProgramId.sql" />
+    <None Remove="Sql\Programs\InsertProgram.sql" />
+    <None Remove="Sql\Programs\InsertProgramWorkout.sql" />
+    <None Remove="Sql\Programs\UpdateProgram.sql" />
     <None Remove="Sql\UserStats\WorkoutStatsBeforeEqualsEndDate.sql" />
     <None Remove="Sql\Workouts\DeleteWorkoutById.sql" />
     <None Remove="Sql\Workouts\GetAllSetTagOptions.sql" />
@@ -95,6 +101,27 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Initialization\TestUserId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\DeleteProgram.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\DeleteProgramWorkoutsByProgramId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\GetAllProgramsWithWorkoutIds.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\GetAllProgramWorkoutsByProgramId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\InsertProgram.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\InsertProgramWorkout.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Programs\UpdateProgram.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\UserStats\SetStatsBeforeEqualsEndDate.sql">
