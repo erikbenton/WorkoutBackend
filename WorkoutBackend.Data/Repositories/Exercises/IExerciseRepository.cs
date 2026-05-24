@@ -4,17 +4,17 @@ namespace WorkoutBackend.Data.Repositories.Exercises;
 
 public interface IExerciseRepository
 {
-    public Task<IEnumerable<Exercise>> GetAllExercisesAsync();
+    public Task<IEnumerable<Exercise>> GetAllExercisesAsync(string? userId = null);
 
-    public Task<Exercise> GetExerciseByIdAsync(int id);
+    public Task<Exercise> GetExerciseByIdAsync(int id, string? userId = null);
 
-    public Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name);
+    public Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name, string? userId = null);
 
-    public Task<Exercise> UpdateExerciseAsync(Exercise exercise);
+    public Task<Exercise> UpdateExerciseAsync(Exercise exercise, string userId);
 
-    public Task<Exercise> CreateExerciseAsync(Exercise exercise);
+    public Task<Exercise> CreateExerciseAsync(Exercise exercise, string userId);
 
-    public Task DeleteExerciseByIdAsync(int id);
+    public Task DeleteExerciseByIdAsync(int id, string userId);
 
     public Task<IEnumerable<MuscleOption>> GetAllMuscleOptionsAsync();
 

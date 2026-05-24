@@ -4,6 +4,6 @@ public record ExerciseEntity(
     int Id,
     string Name,
     string? Instructions,
-    string CategoryName,
-    string EquipmentName)
-{ }
+    string Category,
+    string Equipment,
+    string? UserId);

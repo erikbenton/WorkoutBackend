@@ -3,7 +3,8 @@ SELECT
 	ex.Name,
 	ex.Instructions,
 	ex.Category,
-	eq.Name AS Equipment
+	eq.Name AS Equipment,
+	ex.UserId
 FROM Exercises ex
 JOIN Equipment eq
 ON eq.Id = ex.EquipmentId;

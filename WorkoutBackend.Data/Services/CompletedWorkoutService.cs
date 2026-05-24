@@ -105,7 +105,7 @@ public class CompletedWorkoutService(
 
         var dbWorkoutToSave = new CompletedWorkoutEntity(
             completedWorkout.Id,
-            completedWorkout.Name.Trim(),
+            (completedWorkout.Name ?? "").Trim(),
             completedWorkout.Description?.Trim(),
             completedWorkout.Note?.Trim(),
             (int)(duration),

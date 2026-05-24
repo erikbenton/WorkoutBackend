@@ -1,4 +1,5 @@
-﻿using WorkoutBackend.Core.Models;
+﻿using NUnit.Framework.Internal;
+using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Repositories.Exercises;
 using WorkoutBackend.IntegrationTests.Helpers;
 
@@ -7,12 +8,14 @@ namespace WorkoutBackend.IntegrationTests;
 public class ExerciseRepositoryTests
 {
     IExerciseRepository _exerciseRepository;
+    private string testId;
 
     [OneTimeSetUp]
     public async Task ExercisesOneTimeSetup()
     {
         await DatabaseHelper.RefreshDatabase();
         await ExerciseHelper.InitializeExercises();
+        testId = await DatabaseHelper.GetTestUserId();
     }
 
     [SetUp]
@@ -32,7 +35,7 @@ public class ExerciseRepositoryTests
     [Test]
     public async Task CanGetExerciseByIdAsync()
     {
-        var exercises = await _exerciseRepository.GetAllExercisesAsync();
+        var exercises = await _exerciseRepository.GetAllExercisesAsync(testId);
         var exerciseToRetrieve = exercises.First();
         var exercise = await _exerciseRepository.GetExerciseByIdAsync(exerciseToRetrieve.Id);
 
@@ -53,7 +56,7 @@ public class ExerciseRepositoryTests
             Equipment = "barbell"
         };
 
-        var savedExercise = await _exerciseRepository.CreateExerciseAsync(exercise);
+        var savedExercise = await _exerciseRepository.CreateExerciseAsync(exercise, testId);
 
         using (Assert.EnterMultipleScope())
         {
@@ -68,15 +71,29 @@ public class ExerciseRepositoryTests
     [Test]
     public async Task CanUpdateAnExistingExercise()
     {
+        var exercise = new Exercise()
+        {
+            Id = 0,
+            Name = "Deadlift",
+            Instructions = "Do a deadlift.",
+            Category = "lift",
+            Muscles = [new MuscleData() { Name = "legs", Weight = 1 }],
+            Equipment = "barbell"
+        };
+
+        var savedExercise = await _exerciseRepository.CreateExerciseAsync(exercise, testId);
+
         var exercises = await _exerciseRepository.GetAllExercisesAsync();
-        var exerciseToUpdate = exercises.First();
+        var exerciseToUpdate = exercises.FirstOrDefault(exer => exer.Id == savedExercise.Id);
+
+        Assert.That(exerciseToUpdate, Is.Not.Null);
 
         exerciseToUpdate.Name = "Updated name";
         exerciseToUpdate.Instructions = "These are new instructions";
         //exerciseToUpdate.Muscles = exerciseToUpdate.Muscles?.Contains("back") ?? true ? ["biceps"] : ["back"];
         exerciseToUpdate.Equipment = exerciseToUpdate.Equipment == "barbell" ? "machine" : "barbell";
 
-        var updatedExercise = await _exerciseRepository.UpdateExerciseAsync(exerciseToUpdate);
+        var updatedExercise = await _exerciseRepository.UpdateExerciseAsync(exerciseToUpdate, testId);
 
         using (Assert.EnterMultipleScope())
         {
@@ -111,10 +128,24 @@ public class ExerciseRepositoryTests
     [Test]
     public async Task CanDeleteExerciseById()
     {
-        var exercises = await _exerciseRepository.GetAllExercisesAsync();
-        var exerciseToDelete = exercises.First();
+        var exercise = new Exercise()
+        {
+            Id = 0,
+            Name = "Deadlift",
+            Instructions = "Do a deadlift.",
+            Category = "lift",
+            Muscles = [new MuscleData() { Name = "legs", Weight = 1 }],
+            Equipment = "barbell"
+        };
 
-        await _exerciseRepository.DeleteExerciseByIdAsync(exerciseToDelete.Id);
+        var savedExercise = await _exerciseRepository.CreateExerciseAsync(exercise, testId);
+
+        var exercises = await _exerciseRepository.GetAllExercisesAsync();
+        var exerciseToDelete = exercises.FirstOrDefault(exer => exer.Id == savedExercise.Id);
+
+        Assert.That(exerciseToDelete, Is.Not.Null);
+
+        await _exerciseRepository.DeleteExerciseByIdAsync(exerciseToDelete.Id, testId);
 
         var exercisesAfterDelete = await _exerciseRepository.GetAllExercisesAsync();
 

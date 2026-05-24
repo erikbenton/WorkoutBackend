@@ -10,63 +10,103 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
 {
     private string _connectionString = connectionString;
 
-    public async Task<IEnumerable<Exercise>> GetAllExercisesAsync()
+    public async Task<IEnumerable<Exercise>> GetAllExercisesAsync(string? userId = null)
     {
         using var connection = new SqlConnection(_connectionString);
 
         var results = await connection.QueryMultipleAsync(ExerciseDataAccess.GetAllExercises);
 
-        var exercises = results.Read<Exercise>();
+        var exerciseEntities = results.Read<ExerciseEntity>();
         var exercisesMuscles = results.Read<MuscleEntity>();
 
-        foreach (var exercise in exercises)
+        var exercises = new List<Exercise>();
+
+        foreach (var exerciseEntity in exerciseEntities)
         {
-            var muscleData = exercisesMuscles.Where(exMus => exMus.ExerciseId == exercise.Id);
-            exercise.Muscles = muscleData.Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight, ColorRgb = data.ColorRgb });
+            // get the muscle data for the exercise
+            var muscleData = exercisesMuscles
+                .Where(exMus => exMus.ExerciseId == exerciseEntity.Id)
+                .Select(data => new MuscleData() { Name = data.MuscleName, Weight = data.Weight, ColorRgb = data.ColorRgb });
+            
+            // create the full exercise
+            exercises.Add(new Exercise()
+            {
+                Id = exerciseEntity.Id,
+                Name = exerciseEntity.Name,
+                Category = exerciseEntity.Category,
+                Equipment = exerciseEntity.Equipment,
+                Instructions = exerciseEntity.Instructions,
+                Muscles = muscleData,
+                RequestedByUser = userId is not null && userId == exerciseEntity.UserId
+            });
         }
 
-        return exercises.AsEnumerable();
+        return exercises;
     }
 
-    public async Task<Exercise> GetExerciseByIdAsync(int id)
+    public async Task<Exercise> GetExerciseByIdAsync(int id, string? userId = null)
     {
         using var connection = new SqlConnection(_connectionString);
         
         var results = await connection.QueryMultipleAsync(ExerciseDataAccess.GetExerciseById, new { id });
         
-        var exercise = results
-            .Read<Exercise>()
+        var exerciseEntity = results
+            .Read<ExerciseEntity>()
             .First();
         
-        exercise.Muscles = results
+        var muscles = results
             .Read<MuscleDataEntity>()
             .Select(entity => new MuscleData() { Name = entity.MuscleName, Weight = entity.Weight, ColorRgb = entity.ColorRgb });
         
-        return exercise;
+        return new Exercise()
+        {
+            Id = exerciseEntity.Id,
+            Name = exerciseEntity.Name,
+            Category = exerciseEntity.Category,
+            Equipment = exerciseEntity.Equipment,
+            Instructions = exerciseEntity.Instructions,
+            Muscles = muscles,
+            RequestedByUser = userId is not null && userId == exerciseEntity.UserId
+        };
     }
 
-    public async Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name)
+    public async Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name, string? userId = null)
     {
         using var connection = new SqlConnection(_connectionString);
         var exercises = await connection.QueryAsync<Exercise>(ExerciseDataAccess.GetExercisesByName, new { name });
         return exercises;
     }
 
-    public async Task<Exercise> CreateExerciseAsync(Exercise exercise)
+    public async Task<Exercise> CreateExerciseAsync(Exercise exercise, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        int exerciseId = await connection.QueryFirstAsync<int>(ExerciseDataAccess.InsertExerciseWithDetails, exercise);
+        var insertEntity = new ExerciseEntity(
+            exercise.Id,
+            (exercise.Name ?? ""),
+            exercise.Instructions,
+            (exercise.Category ?? ""),
+            (exercise.Equipment ?? ""),
+            userId);
+        int exerciseId = await connection.QueryFirstAsync<int>(ExerciseDataAccess.InsertExerciseWithDetails, insertEntity);
         var exerciseMuscleEntities = exercise.Muscles?
             .Select(mus => new ExerciseMuscleEntity(null, exerciseId, null, mus.Weight, mus.Name)) ?? [];
 
         await connection.ExecuteAsync(ExerciseDataAccess.InsertExerciseMuscles, exerciseMuscleEntities);
-        return await GetExerciseByIdAsync(exerciseId);
+        return await GetExerciseByIdAsync(exerciseId, userId);
     }
 
-    public async Task<Exercise> UpdateExerciseAsync(Exercise exercise)
+    public async Task<Exercise> UpdateExerciseAsync(Exercise exercise, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ExerciseDataAccess.UpdateExerciseWithDetails, exercise);
+        var updateEntity = new ExerciseEntity(
+            exercise.Id,
+            (exercise.Name ?? ""),
+            exercise.Instructions,
+            (exercise.Category ?? ""),
+            (exercise.Equipment ?? ""),
+            userId);
+
+        await connection.ExecuteAsync(ExerciseDataAccess.UpdateExerciseWithDetails, updateEntity);
 
         await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseMusclesByExerciseId, new { ExerciseId = exercise.Id });
 
@@ -75,13 +115,13 @@ public class SqlExerciseRepository(string connectionString) : IExerciseRepositor
 
         await connection.ExecuteAsync(ExerciseDataAccess.InsertExerciseMuscles, exerciseMuscleEntities);
 
-        return await GetExerciseByIdAsync(exercise.Id);
+        return await GetExerciseByIdAsync(exercise.Id, userId);
     }
 
-    public async Task DeleteExerciseByIdAsync(int id)
+    public async Task DeleteExerciseByIdAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseById, new { id });
+        await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseById, new { id, userId });
         await connection.ExecuteAsync(ExerciseDataAccess.DeleteExerciseMusclesByExerciseId, new { ExerciseId = id });
     }
 

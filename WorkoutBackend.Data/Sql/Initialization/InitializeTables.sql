@@ -54,6 +54,9 @@ CREATE TABLE Exercises (
 	Instructions VARCHAR(1000),
 	Category VARCHAR(20) NOT NULL DEFAULT 'lift',
 	EquipmentId INT NOT NULL,
+	UserId NVARCHAR(450) NULL,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE SET NULL,
 	FOREIGN KEY (EquipmentId) REFERENCES Equipment(Id),
 	CONSTRAINT Exercise_Category_Check CHECK(Category IN ('lift', 'timed', 'conditioning', 'stretch'))
 )

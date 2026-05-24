@@ -7,14 +7,14 @@ public class ExerciseService(IExerciseRepository exerciseRepository) : IExercise
 {
     private readonly IExerciseRepository _exerciseRepository = exerciseRepository;
 
-    public async Task DeleteExerciseAsync(int id)
+    public async Task DeleteExerciseAsync(int id, string userId)
     {
-        await _exerciseRepository.DeleteExerciseByIdAsync(id);
+        await _exerciseRepository.DeleteExerciseByIdAsync(id, userId);
     }
 
-    public async Task<IEnumerable<Exercise>> GetAllExercisesAsync()
+    public async Task<IEnumerable<Exercise>> GetAllExercisesAsync(string? userId = null)
     {
-        return await _exerciseRepository.GetAllExercisesAsync();
+        return await _exerciseRepository.GetAllExercisesAsync(userId);
     }
 
     public async Task<IEnumerable<MuscleOption>> GetExerciseMuscleOptionsAsync()
@@ -22,14 +22,14 @@ public class ExerciseService(IExerciseRepository exerciseRepository) : IExercise
         return await _exerciseRepository.GetAllMuscleOptionsAsync();
     }
 
-    public async Task<Exercise> GetExerciseByIdAsync(int id)
+    public async Task<Exercise> GetExerciseByIdAsync(int id, string? userId = null)
     {
-        return await _exerciseRepository.GetExerciseByIdAsync(id);
+        return await _exerciseRepository.GetExerciseByIdAsync(id, userId);
     }
 
-    public async Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name)
+    public async Task<IEnumerable<Exercise>> GetExercisesByNameAsync(string name, string? userId = null)
     {
-        return await _exerciseRepository.GetExercisesByNameAsync(name);
+        return await _exerciseRepository.GetExercisesByNameAsync(name, userId);
     }
 
     public async Task<IEnumerable<EquipmentOption>> GetExerciseEquipmentOptionsAsync()
@@ -37,7 +37,7 @@ public class ExerciseService(IExerciseRepository exerciseRepository) : IExercise
         return await _exerciseRepository.GetAllEquipmentOptionsAsync();
     }
 
-    public async Task<Exercise> SaveExerciseAsync(Exercise exercise)
+    public async Task<Exercise> SaveExerciseAsync(Exercise exercise, string userId)
     {
         if (string.IsNullOrEmpty(exercise.Name))
         {
@@ -45,7 +45,7 @@ public class ExerciseService(IExerciseRepository exerciseRepository) : IExercise
         }
 
         return exercise.Id == 0
-            ? await _exerciseRepository.CreateExerciseAsync(exercise)
-            : await _exerciseRepository.UpdateExerciseAsync(exercise);
+            ? await _exerciseRepository.CreateExerciseAsync(exercise, userId)
+            : await _exerciseRepository.UpdateExerciseAsync(exercise, userId);
     }
 }

@@ -8,4 +8,5 @@ public class Exercise
     public string? Category { get; set; }
     public IEnumerable<MuscleData>? Muscles { get; set; }
     public string? Equipment { get; set; }
+    public bool RequestedByUser { get; set; } = false;
 }

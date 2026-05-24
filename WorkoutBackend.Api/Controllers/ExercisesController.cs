@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WorkoutBackend.Core.Models;
 using WorkoutBackend.Data.Services;
 
@@ -6,14 +7,20 @@ namespace WorkoutBackend.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ExercisesController(IExerciseService exerciseService) : ControllerBase
+public class ExercisesController(IExerciseService exerciseService, UserManager<IdentityUser> userManager) : ControllerBase
 {
     private readonly IExerciseService _exerciseService = exerciseService;
+    private readonly UserManager<IdentityUser> _userManager = userManager;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Exercise>>> GetAllExercisesAsync()
     {
-        var exercises = await _exerciseService.GetAllExercisesAsync();
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        string? userId = identityUser is null ? null : identityUser.Id;
+
+        var exercises = await _exerciseService.GetAllExercisesAsync(userId);
 
         return Ok(exercises);
     }
@@ -21,7 +28,12 @@ public class ExercisesController(IExerciseService exerciseService) : ControllerB
     [HttpGet("{id}")]
     public async Task<ActionResult<Exercise>> GetExerciseByIdAsync(int id)
     {
-        var exercise = await _exerciseService.GetExerciseByIdAsync(id);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        string? userId = identityUser is null ? null : identityUser.Id;
+
+        var exercise = await _exerciseService.GetExerciseByIdAsync(id, userId);
 
         return Ok(exercise);
     }
@@ -29,7 +41,12 @@ public class ExercisesController(IExerciseService exerciseService) : ControllerB
     [HttpGet("Name/{name}")]
     public async Task<ActionResult<IEnumerable<Exercise>>> GetExerciseByNameAsync(string name)
     {
-        var exercise = await _exerciseService.GetExercisesByNameAsync(name);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        string? userId = identityUser is null ? null : identityUser.Id;
+
+        var exercise = await _exerciseService.GetExercisesByNameAsync(name, userId);
 
         return Ok(exercise);
     }
@@ -55,7 +72,15 @@ public class ExercisesController(IExerciseService exerciseService) : ControllerB
     [HttpPost]
     public async Task<ActionResult<Exercise>> CreateExerciseAsync(Exercise exercise)
     {
-        var createdExercise = await _exerciseService.SaveExerciseAsync(exercise);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        var createdExercise = await _exerciseService.SaveExerciseAsync(exercise, identityUser.Id);
 
         return Ok(createdExercise);
     }
@@ -64,7 +89,15 @@ public class ExercisesController(IExerciseService exerciseService) : ControllerB
     [Route("{id}")]
     public async Task<ActionResult<Exercise>> UpdateExerciseAsync(Exercise exercise)
     {
-        var updatedExercise = await _exerciseService.SaveExerciseAsync(exercise);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        var updatedExercise = await _exerciseService.SaveExerciseAsync(exercise, identityUser.Id);
 
         return Ok(updatedExercise);
     }
@@ -72,7 +105,15 @@ public class ExercisesController(IExerciseService exerciseService) : ControllerB
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteExerciseByIdAsync(int id)
     {
-        await _exerciseService.DeleteExerciseAsync(id);
+        var user = HttpContext.User;
+        var identityUser = await _userManager.GetUserAsync(user);
+
+        if (identityUser is null)
+        {
+            return Unauthorized("Not logged in.");
+        }
+
+        await _exerciseService.DeleteExerciseAsync(id, identityUser.Id);
 
         return NoContent();
     }

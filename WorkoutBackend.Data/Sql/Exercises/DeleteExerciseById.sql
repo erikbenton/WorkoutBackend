@@ -1,1 +1,3 @@
-DELETE FROM Exercises WHERE Id = @Id;
+DELETE FROM Exercises
+WHERE Id = @Id
+	AND UserId = @UserId;
