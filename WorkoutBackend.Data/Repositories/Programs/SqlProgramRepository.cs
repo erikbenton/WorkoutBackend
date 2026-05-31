@@ -38,8 +38,8 @@ public class SqlProgramRepository(string connectionString) : IProgramRepository
     public async Task DeleteProgramAsync(int id, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(ProgramDataAccess.DeleteProgram, new { id, userId });
         await connection.ExecuteAsync(ProgramDataAccess.DeleteProgramWorkoutsByProgramId, new { ProgramId = id, userId });
+        await connection.ExecuteAsync(ProgramDataAccess.DeleteProgram, new { id, userId });
     }
 
     public async Task<IEnumerable<WorkoutProgram>> GetAllProgramsPopulatedAsync(string userId)
