@@ -153,3 +153,16 @@ CREATE TABLE CompletedExerciseSets (
 	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
 		ON DELETE NO ACTION
 )
+
+CREATE TABLE UserInfo (
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Username NVARCHAR(100),
+	BodyWeight FLOAT,
+	WeightUnit VARCHAR(5) NOT NULL DEFAULT 'lb',
+	DistanceUnit VARCHAR(5) NOT NULL DEFAULT 'mi',
+	UserId NVARCHAR(450) NOT NULL,
+	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
+		ON DELETE CASCADE,
+	CONSTRAINT Weight_Unit_Check CHECK(WeightUnit IN ('lb', 'kg')),
+	CONSTRAINT Distance_Unit_Check CHECK(DistanceUnit IN ('mi', 'km'))
+)

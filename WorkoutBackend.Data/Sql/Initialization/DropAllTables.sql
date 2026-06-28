@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS UserInfo;
+
 DROP TABLE IF EXISTS CompletedExerciseSets;
 
 DROP TABLE IF EXISTS CompletedExerciseGroups;

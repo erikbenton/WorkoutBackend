@@ -1,5 +1,5 @@
-﻿namespace WorkoutBackend.Api.Dtos;
+﻿using WorkoutBackend.Core.Models;
 
-public record UserInfoResponse(bool IsLoggedIn, string? Email = null)
-{
-}
+namespace WorkoutBackend.Api.Dtos;
+
+public record UserInfoResponse(bool IsLoggedIn, string? Email = null, UserInfo? UserInfo = null);

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WorkoutBackend.Api.Dtos;
+using WorkoutBackend.Core.Models;
+using WorkoutBackend.Data.Services;
 
 namespace WorkoutBackend.Api.Controllers;
 
@@ -12,16 +14,19 @@ public class AuthenticationController : ControllerBase
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IUserStore<IdentityUser> _userStore;
     private readonly IUserEmailStore<IdentityUser> _emailStore;
+    private readonly IUserInfoService _userInfoService;
 
     public AuthenticationController(
         UserManager<IdentityUser> userManager,
         IUserStore<IdentityUser> userStore,
-        SignInManager<IdentityUser> signInManager)
+        SignInManager<IdentityUser> signInManager,
+        IUserInfoService userInfoService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _userStore = userStore;
         _emailStore = GetEmailStore();
+        _userInfoService = userInfoService;
     }
 
     [HttpPost]
@@ -36,11 +41,21 @@ public class AuthenticationController : ControllerBase
 
         if (result.Succeeded)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
+            var email = await _userManager.GetUserNameAsync(user);
 
             await _signInManager.SignInAsync(user, isPersistent: false);
 
-            return Ok(new RegistrationResponse(true, [], userName));
+            var userInfo = new UserInfo
+            {
+                Username = registrationRequest.UserName,
+                BodyWeight = registrationRequest.BodyWeight,
+                WeightUnit = registrationRequest.WeightUnit,
+                DistanceUnit = registrationRequest.DistanceUnit
+            };
+
+            var newUserInfo = await _userInfoService.CreateUserInfo(userInfo, user.Id);
+
+            return Ok(new RegistrationResponse(true, [], email, newUserInfo));
         }
 
         var errorDescriptions = result.Errors.Select(err => err.Description);
@@ -58,8 +73,14 @@ public class AuthenticationController : ControllerBase
             loginRequest.RememberMe,
             lockoutOnFailure: false);
 
+        var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+
+        var userInfo = user is not null
+            ? await _userInfoService.GetUserInfo(user.Id)
+            : null;
+
         return result.Succeeded
-            ? Ok(new RegistrationResponse(true, [], loginRequest.Email))
+            ? Ok(new RegistrationResponse(true, [], loginRequest.Email, userInfo))
             : BadRequest(new RegistrationResponse(false, ["Unable to login. Check your email and password."]));
     }
 
@@ -84,8 +105,11 @@ public class AuthenticationController : ControllerBase
         }
 
         var identity = await _userManager.GetUserAsync(HttpContext.User);
+        var userInfo = identity is not null
+            ? await _userInfoService.GetUserInfo(identity.Id)
+            : null;
 
-        return Ok(new UserInfoResponse(identity != null, identity?.Email));
+        return Ok(new UserInfoResponse(identity != null, identity?.Email, userInfo));
     }
 
     private IdentityUser CreateUser()

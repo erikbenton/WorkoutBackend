@@ -52,6 +52,10 @@
     <None Remove="Sql\Programs\InsertProgram.sql" />
     <None Remove="Sql\Programs\InsertProgramWorkout.sql" />
     <None Remove="Sql\Programs\UpdateProgram.sql" />
+    <None Remove="Sql\UserInfo\DeleteUserInfoByUserId.sql" />
+    <None Remove="Sql\UserInfo\GetUserInfoByUserId.sql" />
+    <None Remove="Sql\UserInfo\InsertUserInfo.sql" />
+    <None Remove="Sql\UserInfo\UpdateUserInfoByUserId.sql" />
     <None Remove="Sql\UserStats\WorkoutStatsBeforeEqualsEndDate.sql" />
     <None Remove="Sql\Workouts\DeleteWorkoutById.sql" />
     <None Remove="Sql\Workouts\GetAllSetTagOptions.sql" />
@@ -122,6 +126,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\Programs\UpdateProgram.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\UserInfo\DeleteUserInfoByUserId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\UserInfo\GetUserInfoByUserId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\UserInfo\InsertUserInfo.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\UserInfo\UpdateUserInfoByUserId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Sql\UserStats\SetStatsBeforeEqualsEndDate.sql">
