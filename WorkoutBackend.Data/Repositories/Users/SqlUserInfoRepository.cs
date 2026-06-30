@@ -21,13 +21,13 @@ public class SqlUserInfoRepository(string connectionString) : IUserInfoRepositor
     public async Task DeleteUserInfoAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        await connection.ExecuteAsync(UserInfoDataAccess.DeleteUserInfoByUserId, userId);
+        await connection.ExecuteAsync(UserInfoDataAccess.DeleteUserInfoByUserId, new { userId });
     }
 
     public async Task<UserInfo> GetUserInfoByIdAsync(string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var userInfo = await connection.QueryFirstAsync<UserInfo>(UserInfoDataAccess.GetUserInfoByUserId, userId);
+        var userInfo = await connection.QueryFirstAsync<UserInfo>(UserInfoDataAccess.GetUserInfoByUserId, new { userId });
         return userInfo;
     }
 
