@@ -142,6 +142,8 @@ CREATE TABLE CompletedExerciseSets (
 	MaxReps INT,
 	TargetDurationInSeconds INT,
 	TargetDistanceinMiles FLOAT,
+	WeightUnit VARCHAR(5) NOT NULL DEFAULT 'lb',
+	DistanceUnit VARCHAR(5) NOT NULL DEFAULT 'mi',
 	SetTagId INT,
 	Sort INT NOT NULL,
 	CompletedExerciseGroupId INT NOT NULL,
@@ -151,7 +153,9 @@ CREATE TABLE CompletedExerciseSets (
 		ON DELETE CASCADE,
 	FOREIGN KEY (SetTagId) REFERENCES SetTags(Id),
 	FOREIGN KEY (UserId) REFERENCES AspNetUsers(Id)
-		ON DELETE NO ACTION
+		ON DELETE NO ACTION,
+	CONSTRAINT Set_Weight_Unit_Check CHECK(WeightUnit IN ('lb', 'kg')),
+	CONSTRAINT Set_Distance_Unit_Check CHECK(DistanceUnit IN ('mi', 'km'))
 )
 
 CREATE TABLE UserInfo (

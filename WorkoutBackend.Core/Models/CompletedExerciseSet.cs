@@ -11,6 +11,8 @@ public class CompletedExerciseSet
     public int? MaxReps { get; set; }
     public TimeSpan? TargetDuration { get; set; }
     public double? TargetDistance { get; set; }
+    public string WeightUnit { get; set; } = "lb";
+    public string DistanceUnit { get; set; } = "mi";
     public int? SetTagId { get; set; }
     public int Sort { get; set; }
     public DateTime? CreatedAt { get; set; }

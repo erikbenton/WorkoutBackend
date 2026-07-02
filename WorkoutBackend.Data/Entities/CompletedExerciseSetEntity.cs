@@ -10,6 +10,8 @@ public record CompletedExerciseSetEntity(
     int? MaxReps,
     int? TargetDurationInSeconds,
     double? TargetDistanceInMiles,
+    string WeightUnit,
+    string DistanceUnit,
     int? SetTagId,
     int Sort,
     int CompletedExerciseGroupId,

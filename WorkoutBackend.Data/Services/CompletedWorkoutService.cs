@@ -225,6 +225,8 @@ public class CompletedWorkoutService(
                     exerciseSet.MaxReps,
                     (int?)targetDurationInSeconds,
                     exerciseSet.TargetDistance,
+                    exerciseSet.WeightUnit,
+                    exerciseSet.DistanceUnit,
                     exerciseSet.SetTagId,
                     exerciseSet.Sort,
                     group.Id,

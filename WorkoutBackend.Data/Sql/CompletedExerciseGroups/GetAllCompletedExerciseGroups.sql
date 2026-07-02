@@ -21,6 +21,8 @@ SELECT
 	MaxReps,
 	TargetDurationInSeconds,
 	TargetDistanceinMiles,
+	WeightUnit,
+	DistanceUnit,
 	SetTagId,
 	Sort,
 	CompletedExerciseGroupId,

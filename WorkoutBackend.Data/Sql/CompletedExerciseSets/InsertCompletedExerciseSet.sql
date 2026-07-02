@@ -1,5 +1,5 @@
 INSERT INTO CompletedExerciseSets
-	(Reps, Weight, DurationInSeconds, DistanceInMiles, MinReps, MaxReps, TargetDurationInSeconds, TargetDistanceinMiles, SetTagId, Sort, CompletedExerciseGroupId, UserId)
+	(Reps, Weight, DurationInSeconds, DistanceInMiles, MinReps, MaxReps, TargetDurationInSeconds, TargetDistanceinMiles, WeightUnit, DistanceUnit, SetTagId, Sort, CompletedExerciseGroupId, UserId)
 OUTPUT
 	INSERTED.Id,
 	INSERTED.Reps,
@@ -10,9 +10,11 @@ OUTPUT
 	INSERTED.MaxReps,
 	INSERTED.TargetDurationInSeconds,
 	INSERTED.TargetDistanceinMiles,
+	INSERTED.WeightUnit,
+	INSERTED.DistanceUnit,
 	INSERTED.SetTagId,
 	INSERTED.Sort,
 	INSERTED.CompletedExerciseGroupId,
 	INSERTED.UserId,
 	INSERTED.CreatedAt
-VALUES (@Reps, @Weight, @DurationInSeconds, @DistanceInMiles, @MinReps, @MaxReps, @TargetDurationInSeconds, @TargetDistanceinMiles, @SetTagId, @Sort, @CompletedExerciseGroupId, @UserId);
+VALUES (@Reps, @Weight, @DurationInSeconds, @DistanceInMiles, @MinReps, @MaxReps, @TargetDurationInSeconds, @TargetDistanceinMiles, @WeightUnit, @DistanceUnit, @SetTagId, @Sort, @CompletedExerciseGroupId, @UserId);

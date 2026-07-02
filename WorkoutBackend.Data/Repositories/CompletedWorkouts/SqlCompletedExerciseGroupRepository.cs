@@ -84,6 +84,8 @@ public class SqlCompletedExerciseGroupRepository(string connectionString) : ICom
                         MaxReps = set.MaxReps,
                         TargetDistance = set.TargetDistanceInMiles,
                         TargetDuration = targetDuration,
+                        WeightUnit = set.WeightUnit,
+                        DistanceUnit = set.DistanceUnit,
                         SetTagId = set.SetTagId,
                         Sort = set.Sort,
                         CreatedAt = set.CreatedAt,
