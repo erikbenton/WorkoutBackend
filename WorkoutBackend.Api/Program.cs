@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.HttpLogging;
+using WorkoutBackend.Api.Loggers;
 using WorkoutBackend.Data.Repositories.CompletedWorkouts;
 using WorkoutBackend.Data.Repositories.Database;
 using WorkoutBackend.Data.Repositories.Exercises;
@@ -19,6 +21,25 @@ builder.Services.AddOpenApi();
 // Database connection string
 var workoutDbConnectionString = builder.Configuration.GetConnectionString("WorkoutDb")
     ?? throw new InvalidOperationException("Connection string 'WorkoutDb' not found.");
+
+// Configure HTTP logging settings
+builder.Services.AddHttpLogging(logging =>
+{
+    logging.LoggingFields =
+        HttpLoggingFields.RequestPath |
+        HttpLoggingFields.RequestBody |
+        HttpLoggingFields.ResponseStatusCode |
+        HttpLoggingFields.ResponseBody |
+        HttpLoggingFields.Duration;
+    logging.MediaTypeOptions.AddText("application/json");
+    logging.MediaTypeOptions.AddText("text/plain");
+    logging.RequestBodyLogLimit = 4096;
+    logging.ResponseBodyLogLimit = 4096;
+    logging.CombineLogs = true;
+});
+
+// redact important/sensitive data from authentication requests
+builder.Services.AddHttpLoggingInterceptor<AuthDataRedactingInterceptor>();
 
 // add the EF Core identity context for handling users
 builder.Services.AddIdentityContext(workoutDbConnectionString);
@@ -50,6 +71,7 @@ builder.Services.AddScoped<IUserInfoService, UserInfoService>();
 
 var app = builder.Build();
 
+app.UseHttpLogging();
 app.UseDefaultFiles();
 app.MapStaticAssets();
 app.UseAuthentication();
