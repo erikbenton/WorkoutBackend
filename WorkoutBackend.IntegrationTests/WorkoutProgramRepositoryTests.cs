@@ -35,6 +35,8 @@ public class WorkoutProgramRepositoryTests
             Id = 0,
             Name = "Test Program",
             Description = "This is a program made during testing",
+            ColorRgb = "gray",
+            Tag = " ",
             WorkoutIds = [1, 2]
         };
 

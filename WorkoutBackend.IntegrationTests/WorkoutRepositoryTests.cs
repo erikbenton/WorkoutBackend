@@ -39,13 +39,15 @@ public class WorkoutRepositoryTests
     [Test]
     public async Task CanCreateNewDbWorkout()
     {
-        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", testId);
+        var workout = new WorkoutEntity(0, "Test Workout", "Test Description", "gray", "NEW", testId);
 
         var savedWorkout = await workoutRepository.CreateWorkoutEntityAsync(workout);
 
         Assert.That(savedWorkout.Id, Is.Not.EqualTo(0));
         Assert.That(savedWorkout.Name, Is.EqualTo(workout.Name));
         Assert.That(savedWorkout.Description, Is.EqualTo(workout.Description));
+        Assert.That(savedWorkout.ColorRgb, Is.EqualTo(workout.ColorRgb));
+        Assert.That(savedWorkout.Tag, Is.EqualTo(workout.Tag));
     }
 
     [Test]
@@ -67,6 +69,8 @@ public class WorkoutRepositoryTests
             workoutToUpdate.Id,
             "Updated Name",
             "Updated Description",
+            "white",
+            "UP",
             testId);
 
         var afterUpdate = await workoutRepository.UpdateWorkoutEntityAsync(beforeUpdate);
@@ -74,6 +78,8 @@ public class WorkoutRepositoryTests
         Assert.That(afterUpdate.Id, Is.EqualTo(beforeUpdate.Id));
         Assert.That(afterUpdate.Name, Is.EqualTo(beforeUpdate.Name));
         Assert.That(afterUpdate.Description, Is.EqualTo(beforeUpdate.Description));
+        Assert.That(afterUpdate.Tag, Is.EqualTo(beforeUpdate.Tag));
+        Assert.That(afterUpdate.ColorRgb, Is.EqualTo(beforeUpdate.ColorRgb));
     }
 
     [Test]
