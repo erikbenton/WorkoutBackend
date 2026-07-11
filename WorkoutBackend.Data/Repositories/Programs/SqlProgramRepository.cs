@@ -14,7 +14,7 @@ public class SqlProgramRepository(string connectionString) : IProgramRepository
     {
         using var connection = new SqlConnection(_connectionString);
 
-        var programToInsert = new ProgramEntity(0, program.Name, program.ColorRgb, program.Description, userId);
+        var programToInsert = new ProgramEntity(0, program.Name.Trim(), program.ColorRgb.Trim(), program.Tag.Trim(), program.Description?.Trim(), userId);
         var insertedProgram = await connection.QueryFirstAsync<ProgramEntity>(ProgramDataAccess.InsertProgram, programToInsert);
         var programWorkouts = program.WorkoutIds.Select((id, i) => new ProgramWorkoutEntity(null, insertedProgram.Id, id, i, userId));
 
@@ -28,6 +28,7 @@ public class SqlProgramRepository(string connectionString) : IProgramRepository
             Id = insertedProgram.Id,
             Name = insertedProgram.Name,
             ColorRgb = insertedProgram.ColorRgb,
+            Tag = insertedProgram.Tag,
             Description = insertedProgram.Description,
             WorkoutIds = workoutIds
         };
@@ -63,6 +64,7 @@ public class SqlProgramRepository(string connectionString) : IProgramRepository
                 Id = program.Id,
                 Name = program.Name,
                 ColorRgb = program.ColorRgb,
+                Tag = program.Tag,
                 Description = program.Description,
                 WorkoutIds = workoutIds
             };
@@ -75,7 +77,7 @@ public class SqlProgramRepository(string connectionString) : IProgramRepository
     public async Task<WorkoutProgram> UpdateProgramAsync(WorkoutProgram program, string userId)
     {
         using var connection = new SqlConnection(_connectionString);
-        var programToUpdate = new ProgramEntity(program.Id, program.Name, program.ColorRgb, program.Description, userId);
+        var programToUpdate = new ProgramEntity(program.Id, program.Name.Trim(), program.ColorRgb.Trim(), program.Tag.Trim(), program.Description?.Trim(), userId);
         var updatedProgramEntity = await connection.QueryFirstAsync<ProgramEntity>(ProgramDataAccess.UpdateProgram, programToUpdate);
 
         // delete all of the old ProgramWorkouts
@@ -96,6 +98,7 @@ public class SqlProgramRepository(string connectionString) : IProgramRepository
             Id = updatedProgramEntity.Id,
             Name = updatedProgramEntity.Name,
             ColorRgb = updatedProgramEntity.ColorRgb,
+            Tag = updatedProgramEntity.Tag,
             Description = updatedProgramEntity.Description,
             WorkoutIds = insertedWorkoutPrograms.OrderBy(wp => wp.Sort).Select(wp => wp.WorkoutId)
         };

@@ -24,6 +24,8 @@ public class WorkoutService(
             Id = workoutEntity.Id,
             Name = workoutEntity.Name,
             Description = workoutEntity.Description,
+            ColorRgb = workoutEntity.ColorRgb,
+            Tag = workoutEntity.Tag
         };
 
         // get the exercise groups for the workout
@@ -95,6 +97,8 @@ public class WorkoutService(
             workout.Id,
             (workout.Name ?? "").Trim(),
             workout.Description?.Trim(),
+            workout.ColorRgb.Trim(),
+            workout.Tag.Trim(),
             userId);
 
         // save the workout to ensure correct Id
@@ -106,6 +110,8 @@ public class WorkoutService(
         workout.Id = savedDbWorkout.Id;
         workout.Name = savedDbWorkout.Name;
         workout.Description = savedDbWorkout.Description;
+        workout.ColorRgb = savedDbWorkout.ColorRgb;
+        workout.Tag = savedDbWorkout.Tag;
 
         // Populate the ExerciseGroups with saved Id and assign Sort
         workout.ExerciseGroups = workout.ExerciseGroups
@@ -262,6 +268,8 @@ public class WorkoutService(
             Id = w.Id,
             Name = w.Name,
             Description = w.Description,
+            ColorRgb = w.ColorRgb,
+            Tag = w.Tag,
             ExerciseGroups = []
         }).ToList(); // needs to be a list for the loop
 

@@ -1,4 +1,4 @@
-SELECT Id, Name, ColorRgb, Description, UserId
+SELECT Id, Name, ColorRgb, Tag, Description, UserId
 FROM Programs
 WHERE UserId = @UserId;
 

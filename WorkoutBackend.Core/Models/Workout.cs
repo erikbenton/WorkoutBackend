@@ -8,5 +8,9 @@ public class Workout
 
     public string? Name { get; set; }
 
+    public string ColorRgb { get; set; } = string.Empty;
+
+    public string Tag { get; set; } = string.Empty;
+
     public IEnumerable<ExerciseGroup> ExerciseGroups { get; set; } = [];
 }

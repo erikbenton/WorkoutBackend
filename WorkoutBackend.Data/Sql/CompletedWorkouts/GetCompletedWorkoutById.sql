@@ -2,6 +2,8 @@ SELECT
 	cw.Id,
 	cw.Name,
 	cw.Description,
+	cw.ColorRgb,
+	cw.Tag,
 	cw.Note,
 	cw.DurationInSeconds,
 	cw.CreatedAt,

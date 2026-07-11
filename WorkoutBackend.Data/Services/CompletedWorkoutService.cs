@@ -107,6 +107,8 @@ public class CompletedWorkoutService(
             completedWorkout.Id,
             (completedWorkout.Name ?? "").Trim(),
             completedWorkout.Description?.Trim(),
+            completedWorkout.ColorRgb.Trim(),
+            completedWorkout.Tag.Trim(),
             completedWorkout.Note?.Trim(),
             (int)(duration),
             userId);
@@ -120,6 +122,8 @@ public class CompletedWorkoutService(
         savedCompletedWorkout.Id = savedWorkoutEntity.Id;
         savedCompletedWorkout.Name = savedWorkoutEntity.Name;
         savedCompletedWorkout.Description = savedWorkoutEntity.Description;
+        savedCompletedWorkout.ColorRgb = savedWorkoutEntity.ColorRgb;
+        savedCompletedWorkout.Tag = savedWorkoutEntity.Tag;
         savedCompletedWorkout.Note = savedWorkoutEntity.Note;
         savedCompletedWorkout.Duration = TimeSpan.FromSeconds(savedWorkoutEntity.DurationInSeconds);
         savedCompletedWorkout.CreatedAt = savedWorkoutEntity.CreatedAt;
@@ -300,6 +304,8 @@ public class CompletedWorkoutService(
             Id = dbCompletedWorkout.Id,
             Name = dbCompletedWorkout.Name,
             Description = dbCompletedWorkout.Description,
+            ColorRgb = dbCompletedWorkout.ColorRgb,
+            Tag = dbCompletedWorkout.Tag,
             Note = dbCompletedWorkout.Note,
             Duration = TimeSpan.FromSeconds(dbCompletedWorkout.DurationInSeconds),
             CreatedAt = dbCompletedWorkout.CreatedAt,

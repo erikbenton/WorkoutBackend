@@ -10,5 +10,7 @@ public class WorkoutProgram
 
     public string ColorRgb { get; set; } = string.Empty;
 
+    public string Tag { get; set; } = string.Empty;
+
     public IEnumerable<int> WorkoutIds { get; set; } = [];
 }
