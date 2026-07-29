@@ -62,7 +62,7 @@ public class CompletedWorkoutsController(
         return Ok(createdWorkout);
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<ActionResult<CompletedWorkout>> UpdateCompletedWorkoutByIdAsync([FromBody] CompletedWorkout completedWorkout)
     {
         var user = HttpContext.User;

@@ -54,7 +54,7 @@ public class SqlCompletedWorkoutRepository(string connectionString) : ICompleted
         using var connection = new SqlConnection(_connectionString);
         var updatedEntity = await connection
             .QueryFirstAsync<CompletedWorkoutEntity>(
-                CompletedWorkoutDataAccess.UpdateComepletedWorkoutById, workout);
+                CompletedWorkoutDataAccess.UpdateCompletedWorkoutById, workout);
         return updatedEntity;
     }
 }

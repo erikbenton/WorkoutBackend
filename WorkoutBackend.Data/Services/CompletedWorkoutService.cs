@@ -111,7 +111,8 @@ public class CompletedWorkoutService(
             completedWorkout.Tag.Trim(),
             completedWorkout.Note?.Trim(),
             (int)(duration),
-            userId);
+            userId,
+            completedWorkout.CreatedAt);
 
         // Create or Update depending on Id
         var savedWorkoutEntity = dbWorkoutToSave.Id == 0
@@ -179,7 +180,8 @@ public class CompletedWorkoutService(
                 group.Sort,
                 group.ExerciseId,
                 group.CompletedWorkoutId,
-                userId);
+                userId,
+                group.CreatedAt);
 
             // Create or Update depending on Id
             dbGroup = dbGroup.Id == 0
@@ -234,7 +236,8 @@ public class CompletedWorkoutService(
                     exerciseSet.SetTagId,
                     exerciseSet.Sort,
                     group.Id,
-                    userId);
+                    userId,
+                    exerciseSet.CreatedAt);
 
                 var savedDbSet = dbSetToSave.Id == 0
                     ? await _completedExerciseSetRepository.CreateCompletedExerciseSetEntityAsync(dbSetToSave)
